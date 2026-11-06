@@ -1,0 +1,386 @@
+=== 0. NODE ===
+host: nodeA019   job: 633912   date: 2026-10-12T16:47:51-04:00   smoke: no
+index, name, memory.total [MiB], driver_version, pcie.link.gen.max, pcie.link.width.max, pci.bus_id
+0, NVIDIA A30, 24576 MiB, 595.71.05, 4, 16, 00000000:4A:00.0
+1, NVIDIA A30, 24576 MiB, 595.71.05, 4, 16, 00000000:61:00.0
+2, NVIDIA A30, 24576 MiB, 595.71.05, 4, 16, 00000000:CA:00.0
+3, NVIDIA A30, 24576 MiB, 595.71.05, 4, 16, 00000000:E1:00.0
+--- topology ---
+	[4mGPU0	GPU1	GPU2	GPU3	NIC0	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	NV4	SYS	SYS	SYS	16-31	1		N/A
+GPU1	NV4	 X 	SYS	SYS	NODE	0-15	0		N/A
+GPU2	SYS	SYS	 X 	NV4	SYS	48-63	3		N/A
+GPU3	SYS	SYS	NV4	 X 	SYS	32-47	2		N/A
+NIC0	SYS	NODE	SYS	SYS	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+
+--- NVLink ---
+GPU 0: NVIDIA A30 (UUID: GPU-525d54ad-889f-a2ce-8f5e-5e0270a34999)
+	 Link 0: 25 GB/s
+	 Link 1: 25 GB/s
+	 Link 2: 25 GB/s
+	 Link 3: 25 GB/s
+GPU 1: NVIDIA A30 (UUID: GPU-e0a71f61-f249-016a-c210-39a5f64bd170)
+	 Link 0: 25 GB/s
+	 Link 1: 25 GB/s
+	 Link 2: 25 GB/s
+	 Link 3: 25 GB/s
+GPU 2: NVIDIA A30 (UUID: GPU-40000ff3-f2cf-dbca-f7b1-72929cb5bff4)
+	 Link 0: 25 GB/s
+	 Link 1: 25 GB/s
+	 Link 2: 25 GB/s
+	 Link 3: 25 GB/s
+GPU 3: NVIDIA A30 (UUID: GPU-d0741a0c-ad8e-1496-a2c8-a97778a4a1d0)
+	 Link 0: 25 GB/s
+	 Link 1: 25 GB/s
+	 Link 2: 25 GB/s
+	 Link 3: 25 GB/s
+--- P2P read support ---
+ 	[4mGPU0	GPU1	GPU2	GPU3	[0m
+ GPU0	X	OK	OK	OK	
+ GPU1	OK	X	OK	OK	
+ GPU2	OK	OK	X	OK	
+ GPU3	OK	OK	OK	X	
+
+Legend:
+
+  X    = Self
+  OK   = Status Ok
+  CNS  = Chipset not supported
+  GNS  = GPU not supported
+  TNS  = Topology not supported
+  NS   = Not supported
+  U    = Unknown
+--- NUMA / RAM ---
+available: 4 nodes (0-3)
+node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+node 0 size: 128471 MB
+node 0 free: 126734 MB
+node 1 cpus: 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+node 1 size: 129019 MB
+node 1 free: 128034 MB
+node 2 cpus: 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47
+node 2 size: 129019 MB
+node 2 free: 127471 MB
+node 3 cpus: 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
+node 3 size: 128968 MB
+               total        used        free      shared  buff/cache   available
+Mem:             503           6         498           0           1         497
+{"device": "NVIDIA A30", "capability": [8, 0], "total_mib": 24164.25, "torch": "2.6.0+cu124", "cuda": "12.4", "nccl": "2.21.5", "transformers": "4.50.0", "flash_sdp_available": true}
+K CAP CHECK 6 GiB ok: 5.5 GiB allocated, +1 GiB refused
+K CAP CHECK 9 GiB ok: 8.5 GiB allocated, +1 GiB refused
+ARM B_static_fp16_mem_L32_x24_n3: done in 45 s
+ARM B_static_fp16_mem_L32_x48_n3: done in 70 s
+ARM B_static_fp16_mem_L64_x24_n3: done in 47 s
+ARM B_static_fp16_mem_L64_x48_n3: done in 127 s
+ARM B_offload_fp16_mem_L64_x24_n3: done in 50 s
+ARM B_offload_fp16_mem_L64_x48_n3: done in 132 s
+ARM B_staticcpu_fp16_mem_L64_x48_n3: done in 130 s
+ARM B_offloadcpu_fp16_mem_L64_x48_n3: done in 134 s
+ARM B_evict_fp16_mem_L64_x48_n3: done in 139 s
+ARM B_offload_fp16_mem_L64_x100_n3: done in 497 s
+=== BYTES: every arm against its harness line (A30 platform = V100 workspace carried) ===
+  B_static_fp16_mem_L32_x24_n3                               peak   2924.342  line   2924.344  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_L32_x48_n3                               peak   4948.030  line   4948.031  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_evict_fp16_mem_L64_x48_n3                                peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_L64_x24_n3                              peak   2774.578  line   2774.579  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_L64_x48_n3                              peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_L64_x100_n3                             peak   5648.922  line   5648.923  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offloadcpu_fp16_mem_L64_x48_n3                           peak   2389.356  line   2389.358  offset   -0.002   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_L64_x24_n3                               peak   4652.483  line   4652.484  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_L64_x48_n3                               peak   7828.170  line   7828.172  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_staticcpu_fp16_mem_L64_x48_n3                            peak   6535.261  line   6535.263  offset   -0.002   [sdpa_mem_efficient, fp16]
+A-P1 common offset over R-A1 arms: -0.001 MiB (spread 0.001); HELD
+A-P2 A30 workspace = 16.2546 MiB (lean: V100's 16.2559, offset 0); HELD
+ARM D_static_bf16_mem_L64_x24_n3: done in 47 s
+ARM D_static_bf16_mem_L64_x48_n3: done in 126 s
+ARM D_offload_bf16_mem_L64_x48_n3: done in 132 s
+ARM F_static_fp16_flash_L64_x24_n3: done in 33 s
+ARM F_static_fp16_flash_L64_x48_n3: done in 64 s
+ARM F_offload_fp16_flash_L64_x48_n3: done in 71 s
+ARM F_static_bf16_flash_L64_x48_n3: done in 67 s
+ARM F_static_fp16_flash_gqa_L64_x24_n3: done in 31 s
+ARM F_static_fp16_flash_gqa_L64_x48_n3: done in 64 s
+ARM F_offload_fp16_flash_gqa_L64_x48_n3: done in 70 s
+=== BYTES: every arm against its harness line (A30 platform = V100 workspace carried) ===
+  B_static_fp16_mem_L32_x24_n3                               peak   2924.342  line   2924.344  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_L32_x48_n3                               peak   4948.030  line   4948.031  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_evict_fp16_mem_L64_x48_n3                                peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_L64_x24_n3                              peak   2774.578  line   2774.579  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_L64_x48_n3                              peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_L64_x100_n3                             peak   5648.922  line   5648.923  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offloadcpu_fp16_mem_L64_x48_n3                           peak   2389.356  line   2389.358  offset   -0.002   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_L64_x24_n3                               peak   4652.483  line   4652.484  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_L64_x48_n3                               peak   7828.170  line   7828.172  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_staticcpu_fp16_mem_L64_x48_n3                            peak   6535.261  line   6535.263  offset   -0.002   [sdpa_mem_efficient, fp16]
+  D_offload_bf16_mem_L64_x48_n3                              peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, bf16]
+  D_static_bf16_mem_L64_x24_n3                               peak   4652.483  line   4652.484  offset   -0.001   [sdpa_mem_efficient, bf16]
+  D_static_bf16_mem_L64_x48_n3                               peak   7828.170  line   7828.172  offset   -0.001   [sdpa_mem_efficient, bf16]
+  F_offload_fp16_flash_L64_x48_n3                            peak   3754.266  line   3682.267  offset  +71.999   [sdpa_flash, fp16]
+  F_offload_fp16_flash_gqa_L64_x48_n3                        peak   3658.266  line   3586.267  offset  +71.999   [sdpa_flash +gqa, fp16]
+  F_static_fp16_flash_L64_x24_n3                             peak   4688.483  line   4652.484  offset  +35.999   [sdpa_flash, fp16]
+  F_static_fp16_flash_gqa_L64_x24_n3                         peak   4640.483  line   4604.484  offset  +35.999   [sdpa_flash +gqa, fp16]
+  F_static_bf16_flash_L64_x48_n3                             peak   7900.170  line   7828.172  offset  +71.999   [sdpa_flash, bf16]
+  F_static_fp16_flash_L64_x48_n3                             peak   7900.170  line   7828.172  offset  +71.999   [sdpa_flash, fp16]
+  F_static_fp16_flash_gqa_L64_x48_n3                         peak   7804.170  line   7732.172  offset  +71.999   [sdpa_flash +gqa, fp16]
+A-P1 common offset over R-A1 arms: -0.001 MiB (spread 0.001); HELD
+A-P2 A30 workspace = 16.2546 MiB (lean: V100's 16.2559, offset 0); HELD
+--- bf16 vs fp16 (mem-efficient)
+    offload  bf16 mem x= 48:   3682.266 vs   3682.266 (+0.000); step-0 loss 10.5293 vs 10.5292
+    static   bf16 mem x= 24:   4652.483 vs   4652.483 (+0.000); step-0 loss 10.5284 vs 10.5284
+    static   bf16 mem x= 48:   7828.170 vs   7828.170 (+0.000); step-0 loss 10.5293 vs 10.5292
+A-P3 HELD: largest twin difference 0.000 MiB
+--- flash vs mem-efficient
+    offload  fp16 flash x= 48:   3754.266 vs   3682.266 (+72.000); step-0 loss 10.5292 vs 10.5292
+    static   bf16 flash x= 48:   7900.170 vs   7828.170 (+72.000); step-0 loss 10.5293 vs 10.5293
+    static   fp16 flash x= 24:   4688.483 vs   4652.483 (+36.000); step-0 loss 10.5284 vs 10.5284
+    static   fp16 flash x= 48:   7900.170 vs   7828.170 (+72.000); step-0 loss 10.5292 vs 10.5292
+A-P4 MISS: largest twin difference 72.000 MiB
+--- native GQA (flash, k/v at kv width): offset from the full-width twin, per x
+    offload  fp16 x= 48: -96.000 MiB = -2.0000 MiB/x (prediction -2.0000 native; 0.0000 if the kernel expands internally)
+    static   fp16 x= 24: -48.000 MiB = -2.0000 MiB/x (prediction -2.0000 native; 0.0000 if the kernel expands internally)
+    static   fp16 x= 48: -96.000 MiB = -2.0000 MiB/x (prediction -2.0000 native; 0.0000 if the kernel expands internally)
+ARM T_static_fp16_mem_L64_x16_n20_r1: done in 124 s
+ARM T_offload_fp16_mem_L64_x16_n20_r1: done in 127 s
+ARM T_offload_fp16_mem_L64_x16_n20_r2: done in 127 s
+ARM T_static_fp16_mem_L64_x16_n20_r2: done in 125 s
+ARM T_static_fp16_mem_L64_x32_n10_r1: done in 193 s
+ARM T_offload_fp16_mem_L64_x32_n10_r1: done in 197 s
+ARM T_offload_fp16_mem_L64_x32_n10_r2: done in 197 s
+ARM T_static_fp16_mem_L64_x32_n10_r2: done in 194 s
+ARM T_static_fp16_mem_L64_x64_n6_r1: done in 410 s
+ARM T_offload_fp16_mem_L64_x64_n6_r1: done in 424 s
+ARM T_offload_fp16_mem_L64_x64_n6_r2: done in 424 s
+ARM T_static_fp16_mem_L64_x64_n6_r2: done in 416 s
+=== TIME CALIBRATION (x = 16, 32, 64; static and offload, two repeats each) ===
+  x= 16  static    5.474 s  offload 5.558 s  delta per repeat [0.095, 0.073]
+  x= 32  static   17.927 s  offload 18.078 s  delta per repeat [0.141, 0.162]
+  x= 64  static   66.111 s  offload 66.232 s  delta per repeat [0.142, 0.101]
+# A30 TIME PREDICTIONS, written 2026-10-12T18:11:54 BEFORE the x=100/150 arms ran
+# T(x) = 0.015155 x^2 + 0.05086 x + 0.7805 s   (static, L=64, world 4, fp16 mem-efficient)
+# kappa = 0.00247 s per x   (V100: 0.032)
+# T-P3 predicted at x=100: static 157.42 s, tax 0.16%; x=150: static 349.40 s, tax 0.11%
+# T-P4 crossings: x*(2%) = nan, x*(1%) = nan   (V100: ~79 and ~150)
+# Falsifier: a measured tax at x=100 or 150 outside +-30% of these, or kappa at
+# x=100/150 differing from the calibrated kappa by more than 30% (the cost is not linear in x here).
+ARM T_static_fp16_mem_L64_x100_n5_r1: done in 813 s
+ARM T_offload_fp16_mem_L64_x100_n5_r1: done in 819 s
+ARM T_offload_fp16_mem_L64_x100_n5_r2: done in 818 s
+ARM T_static_fp16_mem_L64_x100_n5_r2: done in 834 s
+ARM T_static_fp16_mem_L64_x150_n4_r1: done in 1455 s
+ARM T_offload_fp16_mem_L64_x150_n4_r1: done in 1450 s
+ARM T_offload_fp16_mem_L64_x150_n4_r2: done in 1452 s
+ARM T_static_fp16_mem_L64_x150_n4_r2: done in 1455 s
+ARM P_static_fp16_mem_L64_x64_n3: done in 218 s
+ARM P_offload_fp16_mem_L64_x64_n3: done in 216 s
+ARM CA_static_fp16_mem_L64_x31_cap6_n2: done in 48 s
+ARM CA_static_fp16_mem_L64_x32_cap6_n2: done in 50 s
+ARM CA_static_fp16_mem_L64_x33_cap6_n2: done in 52 s
+ARM CA_static_fp16_mem_L64_x34_cap6_n2: done in 53 s
+ARM CA_static_fp16_mem_L64_x35_cap6_n2: DID NOT COMPLETE (read stderr.txt) in 39 s
+LADDER CA CLOSED at x=35
+ARM CB_static_fp16_mem_L64_x54_cap9_n2: done in 108 s
+ARM CB_static_fp16_mem_L64_x55_cap9_n2: done in 113 s
+ARM CB_static_fp16_mem_L64_x56_cap9_n2: done in 117 s
+ARM CB_static_fp16_mem_L64_x57_cap9_n2: done in 125 s
+ARM CB_static_fp16_mem_L64_x58_cap9_n2: DID NOT COMPLETE (read stderr.txt) in 81 s
+LADDER CB CLOSED at x=58
+ARM CC_offload_fp16_mem_L64_x104_cap6_n2: done in 368 s
+ARM CC_offload_fp16_mem_L64_x106_cap6_n2: done in 380 s
+ARM CC_offload_fp16_mem_L64_x108_cap6_n2: done in 394 s
+ARM CC_offload_fp16_mem_L64_x110_cap6_n2: done in 411 s
+ARM CC_offload_fp16_mem_L64_x112_cap6_n2: DID NOT COMPLETE (read stderr.txt) in 383 s
+LADDER CC CLOSED at x=112
+ARM CD_offload_fp16_mem_L64_x184_cap9_n2: done in 1116 s
+ARM CD_offload_fp16_mem_L64_x186_cap9_n2: done in 1142 s
+ARM CD_offload_fp16_mem_L64_x188_cap9_n2: done in 1171 s
+ARM CD_offload_fp16_mem_L64_x190_cap9_n2: done in 1192 s
+ARM CD_offload_fp16_mem_L64_x192_cap9_n2: DID NOT COMPLETE (read stderr.txt) in 1169 s
+LADDER CD CLOSED at x=192
+=== CAPPED LADDERS (R-A4) ===
+  CA: cap 6 GiB static   bracket [34, 35)  failing request 140.0 MiB (4x = 140.0)
+  CB: cap 9 GiB static   bracket [57, 58)  failing request 232.0 MiB (4x = 232.0)
+  CC: cap 6 GiB offload  bracket [110, 112)  failing request 448.0 MiB (4x = 448.0)
+  CD: cap 9 GiB offload  bracket [190, 192)  failing request 768.0 MiB (4x = 768.0)
+C-P2 A30 capped reserve: alpha 0.093 (feasible 0.000-0.186), delta 59.5 MiB (V100: alpha 0.139-0.186, delta 26.8-39.4)
+# A30 NATIVE STATIC BRACKET, written 2026-10-12T23:12:38 BEFORE the native ladder ran
+# card total 24164.25 MiB; outside the allocator 618.88 MiB (max over uncapped arms; V100 inferred ~488)
+# C0 = total - outside - delta = 23485.87 MiB; alpha 0.093; line = harness static -0.001 MiB (R-A1 offset)
+# N-P1 largest fit x = 164 at the centre; in [164, 166] over every (alpha, delta) the four
+#      capped ladders admit (rung step 2). FALSIFIER: the measured largest fit outside that range.
+# N-P2 the failure is a step-1 backward OOM on exactly 4x MiB
+RUNGS: 160 162 164 166 168 170 172
+ARM N_static_fp16_mem_L64_x160_n2: done in 843 s
+ARM N_static_fp16_mem_L64_x162_n2: done in 863 s
+ARM N_static_fp16_mem_L64_x164_n2: done in 881 s
+ARM N_static_fp16_mem_L64_x166_n2: DID NOT COMPLETE (read stderr.txt) in 543 s
+LADDER N CLOSED at x=166
+=== P: P_offload_fp16_mem_L64_x64_n3 ===
+  },
+  "kernel_ms": {
+    "attn_fwd": 20051.249497,
+    "attn_bwd": 37988.88753400001,
+    "nccl": 1311.1686630000006,
+    "memcpy": 547.5076949999989,
+    "other": 5448.514833000005
+  },
+  "gpu_span_ms": 65666.37605993652,
+  "compute_busy_ms": 63486.25766821289,
+  "attn_replay_ms": 10025.6247485,
+  "attn_replay_share_of_span": 0.1526751642172119,
+  "attn_replay_share_of_compute": 0.15791803008605684,
+  "attn_bwd_over_one_fwd": 3.789179077312242
+}
+  torch_trace_rank3            duty=  0.19%  nccl_busy=    126.7 ms  window=  65666.2 ms  kernels=  392  memcpy=  197
+
+==========================================================================
+Observed B(alpha):  achieved bandwidth bucketed by measured overlap
+==========================================================================
+
+  D2H   (n=256)
+    alpha range         n      p10   median      p90    median MB
+    [0.00,0.05)      256    20.72    26.11    26.29        100.7
+
+  H2D   (n=256)
+    alpha range         n      p10   median      p90    median MB
+    [0.00,0.05)      256    25.07    25.10    25.13        100.7
+
+==========================================================================
+Collective side: NCCL kernel duration vs concurrent migration
+==========================================================================
+    cohort                            n       p10    median       p90
+    no concurrent migration        1568     0.340     0.488    14.582   ms
+
+    No NCCL kernel ran under concurrent migration (probe off, or probe failed to collide).
+
+  Not enough spread in observed alpha to compare endpoints (n_idle=512, n_busy=0).
+
+  wrote a30_out/633912/P_offload_fp16_mem_L64_x64_n3/duty.json
+=== P: P_static_fp16_mem_L64_x64_n3 ===
+  },
+  "kernel_ms": {
+    "attn_fwd": 20127.818817000014,
+    "attn_bwd": 38397.16255199999,
+    "nccl": 1124.5669750000002,
+    "memcpy": 45.326337999999915,
+    "other": 5450.995421000002
+  },
+  "gpu_span_ms": 65545.92032910156,
+  "compute_busy_ms": 63974.21730688476,
+  "attn_replay_ms": 10063.909408500007,
+  "attn_replay_share_of_span": 0.15353982914527417,
+  "attn_replay_share_of_compute": 0.15731195835071124,
+  "attn_bwd_over_one_fwd": 3.8153326896573247
+}
+
+==========================================================================
+NCCL duty cycle
+==========================================================================
+  torch_trace_rank0            duty=  1.72%  nccl_busy=   1124.6 ms  window=  65545.9 ms  kernels=  392  memcpy=   69
+  torch_trace_rank1            duty=  1.61%  nccl_busy=   1055.2 ms  window=  65546.0 ms  kernels=  392  memcpy=   69
+  torch_trace_rank2            duty=  0.38%  nccl_busy=    246.2 ms  window=  65545.9 ms  kernels=  392  memcpy=   69
+  torch_trace_rank3            duty=  0.22%  nccl_busy=    141.8 ms  window=  65545.9 ms  kernels=  392  memcpy=   69
+
+  No memcpy spans above threshold -- nothing to say about B(alpha).
+
+  wrote a30_out/633912/P_static_fp16_mem_L64_x64_n3/duty.json
+=== A30 JOB REPORT: a30_out/633912 (61 of 66 arms completed) ===
+=== BYTES: every arm against its harness line (A30 platform = V100 workspace carried) ===
+  B_static_fp16_mem_L32_x24_n3                               peak   2924.342  line   2924.344  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_L32_x48_n3                               peak   4948.030  line   4948.031  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_evict_fp16_mem_L64_x48_n3                                peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_L64_x24_n3                              peak   2774.578  line   2774.579  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_L64_x48_n3                              peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_L64_x100_n3                             peak   5648.922  line   5648.923  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_offloadcpu_fp16_mem_L64_x48_n3                           peak   2389.356  line   2389.358  offset   -0.002   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_L64_x24_n3                               peak   4652.483  line   4652.484  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_L64_x48_n3                               peak   7828.170  line   7828.172  offset   -0.001   [sdpa_mem_efficient, fp16]
+  B_staticcpu_fp16_mem_L64_x48_n3                            peak   6535.261  line   6535.263  offset   -0.002   [sdpa_mem_efficient, fp16]
+  D_offload_bf16_mem_L64_x48_n3                              peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, bf16]
+  D_static_bf16_mem_L64_x24_n3                               peak   4652.483  line   4652.484  offset   -0.001   [sdpa_mem_efficient, bf16]
+  D_static_bf16_mem_L64_x48_n3                               peak   7828.170  line   7828.172  offset   -0.001   [sdpa_mem_efficient, bf16]
+  F_offload_fp16_flash_L64_x48_n3                            peak   3754.266  line   3682.267  offset  +71.999   [sdpa_flash, fp16]
+  F_offload_fp16_flash_gqa_L64_x48_n3                        peak   3658.266  line   3586.267  offset  +71.999   [sdpa_flash +gqa, fp16]
+  F_static_fp16_flash_L64_x24_n3                             peak   4688.483  line   4652.484  offset  +35.999   [sdpa_flash, fp16]
+  F_static_fp16_flash_gqa_L64_x24_n3                         peak   4640.483  line   4604.484  offset  +35.999   [sdpa_flash +gqa, fp16]
+  F_static_bf16_flash_L64_x48_n3                             peak   7900.170  line   7828.172  offset  +71.999   [sdpa_flash, bf16]
+  F_static_fp16_flash_L64_x48_n3                             peak   7900.170  line   7828.172  offset  +71.999   [sdpa_flash, fp16]
+  F_static_fp16_flash_gqa_L64_x48_n3                         peak   7804.170  line   7732.172  offset  +71.999   [sdpa_flash +gqa, fp16]
+  T_offload_fp16_mem_L64_x16_n20_r1                          peak   2472.016  line   2472.017  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x16_n20_r2                          peak   2472.016  line   2472.017  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x32_n10_r1                          peak   3077.141  line   3077.142  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x32_n10_r2                          peak   3077.141  line   3077.142  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x64_n6_r1                           peak   4287.391  line   4287.392  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x64_n6_r2                           peak   4287.391  line   4287.392  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x100_n5_r1                          peak   5648.922  line   5648.923  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x100_n5_r2                          peak   5648.922  line   5648.923  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x150_n4_r1                          peak   7539.938  line   7539.939  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x150_n4_r2                          peak   7539.938  line   7539.939  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x16_n20_r1                           peak   3593.926  line   3593.928  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x16_n20_r2                           peak   3593.926  line   3593.928  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x32_n10_r1                           peak   5711.045  line   5711.047  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x32_n10_r2                           peak   5711.045  line   5711.047  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x64_n6_r1                            peak   9945.295  line   9945.297  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x64_n6_r2                            peak   9945.295  line   9945.297  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x100_n5_r1                           peak  14708.827  line  14708.828  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x100_n5_r2                           peak  14708.827  line  14708.828  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x150_n4_r1                           peak  21324.842  line  21324.844  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x150_n4_r2                           peak  21324.842  line  21324.844  offset   -0.001   [sdpa_mem_efficient, fp16]
+A-P1 common offset over R-A1 arms: -0.001 MiB (spread 0.001); HELD
+A-P2 A30 workspace = 16.2546 MiB (lean: V100's 16.2559, offset 0); HELD
+--- bf16 vs fp16 (mem-efficient)
+    offload  bf16 mem x= 48:   3682.266 vs   3682.266 (+0.000); step-0 loss 10.5293 vs 10.5292
+    static   bf16 mem x= 24:   4652.483 vs   4652.483 (+0.000); step-0 loss 10.5284 vs 10.5284
+    static   bf16 mem x= 48:   7828.170 vs   7828.170 (+0.000); step-0 loss 10.5293 vs 10.5292
+A-P3 HELD: largest twin difference 0.000 MiB
+--- flash vs mem-efficient
+    offload  fp16 flash x= 48:   3754.266 vs   3682.266 (+72.000); step-0 loss 10.5292 vs 10.5292
+    static   bf16 flash x= 48:   7900.170 vs   7828.170 (+72.000); step-0 loss 10.5293 vs 10.5293
+    static   fp16 flash x= 24:   4688.483 vs   4652.483 (+36.000); step-0 loss 10.5284 vs 10.5284
+    static   fp16 flash x= 48:   7900.170 vs   7828.170 (+72.000); step-0 loss 10.5292 vs 10.5292
+A-P4 MISS: largest twin difference 72.000 MiB
+--- native GQA (flash, k/v at kv width): offset from the full-width twin, per x
+    offload  fp16 x= 48: -96.000 MiB = -2.0000 MiB/x (prediction -2.0000 native; 0.0000 if the kernel expands internally)
+    static   fp16 x= 24: -48.000 MiB = -2.0000 MiB/x (prediction -2.0000 native; 0.0000 if the kernel expands internally)
+    static   fp16 x= 48: -96.000 MiB = -2.0000 MiB/x (prediction -2.0000 native; 0.0000 if the kernel expands internally)
+=== TIME (R-A5): pooled static, offload, per-repeat delta, tax ===
+  x= 16  static    5.474 s  delta +0.084 s  per x +0.0052  tax  1.53%  repeats [0.095, 0.073]
+  x= 32  static   17.927 s  delta +0.152 s  per x +0.0047  tax  0.85%  repeats [0.141, 0.162]
+  x= 64  static   66.111 s  delta +0.122 s  per x +0.0019  tax  0.18%  repeats [0.142, 0.101]
+  x=100  static  159.315 s  delta -1.075 s  per x -0.0107  tax -0.67%  repeats [-0.988, -1.162]
+  x=150  static  359.010 s  delta -3.587 s  per x -0.0239  tax -1.00%  repeats [-3.675, -3.498]
+  pre-registered in-job:
+# A30 TIME PREDICTIONS, written 2026-10-12T18:11:54 BEFORE the x=100/150 arms ran
+# T(x) = 0.015155 x^2 + 0.05086 x + 0.7805 s   (static, L=64, world 4, fp16 mem-efficient)
+# kappa = 0.00247 s per x   (V100: 0.032)
+# T-P3 predicted at x=100: static 157.42 s, tax 0.16%; x=150: static 349.40 s, tax 0.11%
+# T-P4 crossings: x*(2%) = nan, x*(1%) = nan   (V100: ~79 and ~150)
+# Falsifier: a measured tax at x=100 or 150 outside +-30% of these, or kappa at
+# x=100/150 differing from the calibrated kappa by more than 30% (the cost is not linear in x here).
+=== CAPPED LADDERS vs the V100-carried prediction (C-P1) ===
+  CA: largest fit 34  (V100 measured 34; HELD)
+  CB: largest fit 57  (V100 measured 57; HELD)
+  CC: largest fit 110  (V100 measured 110; HELD)
+  CD: largest fit 190  (V100 measured 190; HELD)
+=== NATIVE STATIC LADDER: bracket [164, 166), failing request 664.0 MiB
+# A30 NATIVE STATIC BRACKET, written 2026-10-12T23:12:38 BEFORE the native ladder ran
+# card total 24164.25 MiB; outside the allocator 618.88 MiB (max over uncapped arms; V100 inferred ~488)
+# C0 = total - outside - delta = 23485.87 MiB; alpha 0.093; line = harness static -0.001 MiB (R-A1 offset)
+# N-P1 largest fit x = 164 at the centre; in [164, 166] over every (alpha, delta) the four
+#      capped ladders admit (rung step 2). FALSIFIER: the measured largest fit outside that range.
+# N-P2 the failure is a step-1 backward OOM on exactly 4x MiB
+RUNGS: 160 162 164 166 168 170 172
+=== DONE in 437 min: ./a30_collect.sh 633912 ===

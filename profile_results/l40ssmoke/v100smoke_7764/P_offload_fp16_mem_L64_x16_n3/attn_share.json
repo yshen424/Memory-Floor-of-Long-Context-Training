@@ -1,0 +1,109 @@
+{
+  "ok": true,
+  "counts": {
+    "attn_fwd": 128,
+    "attn_bwd": 64,
+    "nccl": 196,
+    "memcpy": 1491,
+    "other": 11957
+  },
+  "expected_counts": {
+    "attn_fwd": 128,
+    "attn_bwd": 64
+  },
+  "kernel_ms": {
+    "attn_fwd": 1854.969873000001,
+    "attn_bwd": 3170.972606,
+    "nccl": 823.6269399999992,
+    "memcpy": 531.3294979999945,
+    "other": 1436.4059240000038
+  },
+  "gpu_span_ms": 8417.368080932618,
+  "compute_busy_ms": 6461.779645629883,
+  "attn_replay_ms": 927.4849365000005,
+  "attn_replay_share_of_span": 0.11018704749302564,
+  "attn_replay_share_of_compute": 0.14353397784575658,
+  "attn_bwd_over_one_fwd": 3.4188939153730376,
+  "top_kernels_ms": [
+    [
+      "fmha_cutlassB_f16_aligned_64x64_k64_seqaligned_sm70(PyTorchMemEffAttention::AttentionBackwardKernel<cutlass::arch::Sm70, cutlass::half_t, true, false, false, 64, 64, 64, true>::Params)",
+      3170.972606
+    ],
+    [
+      "fmha_cutlassF_f16_aligned_64x64_rf_sm70(PyTorchMemEffAttention::AttentionKernel<cutlass::half_t, cutlass::arch::Sm70, true, 64, 64, 64, true, true>::Params)",
+      1854.969873000001
+    ],
+    [
+      "ncclDevKernel_AllGather_RING_LL(ncclDevComm*, unsigned long, ncclWork*)",
+      558.2183019999997
+    ],
+    [
+      "Memcpy HtoD (Pinned -> Device)",
+      267.4683610000001
+    ],
+    [
+      "ncclDevKernel_ReduceScatter_Sum_f16_RING_LL(ncclDevComm*, unsigned long, ncclWork*)",
+      262.48238999999995
+    ],
+    [
+      "Memcpy DtoH (Device -> Pinned)",
+      251.21768800000018
+    ],
+    [
+      "volta_fp16_s884gemm_fp16_128x128_ldg8_f2f_stages_32x1_tn",
+      224.8084390000002
+    ],
+    [
+      "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+      96.35360699999993
+    ],
+    [
+      "volta_fp16_s884gemm_fp16_256x128_ldg8_f2f_tn",
+      92.17737199999999
+    ],
+    [
+      "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<c10::Half>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<c10::Half>, std::array<char*, 3ul>)",
+      74.03232299999996
+    ],
+    [
+      "void cutlass::Kernel2<cutlass_70_tensorop_f16_s884gemm_relu_f16_256x128_nn_align8>(cutlass_70_tensorop_f16_s884gemm_relu_f16_256x128_nn_align8::Params)",
+      71.61704400000002
+    ],
+    [
+      "void cutlass::Kernel2<cutlass_70_tensorop_f16_s884gemm_relu_f16_256x128_nt_align8>(cutlass_70_tensorop_f16_s884gemm_relu_f16_256x128_nt_align8::Params)",
+      68.346532
+    ],
+    [
+      "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+      67.00102699999998
+    ],
+    [
+      "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+      64.87050700000003
+    ],
+    [
+      "void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)",
+      61.611015
+    ],
+    [
+      "volta_fp16_s884gemm_fp16_256x128_ldg8_f2f_nn",
+      55.352369999999986
+    ],
+    [
+      "volta_fp16_s884gemm_fp16_128x128_ldg8_f2f_stages_32x1_nt",
+      51.485407999999985
+    ],
+    [
+      "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1})",
+      49.844591000000015
+    ],
+    [
+      "void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)",
+      46.47900500000003
+    ],
+    [
+      "volta_fp16_s884gemm_fp16_128x128_ldg8_f2f_nn",
+      44.71065999999999
+    ]
+  ]
+}

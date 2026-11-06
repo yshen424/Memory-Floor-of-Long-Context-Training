@@ -1,0 +1,64 @@
+{
+  "config": {
+    "hidden_size": 1280,
+    "intermediate_size": 3584,
+    "num_layers": 24,
+    "num_heads": 20,
+    "num_kv_heads": 4,
+    "batch_size": 1,
+    "grad_accum": 1,
+    "hbm_cap_gb": 0.0,
+    "seq_len": 24576,
+    "vocab_size": 50304,
+    "dtype": "fp16",
+    "world_size": 4,
+    "attention": {
+      "requested": "sdpa_mem_efficient",
+      "guarantee": "math and flash are disabled, so a step that completes proves the efficient kernel served every attention call",
+      "flash_enabled": false,
+      "mem_efficient_enabled": true,
+      "math_enabled": false,
+      "preflight": "ok",
+      "resolved": "sdpa"
+    },
+    "fused_rmsnorm": "input",
+    "native_gqa": false,
+    "fused_rmsnorm_replaced": 49,
+    "layer_checkpoint": true,
+    "layer_checkpoint_wrapped": 24,
+    "activation_offload": false,
+    "use_cache": false,
+    "cpu_offload": false,
+    "chunked_ce_tokens": 256,
+    "hbm_budget_gb": 14.0,
+    "engine_live": false,
+    "strict_evict": false,
+    "prefetch_window_layers": 2
+  },
+  "steps": [
+    {
+      "step": 0,
+      "loss": 11.089115142822266,
+      "avg_loss": 11.085855484008789,
+      "grad_norm": 0.3915347694836229,
+      "peak_mb": 3925.26416015625,
+      "step_ms": 10578.2,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 477.88
+    },
+    {
+      "step": 1,
+      "loss": 11.07767391204834,
+      "avg_loss": 11.080732345581055,
+      "grad_norm": 0.36867353621059,
+      "peak_mb": 4988.51953125,
+      "step_ms": 10249.0,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 477.88
+    }
+  ]
+}

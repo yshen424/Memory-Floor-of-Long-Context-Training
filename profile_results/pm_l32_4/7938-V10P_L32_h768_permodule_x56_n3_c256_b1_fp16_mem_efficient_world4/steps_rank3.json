@@ -1,0 +1,106 @@
+{
+  "config": {
+    "hidden_size": 768,
+    "intermediate_size": 2048,
+    "num_layers": 32,
+    "num_heads": 12,
+    "num_kv_heads": 4,
+    "batch_size": 1,
+    "grad_accum": 1,
+    "hbm_cap_gb": 0.0,
+    "hbm_ballast_mb": 0.0,
+    "hbm_ballast_chunks": 0,
+    "alloc_conf": "expandable_segments:True",
+    "seq_len": 57344,
+    "vocab_size": 32000,
+    "dtype": "fp16",
+    "world_size": 4,
+    "attention": {
+      "requested": "sdpa_mem_efficient",
+      "guarantee": "math and flash are disabled, so a step that completes proves the efficient kernel served every attention call",
+      "flash_enabled": false,
+      "mem_efficient_enabled": true,
+      "math_enabled": false,
+      "preflight": "ok",
+      "resolved": "sdpa"
+    },
+    "fused_rmsnorm": "input",
+    "native_gqa": false,
+    "fused_rmsnorm_replaced": 65,
+    "layer_checkpoint": false,
+    "layer_checkpoint_wrapped": 0,
+    "activation_offload": false,
+    "use_cache": false,
+    "cpu_offload": false,
+    "chunked_ce_tokens": 256,
+    "hbm_budget_gb": 14.9769,
+    "engine_live": true,
+    "strict_evict": false,
+    "prefetch_window_layers": 0
+  },
+  "steps": [
+    {
+      "step": 0,
+      "loss": 10.528319358825684,
+      "avg_loss": 10.52772045135498,
+      "grad_norm": 0.11627911205222412,
+      "peak_mb": 13287.31298828125,
+      "step_ms": 35807.4,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 491.88,
+      "alloc": {
+        "num_alloc_retries": 7,
+        "num_ooms": 0,
+        "num_device_alloc": 232,
+        "num_device_free": 9,
+        "num_sync_all_streams": 8,
+        "segment.all.current": 0,
+        "reserved_bytes.all.current": 16292773888
+      }
+    },
+    {
+      "step": 1,
+      "loss": 10.530404090881348,
+      "avg_loss": 10.527833938598633,
+      "grad_norm": 0.11839963542764255,
+      "peak_mb": 13765.1591796875,
+      "step_ms": 35484.4,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 491.88,
+      "alloc": {
+        "num_alloc_retries": 8,
+        "num_ooms": 0,
+        "num_device_alloc": 268,
+        "num_device_free": 15,
+        "num_sync_all_streams": 9,
+        "segment.all.current": 0,
+        "reserved_bytes.all.current": 15097397248
+      }
+    },
+    {
+      "step": 2,
+      "loss": 10.526029586791992,
+      "avg_loss": 10.525639533996582,
+      "grad_norm": 0.12286322543899876,
+      "peak_mb": 13765.1591796875,
+      "step_ms": 35740.8,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 491.88,
+      "alloc": {
+        "num_alloc_retries": 9,
+        "num_ooms": 0,
+        "num_device_alloc": 318,
+        "num_device_free": 22,
+        "num_sync_all_streams": 10,
+        "segment.all.current": 0,
+        "reserved_bytes.all.current": 15202254848
+      }
+    }
+  ]
+}

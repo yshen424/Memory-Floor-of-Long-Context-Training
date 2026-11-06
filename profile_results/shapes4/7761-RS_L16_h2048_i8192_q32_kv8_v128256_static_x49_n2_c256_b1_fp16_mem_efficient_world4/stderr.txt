@@ -1,0 +1,937 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791653768.777548   51724 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1791653768.785488   51724 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791653768.875112   53480 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1791653768.883548   53480 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791653768.961404   56097 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1791653768.969439   56097 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791653769.073045  481071 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1791653769.080988  481071 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/path/to/repo/train_fsdp_profile.py", line 1808, in <module>
+[rank1]:     main()
+[rank1]:   File "/path/to/repo/train_fsdp_profile.py", line 1521, in main
+[rank1]:     loss.backward()
+[rank1]:   File "/home/user/.local/lib/python3.10/site-packages/torch/_tensor.py", line 626, in backward
+[rank1]:     torch.autograd.backward(
+[rank1]:   File "/home/user/.local/lib/python3.10/site-packages/torch/autograd/__init__.py", line 347, in backward
+[rank1]:     _engine_run_backward(
+[rank1]:   File "/home/user/.local/lib/python3.10/site-packages/torch/autograd/graph.py", line 823, in _engine_run_backward
+[rank1]:     return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+[rank1]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 784.00 MiB. GPU 0 has a total capacity of 15.77 GiB of which 764.25 MiB is free. Including non-PyTorch memory, this process has 15.02 GiB memory in use. Of the allocated memory 14.37 GiB is allocated by PyTorch, and 188.01 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+E1010 13:37:37.194000 53446 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 0 (pid: 53480) of binary: /usr/bin/python3
+Traceback (most recent call last):
+  File "/home/user/.local/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-10-10_13:37:37
+  host      : gpu-2
+  rank      : 1 (local_rank: 0)
+  exitcode  : 1 (pid: 53480)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: gpu-2: task 1: Exited with exit code 1
+[rank0]:[E1010 13:47:36.441896486 ProcessGroupNCCL.cpp:629] [Rank 0] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=76, OpType=_ALLGATHER_BASE, NumelIn=15205376, NumelOut=60821504, Timeout(ms)=600000) ran for 600054 milliseconds before timing out.
+[rank0]:[E1010 13:47:36.442625511 ProcessGroupNCCL.cpp:2168] [PG ID 0 PG GUID 0(default_pg) Rank 0]  failure detected by watchdog at work sequence id: 76 PG status: last enqueued work: 76, last completed work: 75
+[rank0]:[E1010 13:47:36.442646781 ProcessGroupNCCL.cpp:667] Stack trace of the failed collective not found, potentially because FlightRecorder is disabled. You can enable it by setting TORCH_NCCL_TRACE_BUFFER_SIZE to a non-zero value.
+[rank2]:[E1010 13:47:36.003714220 ProcessGroupNCCL.cpp:629] [Rank 2] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=76, OpType=_ALLGATHER_BASE, NumelIn=15205376, NumelOut=60821504, Timeout(ms)=600000) ran for 600082 milliseconds before timing out.
+[rank2]:[E1010 13:47:36.004599343 ProcessGroupNCCL.cpp:2168] [PG ID 0 PG GUID 0(default_pg) Rank 2]  failure detected by watchdog at work sequence id: 76 PG status: last enqueued work: 76, last completed work: 75
+[rank2]:[E1010 13:47:36.004625933 ProcessGroupNCCL.cpp:667] Stack trace of the failed collective not found, potentially because FlightRecorder is disabled. You can enable it by setting TORCH_NCCL_TRACE_BUFFER_SIZE to a non-zero value.
+[rank3]:[E1010 13:47:36.850269484 ProcessGroupNCCL.cpp:629] [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=76, OpType=_ALLGATHER_BASE, NumelIn=15205376, NumelOut=60821504, Timeout(ms)=600000) ran for 600099 milliseconds before timing out.
+[rank3]:[E1010 13:47:36.851682559 ProcessGroupNCCL.cpp:2168] [PG ID 0 PG GUID 0(default_pg) Rank 3]  failure detected by watchdog at work sequence id: 76 PG status: last enqueued work: 76, last completed work: 75
+[rank3]:[E1010 13:47:36.851705482 ProcessGroupNCCL.cpp:667] Stack trace of the failed collective not found, potentially because FlightRecorder is disabled. You can enable it by setting TORCH_NCCL_TRACE_BUFFER_SIZE to a non-zero value.
+[rank2]:[E1010 13:47:38.610008983 ProcessGroupNCCL.cpp:681] [Rank 2] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank2]:[E1010 13:47:38.610046413 ProcessGroupNCCL.cpp:695] [Rank 2] To avoid data inconsistency, we are taking the entire process down.
+[rank2]:[E1010 13:47:38.611465494 ProcessGroupNCCL.cpp:1895] [PG ID 0 PG GUID 0(default_pg) Rank 2] Process group watchdog thread terminated with exception: [Rank 2] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=76, OpType=_ALLGATHER_BASE, NumelIn=15205376, NumelOut=60821504, Timeout(ms)=600000) ran for 600082 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:632 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7fae05f6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x2b4 (0x7fadb4229c74 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::watchdogHandler() + 0x890 (0x7fadb422b7d0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x14d (0x7fadb422c6ed in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0x145c0 (0x7fae064125c0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #5: <unknown function> + 0x94ac3 (0x7fae06e9aac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x1268d0 (0x7fae06f2c8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+terminate called after throwing an instance of 'c10::DistBackendError'
+  what():  [PG ID 0 PG GUID 0(default_pg) Rank 2] Process group watchdog thread terminated with exception: [Rank 2] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=76, OpType=_ALLGATHER_BASE, NumelIn=15205376, NumelOut=60821504, Timeout(ms)=600000) ran for 600082 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:632 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7fae05f6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x2b4 (0x7fadb4229c74 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::watchdogHandler() + 0x890 (0x7fadb422b7d0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x14d (0x7fadb422c6ed in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0x145c0 (0x7fae064125c0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #5: <unknown function> + 0x94ac3 (0x7fae06e9aac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x1268d0 (0x7fae06f2c8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Exception raised from ncclCommWatchdog at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:1901 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7fae05f6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0xe5c6fc (0x7fadb3e876fc in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: <unknown function> + 0x145c0 (0x7fae064125c0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #3: <unknown function> + 0x94ac3 (0x7fae06e9aac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #4: <unknown function> + 0x1268d0 (0x7fae06f2c8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+[rank0]:[E1010 13:47:38.421190771 ProcessGroupNCCL.cpp:681] [Rank 0] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank0]:[E1010 13:47:38.421225305 ProcessGroupNCCL.cpp:695] [Rank 0] To avoid data inconsistency, we are taking the entire process down.
+[rank0]:[E1010 13:47:38.422666323 ProcessGroupNCCL.cpp:1895] [PG ID 0 PG GUID 0(default_pg) Rank 0] Process group watchdog thread terminated with exception: [Rank 0] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=76, OpType=_ALLGATHER_BASE, NumelIn=15205376, NumelOut=60821504, Timeout(ms)=600000) ran for 600054 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:632 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f513536c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x2b4 (0x7f50e3629c74 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::watchdogHandler() + 0x890 (0x7f50e362b7d0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x14d (0x7f50e362c6ed in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0x145c0 (0x7f51358715c0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #5: <unknown function> + 0x94ac3 (0x7f51362f9ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x1268d0 (0x7f513638b8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+terminate called after throwing an instance of 'c10::DistBackendError'
+  what():  [PG ID 0 PG GUID 0(default_pg) Rank 0] Process group watchdog thread terminated with exception: [Rank 0] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=76, OpType=_ALLGATHER_BASE, NumelIn=15205376, NumelOut=60821504, Timeout(ms)=600000) ran for 600054 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:632 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f513536c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x2b4 (0x7f50e3629c74 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::watchdogHandler() + 0x890 (0x7f50e362b7d0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x14d (0x7f50e362c6ed in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0x145c0 (0x7f51358715c0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #5: <unknown function> + 0x94ac3 (0x7f51362f9ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x1268d0 (0x7f513638b8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Exception raised from ncclCommWatchdog at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:1901 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f513536c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0xe5c6fc (0x7f50e32876fc in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: <unknown function> + 0x145c0 (0x7f51358715c0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #3: <unknown function> + 0x94ac3 (0x7f51362f9ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #4: <unknown function> + 0x1268d0 (0x7f513638b8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+[rank3]:[E1010 13:47:39.129216817 ProcessGroupNCCL.cpp:681] [Rank 3] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank3]:[E1010 13:47:39.129249919 ProcessGroupNCCL.cpp:695] [Rank 3] To avoid data inconsistency, we are taking the entire process down.
+[rank3]:[E1010 13:47:39.130681528 ProcessGroupNCCL.cpp:1895] [PG ID 0 PG GUID 0(default_pg) Rank 3] Process group watchdog thread terminated with exception: [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=76, OpType=_ALLGATHER_BASE, NumelIn=15205376, NumelOut=60821504, Timeout(ms)=600000) ran for 600099 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:632 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f7e8776c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x2b4 (0x7f7e35a29c74 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::watchdogHandler() + 0x890 (0x7f7e35a2b7d0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x14d (0x7f7e35a2c6ed in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0x145c0 (0x7f7e87c025c0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #5: <unknown function> + 0x94ac3 (0x7f7e8868aac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x1268d0 (0x7f7e8871c8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+terminate called after throwing an instance of 'c10::DistBackendError'
+  what():  [PG ID 0 PG GUID 0(default_pg) Rank 3] Process group watchdog thread terminated with exception: [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=76, OpType=_ALLGATHER_BASE, NumelIn=15205376, NumelOut=60821504, Timeout(ms)=600000) ran for 600099 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:632 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f7e8776c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x2b4 (0x7f7e35a29c74 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::watchdogHandler() + 0x890 (0x7f7e35a2b7d0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x14d (0x7f7e35a2c6ed in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0x145c0 (0x7f7e87c025c0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #5: <unknown function> + 0x94ac3 (0x7f7e8868aac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x1268d0 (0x7f7e8871c8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Exception raised from ncclCommWatchdog at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:1901 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f7e8776c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0xe5c6fc (0x7f7e356876fc in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: <unknown function> + 0x145c0 (0x7f7e87c025c0 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #3: <unknown function> + 0x94ac3 (0x7f7e8868aac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #4: <unknown function> + 0x1268d0 (0x7f7e8871c8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+E1010 13:47:39.373000 56061 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: -6) local_rank: 0 (pid: 56097) of binary: /usr/bin/python3
+Traceback (most recent call last):
+  File "/home/user/.local/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+======================================================
+train_fsdp_profile.py FAILED
+------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-10-10_13:47:39
+  host      : gpu-1
+  rank      : 0 (local_rank: 0)
+  exitcode  : -6 (pid: 56097)
+  error_file: <N/A>
+  traceback : Signal 6 (SIGABRT) received by PID 56097
+======================================================
+W1010 13:47:39.530000 51690 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 51724 closing signal SIGTERM
+srun: error: gpu-1: task 0: Exited with exit code 1
+W1010 13:47:40.105000 481038 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 481071 closing signal SIGTERM
+[W1010 13:47:43.987503388 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[gpu-4]:39024, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f2265d6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f224e6e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f224e6e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f224e6e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f224e6e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f225e2a38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f225d9a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x55e7f9202e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x55e7f91f989b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x55e7f9210b20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x55e7f9210951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x55e7f932522a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x55e7f931aa58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f2267002ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f22670948d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:47:43.038000 481038 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-4_481038_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:47:43.616666690 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[gpu-3]:49184, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f90d7b6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f90c00e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f90c00e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f90c00e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f90c00e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f90cfca38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f90cf3a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x561d35990e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x561d3598789b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x561d3599eb20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x561d3599e951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x561d35ab322a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x561d35aa8a58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f90d8aa9ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f90d8b3b8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:47:43.473000 51690 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-3_51690_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:47:48.994349686 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[gpu-4]:39024, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f2265d6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f224e6e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f224e6e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f224e6e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f224e6e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f225e2a38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f225d9a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x55e7f9202e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x55e7f91f989b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x55e7f9210b20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x55e7f9210951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x55e7f932522a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x55e7f931aa58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f2267002ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f22670948d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:47:48.044000 481038 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-4_481038_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:47:48.623523459 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[gpu-3]:49184, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f90d7b6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f90c00e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f90c00e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f90c00e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f90c00e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f90cfca38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f90cf3a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x561d35990e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x561d3598789b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x561d3599eb20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x561d3599e951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x561d35ab322a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x561d35aa8a58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f90d8aa9ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f90d8b3b8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:47:48.479000 51690 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-3_51690_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:47:53.000906828 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[gpu-4]:39024, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f2265d6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f224e6e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f224e6e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f224e6e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f224e6e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f225e2a38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f225d9a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x55e7f9202e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x55e7f91f989b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x55e7f9210b20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x55e7f9210951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x55e7f932522a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x55e7f931aa58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f2267002ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f22670948d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:47:53.051000 481038 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-4_481038_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:47:53.630073015 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[gpu-3]:49184, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f90d7b6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f90c00e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f90c00e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f90c00e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f90c00e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f90cfca38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f90cf3a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x561d35990e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x561d3598789b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x561d3599eb20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x561d3599e951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x561d35ab322a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x561d35aa8a58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f90d8aa9ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f90d8b3b8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:47:53.486000 51690 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-3_51690_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:47:58.007410554 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[gpu-4]:39024, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f2265d6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f224e6e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f224e6e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f224e6e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f224e6e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f225e2a38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f225d9a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x55e7f9202e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x55e7f91f989b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x55e7f9210b20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x55e7f9210951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x55e7f932522a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x55e7f931aa58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f2267002ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f22670948d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:47:58.057000 481038 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-4_481038_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:47:58.636596342 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[gpu-3]:49184, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f90d7b6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f90c00e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f90c00e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f90c00e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f90c00e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f90cfca38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f90cf3a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x561d35990e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x561d3598789b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x561d3599eb20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x561d3599e951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x561d35ab322a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x561d35aa8a58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f90d8aa9ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f90d8b3b8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:47:58.492000 51690 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-3_51690_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:48:03.013884348 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[gpu-4]:39024, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f2265d6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f224e6e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f224e6e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f224e6e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f224e6e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f225e2a38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f225d9a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x55e7f9202e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x55e7f91f989b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x55e7f9210b20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x55e7f9210951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x55e7f932522a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x55e7f931aa58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f2267002ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f22670948d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:48:03.064000 481038 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-4_481038_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:48:03.643092990 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[gpu-3]:49184, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f90d7b6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f90c00e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f90c00e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f90c00e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f90c00e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f90cfca38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f90cf3a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x561d35990e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x561d3598789b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x561d3599eb20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x561d3599e951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x561d35ab322a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x561d35aa8a58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f90d8aa9ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f90d8b3b8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:48:03.499000 51690 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-3_51690_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:48:08.020808800 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[gpu-4]:39024, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f2265d6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f224e6e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f224e6e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f224e6e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f224e6e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f225e2a38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f225d9a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x55e7f9202e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x55e7f91f989b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x55e7f9210b20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x55e7f9210951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x55e7f932522a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x55e7f931aa58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f2267002ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f22670948d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:48:08.072000 481038 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-4_481038_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:48:08.649988775 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[gpu-3]:49184, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f90d7b6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f90c00e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f90c00e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f90c00e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f90c00e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f90cfca38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f90cf3a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x561d35990e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x561d3598789b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x561d3599eb20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #29: <unknown function> + 0x198951 (0x561d3599e951 in /usr/bin/python3)
+frame #30: <unknown function> + 0x2ad22a (0x561d35ab322a in /usr/bin/python3)
+frame #31: <unknown function> + 0x2a2a58 (0x561d35aa8a58 in /usr/bin/python3)
+frame #32: <unknown function> + 0x94ac3 (0x7f90d8aa9ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #33: <unknown function> + 0x1268d0 (0x7f90d8b3b8d0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1010 13:48:08.507000 51690 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1333] The node 'gpu-3_51690_0' has failed to send a keep-alive heartbeat to the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+W1010 13:48:09.531000 51690 torch/distributed/elastic/multiprocessing/api.py:916] Unable to shutdown process 51724 via Signals.SIGTERM, forcefully exiting via Signals.SIGKILL
+[W1010 13:48:09.016028534 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[gpu-3]:49184, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f90d7b6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f90c00e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f90c00e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f90c00e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f90c00e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f90cfca38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f90cf3a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x561d35990e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x561d3598789b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x561d3599eb20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #29: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #30: _PyEval_EvalFrameDefault + 0x6c0 (0x561d3597bbd0 in /usr/bin/python3)
+frame #31: _PyObject_FastCallDictTstate + 0xc4 (0x561d35986a64 in /usr/bin/python3)
+frame #32: _PyObject_Call_Prepend + 0xc1 (0x561d3599b8b1 in /usr/bin/python3)
+frame #33: <unknown function> + 0x29cde4 (0x561d35aa2de4 in /usr/bin/python3)
+frame #34: PyObject_Call + 0xbb (0x561d3599f32b in /usr/bin/python3)
+frame #35: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #36: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #37: _PyEval_EvalFrameDefault + 0x6c0 (0x561d3597bbd0 in /usr/bin/python3)
+frame #38: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #39: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #40: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #41: _PyEval_EvalFrameDefault + 0x6c0 (0x561d3597bbd0 in /usr/bin/python3)
+frame #42: <unknown function> + 0x259d36 (0x561d35a5fd36 in /usr/bin/python3)
+frame #43: PyEval_EvalCode + 0x86 (0x561d35a5fc06 in /usr/bin/python3)
+frame #44: <unknown function> + 0x280678 (0x561d35a86678 in /usr/bin/python3)
+frame #45: <unknown function> + 0x27accf (0x561d35a80ccf in /usr/bin/python3)
+frame #46: <unknown function> + 0x280415 (0x561d35a86415 in /usr/bin/python3)
+frame #47: _PyRun_SimpleFileObject + 0x1a8 (0x561d35a85958 in /usr/bin/python3)
+frame #48: _PyRun_AnyFileObject + 0x47 (0x561d35a85637 in /usr/bin/python3)
+frame #49: Py_RunMain + 0x2be (0x561d35a79bfe in /usr/bin/python3)
+frame #50: Py_BytesMain + 0x2d (0x561d35a53c4d in /usr/bin/python3)
+frame #51: <unknown function> + 0x29d90 (0x7f90d8a3ed90 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #52: __libc_start_main + 0x80 (0x7f90d8a3ee40 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #53: _start + 0x25 (0x561d35a53b45 in /usr/bin/python3)
+
+W1010 13:48:09.874000 51690 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'gpu-3_51690_0' has failed to shutdown the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:48:09.025348546 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=4, addr=[gpu-3]:49184, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f90d7b6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f90c00e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f90c00e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f90c00e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f90c00e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f90cfca38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f90cf3a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x561d35990e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x561d3598789b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x561d3599eb20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x807 (0x561d3597bd17 in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x6c0 (0x561d3597bbd0 in /usr/bin/python3)
+frame #25: _PyObject_FastCallDictTstate + 0xc4 (0x561d35986a64 in /usr/bin/python3)
+frame #26: _PyObject_Call_Prepend + 0xc1 (0x561d3599b8b1 in /usr/bin/python3)
+frame #27: <unknown function> + 0x29cde4 (0x561d35aa2de4 in /usr/bin/python3)
+frame #28: PyObject_Call + 0xbb (0x561d3599f32b in /usr/bin/python3)
+frame #29: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #30: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #31: _PyEval_EvalFrameDefault + 0x6c0 (0x561d3597bbd0 in /usr/bin/python3)
+frame #32: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #33: _PyEval_EvalFrameDefault + 0x286b (0x561d3597dd7b in /usr/bin/python3)
+frame #34: _PyFunction_Vectorcall + 0x7c (0x561d3599168c in /usr/bin/python3)
+frame #35: _PyEval_EvalFrameDefault + 0x6c0 (0x561d3597bbd0 in /usr/bin/python3)
+frame #36: <unknown function> + 0x259d36 (0x561d35a5fd36 in /usr/bin/python3)
+frame #37: PyEval_EvalCode + 0x86 (0x561d35a5fc06 in /usr/bin/python3)
+frame #38: <unknown function> + 0x280678 (0x561d35a86678 in /usr/bin/python3)
+frame #39: <unknown function> + 0x27accf (0x561d35a80ccf in /usr/bin/python3)
+frame #40: <unknown function> + 0x280415 (0x561d35a86415 in /usr/bin/python3)
+frame #41: _PyRun_SimpleFileObject + 0x1a8 (0x561d35a85958 in /usr/bin/python3)
+frame #42: _PyRun_AnyFileObject + 0x47 (0x561d35a85637 in /usr/bin/python3)
+frame #43: Py_RunMain + 0x2be (0x561d35a79bfe in /usr/bin/python3)
+frame #44: Py_BytesMain + 0x2d (0x561d35a53c4d in /usr/bin/python3)
+frame #45: <unknown function> + 0x29d90 (0x7f90d8a3ed90 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #46: __libc_start_main + 0x80 (0x7f90d8a3ee40 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #47: _start + 0x25 (0x561d35a53b45 in /usr/bin/python3)
+
+W1010 13:48:09.882000 51690 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'gpu-3_51690_0' has failed to shutdown the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+Traceback (most recent call last):
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 117, in _call_store
+    return getattr(self._store, store_op)(*args, **kwargs)
+torch.distributed.DistNetworkError: failed to recv, got 0 bytes
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/user/.local/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 260, in launch_agent
+    result = agent.run()
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py", line 711, in run
+    result = self._invoke_run(role)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py", line 906, in _invoke_run
+    num_nodes_waiting = rdzv_handler.num_nodes_waiting()
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 1255, in num_nodes_waiting
+    self._state_holder.sync()
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 437, in sync
+    get_response = self._backend.get_state()
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 75, in get_state
+    base64_state: bytes = self._call_store("get", self._key)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 119, in _call_store
+    raise RendezvousConnectionError(
+torch.distributed.elastic.rendezvous.api.RendezvousConnectionError: The connection to the C10d store has failed. See inner exception for details.
+W1010 13:48:10.106000 481038 torch/distributed/elastic/multiprocessing/api.py:916] Unable to shutdown process 481071 via Signals.SIGTERM, forcefully exiting via Signals.SIGKILL
+[W1010 13:48:10.390388061 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[gpu-4]:39024, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f2265d6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f224e6e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f224e6e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f224e6e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f224e6e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f225e2a38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f225d9a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x55e7f9202e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x55e7f91f989b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x55e7f9210b20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #25: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #26: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #27: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #28: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #29: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #30: _PyEval_EvalFrameDefault + 0x6c0 (0x55e7f91edbd0 in /usr/bin/python3)
+frame #31: _PyObject_FastCallDictTstate + 0xc4 (0x55e7f91f8a64 in /usr/bin/python3)
+frame #32: _PyObject_Call_Prepend + 0xc1 (0x55e7f920d8b1 in /usr/bin/python3)
+frame #33: <unknown function> + 0x29cde4 (0x55e7f9314de4 in /usr/bin/python3)
+frame #34: PyObject_Call + 0xbb (0x55e7f921132b in /usr/bin/python3)
+frame #35: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #36: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #37: _PyEval_EvalFrameDefault + 0x6c0 (0x55e7f91edbd0 in /usr/bin/python3)
+frame #38: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #39: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #40: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #41: _PyEval_EvalFrameDefault + 0x6c0 (0x55e7f91edbd0 in /usr/bin/python3)
+frame #42: <unknown function> + 0x259d36 (0x55e7f92d1d36 in /usr/bin/python3)
+frame #43: PyEval_EvalCode + 0x86 (0x55e7f92d1c06 in /usr/bin/python3)
+frame #44: <unknown function> + 0x280678 (0x55e7f92f8678 in /usr/bin/python3)
+frame #45: <unknown function> + 0x27accf (0x55e7f92f2ccf in /usr/bin/python3)
+frame #46: <unknown function> + 0x280415 (0x55e7f92f8415 in /usr/bin/python3)
+frame #47: _PyRun_SimpleFileObject + 0x1a8 (0x55e7f92f7958 in /usr/bin/python3)
+frame #48: _PyRun_AnyFileObject + 0x47 (0x55e7f92f7637 in /usr/bin/python3)
+frame #49: Py_RunMain + 0x2be (0x55e7f92ebbfe in /usr/bin/python3)
+frame #50: Py_BytesMain + 0x2d (0x55e7f92c5c4d in /usr/bin/python3)
+frame #51: <unknown function> + 0x29d90 (0x7f2266f97d90 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #52: __libc_start_main + 0x80 (0x7f2266f97e40 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #53: _start + 0x25 (0x55e7f92c5b45 in /usr/bin/python3)
+
+W1010 13:48:10.442000 481038 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'gpu-4_481038_0' has failed to shutdown the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+[W1010 13:48:10.399962471 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[gpu-4]:39024, remote=[gpu-1]:29967): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7f2265d6c1b6 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x7f224e6e4c1d in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::doWait(c10::ArrayRef<std::string>, std::chrono::duration<long, std::ratio<1l, 1000l> >) + 0x27e (0x7f224e6e272e in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::string const&) + 0x2a (0x7f224e6e2b9a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::string const&) + 0x7a (0x7f224e6e393a in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe148c4 (0x7f225e2a38c4 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x518d37 (0x7f225d9a7d37 in /home/user/.local/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x18ae32 (0x55e7f9202e32 in /usr/bin/python3)
+frame #8: _PyObject_MakeTpCall + 0x25b (0x55e7f91f989b in /usr/bin/python3)
+frame #9: <unknown function> + 0x198b20 (0x55e7f9210b20 in /usr/bin/python3)
+frame #10: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #11: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #12: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #13: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #14: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #15: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #16: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #17: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #18: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #19: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #20: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #21: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #22: _PyEval_EvalFrameDefault + 0x807 (0x55e7f91edd17 in /usr/bin/python3)
+frame #23: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #24: _PyEval_EvalFrameDefault + 0x6c0 (0x55e7f91edbd0 in /usr/bin/python3)
+frame #25: _PyObject_FastCallDictTstate + 0xc4 (0x55e7f91f8a64 in /usr/bin/python3)
+frame #26: _PyObject_Call_Prepend + 0xc1 (0x55e7f920d8b1 in /usr/bin/python3)
+frame #27: <unknown function> + 0x29cde4 (0x55e7f9314de4 in /usr/bin/python3)
+frame #28: PyObject_Call + 0xbb (0x55e7f921132b in /usr/bin/python3)
+frame #29: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #30: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #31: _PyEval_EvalFrameDefault + 0x6c0 (0x55e7f91edbd0 in /usr/bin/python3)
+frame #32: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #33: _PyEval_EvalFrameDefault + 0x286b (0x55e7f91efd7b in /usr/bin/python3)
+frame #34: _PyFunction_Vectorcall + 0x7c (0x55e7f920368c in /usr/bin/python3)
+frame #35: _PyEval_EvalFrameDefault + 0x6c0 (0x55e7f91edbd0 in /usr/bin/python3)
+frame #36: <unknown function> + 0x259d36 (0x55e7f92d1d36 in /usr/bin/python3)
+frame #37: PyEval_EvalCode + 0x86 (0x55e7f92d1c06 in /usr/bin/python3)
+frame #38: <unknown function> + 0x280678 (0x55e7f92f8678 in /usr/bin/python3)
+frame #39: <unknown function> + 0x27accf (0x55e7f92f2ccf in /usr/bin/python3)
+frame #40: <unknown function> + 0x280415 (0x55e7f92f8415 in /usr/bin/python3)
+frame #41: _PyRun_SimpleFileObject + 0x1a8 (0x55e7f92f7958 in /usr/bin/python3)
+frame #42: _PyRun_AnyFileObject + 0x47 (0x55e7f92f7637 in /usr/bin/python3)
+frame #43: Py_RunMain + 0x2be (0x55e7f92ebbfe in /usr/bin/python3)
+frame #44: Py_BytesMain + 0x2d (0x55e7f92c5c4d in /usr/bin/python3)
+frame #45: <unknown function> + 0x29d90 (0x7f2266f97d90 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #46: __libc_start_main + 0x80 (0x7f2266f97e40 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #47: _start + 0x25 (0x55e7f92c5b45 in /usr/bin/python3)
+
+W1010 13:48:10.450000 481038 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'gpu-4_481038_0' has failed to shutdown the rendezvous '7761_a67' due to an error of type RendezvousConnectionError.
+srun: error: gpu-3: task 2: Exited with exit code 1
+Traceback (most recent call last):
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 117, in _call_store
+    return getattr(self._store, store_op)(*args, **kwargs)
+torch.distributed.DistNetworkError: failed to recv, got 0 bytes
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/user/.local/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 260, in launch_agent
+    result = agent.run()
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py", line 711, in run
+    result = self._invoke_run(role)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py", line 906, in _invoke_run
+    num_nodes_waiting = rdzv_handler.num_nodes_waiting()
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 1255, in num_nodes_waiting
+    self._state_holder.sync()
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 437, in sync
+    get_response = self._backend.get_state()
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 75, in get_state
+    base64_state: bytes = self._call_store("get", self._key)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 119, in _call_store
+    raise RendezvousConnectionError(
+torch.distributed.elastic.rendezvous.api.RendezvousConnectionError: The connection to the C10d store has failed. See inner exception for details.
+srun: error: gpu-4: task 3: Exited with exit code 1

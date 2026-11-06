@@ -1,0 +1,76 @@
+{
+  "config": {
+    "hidden_size": 768,
+    "intermediate_size": 2048,
+    "num_layers": 64,
+    "num_heads": 12,
+    "num_kv_heads": 4,
+    "batch_size": 1,
+    "grad_accum": 1,
+    "hbm_cap_gb": 0.0,
+    "seq_len": 49152,
+    "vocab_size": 32000,
+    "dtype": "fp16",
+    "world_size": 4,
+    "attention": {
+      "requested": "sdpa_mem_efficient",
+      "guarantee": "math and flash are disabled, so a step that completes proves the efficient kernel served every attention call",
+      "flash_enabled": false,
+      "mem_efficient_enabled": true,
+      "math_enabled": false,
+      "preflight": "ok",
+      "resolved": "sdpa"
+    },
+    "fused_rmsnorm": "input",
+    "native_gqa": false,
+    "fused_rmsnorm_replaced": 129,
+    "layer_checkpoint": true,
+    "layer_checkpoint_wrapped": 64,
+    "activation_offload": false,
+    "use_cache": false,
+    "cpu_offload": false,
+    "chunked_ce_tokens": 256,
+    "hbm_budget_gb": 14.9769,
+    "engine_live": true,
+    "strict_evict": false,
+    "prefetch_window_layers": 0
+  },
+  "steps": [
+    {
+      "step": 0,
+      "loss": 10.529220581054688,
+      "avg_loss": 10.530441284179688,
+      "grad_norm": 0.14029362434473608,
+      "peak_mb": 2802.3212890625,
+      "step_ms": 38734.9,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 604.88
+    },
+    {
+      "step": 1,
+      "loss": 10.521294593811035,
+      "avg_loss": 10.52682113647461,
+      "grad_norm": 0.14902205530653734,
+      "peak_mb": 3682.265625,
+      "step_ms": 38315.8,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 604.88
+    },
+    {
+      "step": 2,
+      "loss": 10.530863761901855,
+      "avg_loss": 10.528151512145996,
+      "grad_norm": 0.16963938403606704,
+      "peak_mb": 3682.265625,
+      "step_ms": 38475.4,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 604.88
+    }
+  ]
+}

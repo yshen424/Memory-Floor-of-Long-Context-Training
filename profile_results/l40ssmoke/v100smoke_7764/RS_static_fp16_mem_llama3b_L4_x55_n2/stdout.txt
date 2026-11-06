@@ -1,0 +1,259 @@
+
+========================================================================
+  FSDP LLaMA + Memory Profiling
+  4 GPUs | NCCL | fp16
+  batch=1  seq_len=56320  steps=2
+  Profile steps: [0, 1]
+========================================================================
+
+  [Attention] --attn_impl sdpa_mem_efficient -> {'requested': 'sdpa_mem_efficient', 'guarantee': 'math and flash are disabled, so a step that completes proves the efficient kernel served every attention call', 'flash_enabled': False, 'mem_efficient_enabled': True, 'math_enabled': False, 'preflight': 'ok'}
+[rank 2] fused RMSNorm mode=input: 9 norms replaced
+[rank 2] layer checkpointing: 4 LlamaDecoderLayer wrapped
+[rank 2] chunked CE: 256 tokens per chunk, 220 chunks, peak logit chain 375.75 MiB (sequence-length independent)
+[rank 3] fused RMSNorm mode=input: 9 norms replaced
+[rank 3] layer checkpointing: 4 LlamaDecoderLayer wrapped
+[rank 3] chunked CE: 256 tokens per chunk, 220 chunks, peak logit chain 375.75 MiB (sequence-length independent)
+[rank 1] fused RMSNorm mode=input: 9 norms replaced
+[rank 1] layer checkpointing: 4 LlamaDecoderLayer wrapped
+[rank 1] chunked CE: 256 tokens per chunk, 220 chunks, peak logit chain 375.75 MiB (sequence-length independent)
+[rank 0] fused RMSNorm mode=input: 9 norms replaced
+[rank 0] layer checkpointing: 4 LlamaDecoderLayer wrapped
+[rank 0] chunked CE: 256 tokens per chunk, 220 chunks, peak logit chain 375.75 MiB (sequence-length independent)
+  Full model: 1,190,685,696 params (4542.1 MB in fp32)
+
+  --- Pre-flight Estimate (per GPU) ---
+  Sharded params:       567.8 MB
+  Sharded optimizer:   3406.6 MB
+  Sharded gradients:    567.8 MB
+  Activations:       594880.0 MB (NOT sharded)
+  FSDP buffer:          567.8 MB (1 layer unsharded)
+  TOTAL:             599989.9 MB
+  LIKELY OOM for 16GB V100
+
+  ✓ FSDP wrapping complete
+[Rank 2] Sharded params:  297,671,424 (1135.5 MB)  |  Summed: 1,190,685,696 (≈ full model)
+[Rank 1] Sharded params:  297,671,424 (1135.5 MB)  |  Summed: 1,190,685,696 (≈ full model)
+[Rank 3] Sharded params:  297,671,424 (1135.5 MB)  |  Summed: 1,190,685,696 (≈ full model)
+[Rank 0] Sharded params:  297,671,424 (1135.5 MB)  |  Summed: 1,190,685,696 (≈ full model)
+[Rank 0] GPU mem after FSDP wrap      | alloc= 1135.5 MB | rsrvd= 7182.0 MB | total=16144.1 MB
+[Rank 1] GPU mem after FSDP wrap      | alloc= 1135.5 MB | rsrvd= 7182.0 MB | total=16144.1 MB
+[Rank 2] GPU mem after FSDP wrap      | alloc= 1135.5 MB | rsrvd= 7182.0 MB | total=16144.1 MB
+[Rank 3] GPU mem after FSDP wrap      | alloc= 1135.5 MB | rsrvd= 7182.0 MB | total=16144.1 MB
+  [Attention] byte model: no s x s scores tensor (--attn_impl sdpa_mem_efficient)
+  [Profiler] Attached hooks to 4 decoder layers
+  [Profiler] Local param shards: 1135.5 MB
+
+────────────────────────────────────────────────────────────────────────
+  Step | Rank | Loss     | Avg Loss | Peak MB | Step ms
+────────────────────────────────────────────────────────────────────────
+     1 |    0 | 12.3693   | 12.3756   | 13112.3 | 22507.1
+     1 |    1 | 12.3752   | 12.3756   | 13112.3 | 22507.1
+     1 |    3 | 12.3768   | 12.3756   | 13112.3 | 22516.0
+     1 |    2 | 12.3810   | 12.3756   | 13112.3 | 22518.8
+     2 |    2 | 12.3777   | 12.3753   | 15437.3 | 22461.5
+     2 |    0 | 12.3765   | 12.3753   | 15437.3 | 22464.2
+     2 |    1 | 12.3701   | 12.3753   | 15437.3 | 22461.7
+     2 |    3 | 12.3770   | 12.3753   | 15437.3 | 22461.9
+[Rank 2] GPU mem after training       | alloc= 4558.8 MB | rsrvd= 9922.0 MB | total=16144.1 MB
+[Rank 0] GPU mem after training       | alloc= 4558.8 MB | rsrvd= 9942.0 MB | total=16144.1 MB
+[Rank 1] GPU mem after training       | alloc= 4558.8 MB | rsrvd= 9942.0 MB | total=16144.1 MB
+[Rank 3] GPU mem after training       | alloc= 4558.8 MB | rsrvd= 9942.0 MB | total=16144.1 MB
+
+========================================================================
+FSDP Memory Profile — Rank 2/4
+========================================================================
+
+Peak HBM: 7985.8 MB at phase 'post_bwd_layer_2' (15076.4 ms)
+
+--- FSDP Summary ---
+  World size:                4
+  Local param shards:          1135.5 MB
+  Full model (estimated):      4542.1 MB
+  Per-layer all-gather:       1135.53 MB
+  Total all-gather/step:       9084.2 MB  (2× for fwd+bwd)
+
+--- Activation Breakdown (per-step totals) ---
+  Attention scores (quadratic):      0.0 MB
+  SwiGLU groups (3× intermediate):  14080.0 MB
+  QKV projections (GQA):          5300.6 MB
+
+--- Per-Layer Profile ---
+Lyr |  Fwd ms |  Bwd ms | Fwd Δ MB | Bwd Δ MB | Attn MB | SwiGLU MB | QKV MB
+----------------------------------------------------------------------------
+  0 |  795.58 | 3239.24 |   330.00 |   164.08 |   775.2 |    3520.0 |  550.0
+  1 |  794.35 | 3233.14 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+  2 |  797.06 | 3260.44 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+  3 |  802.92 | 3216.64 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+
+--- Allocation Groups ---
+  layer_0_swiglu: 3520.00 MB (3 tensors)
+  layer_1_swiglu: 3520.00 MB (3 tensors)
+  layer_2_swiglu: 3520.00 MB (3 tensors)
+  layer_3_swiglu: 3520.00 MB (3 tensors)
+
+--- Top Eviction Candidates (by size) ---
+                  layer_0_swiglu_gate: 1760.00 MB [swiglu_gate] L0
+                  layer_1_swiglu_gate: 1760.00 MB [swiglu_gate] L1
+                  layer_2_swiglu_gate: 1760.00 MB [swiglu_gate] L2
+                  layer_3_swiglu_gate: 1760.00 MB [swiglu_gate] L3
+                    layer_0_swiglu_up:  880.00 MB [swiglu_up] L0
+               layer_0_swiglu_product:  880.00 MB [swiglu_product] L0
+                    layer_1_swiglu_up:  880.00 MB [swiglu_up] L1
+               layer_1_swiglu_product:  880.00 MB [swiglu_product] L1
+                    layer_2_swiglu_up:  880.00 MB [swiglu_up] L2
+========================================================================
+FSDP Memory Profile — Rank 1/4
+========================================================================
+
+Peak HBM: 7985.8 MB at phase 'post_bwd_layer_2' (15033.8 ms)
+
+--- FSDP Summary ---
+  World size:                4
+  Local param shards:          1135.5 MB
+  Full model (estimated):      4542.1 MB
+  Per-layer all-gather:       1135.53 MB
+  Total all-gather/step:       9084.2 MB  (2× for fwd+bwd)
+
+--- Activation Breakdown (per-step totals) ---
+  Attention scores (quadratic):      0.0 MB
+  SwiGLU groups (3× intermediate):  14080.0 MB
+  QKV projections (GQA):          5300.6 MB
+
+--- Per-Layer Profile ---
+Lyr |  Fwd ms |  Bwd ms | Fwd Δ MB | Bwd Δ MB | Attn MB | SwiGLU MB | QKV MB
+----------------------------------------------------------------------------
+  0 |  793.75 | 3228.34 |   330.00 |   164.08 |   775.2 |    3520.0 |  550.0
+  1 |  796.43 | 3232.12 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+               layer_2_swiglu_product:  880.00 MB [swiglu_product] L2
+
+--- Timeline Summary ---
+  Forward peak:  6796.2 MB
+  Backward peak: 7985.8 MB
+  2 |  794.98 | 3217.77 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+  3 |  797.67 | 3207.63 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+
+--- Allocation Groups ---
+  layer_0_swiglu: 3520.00 MB (3 tensors)
+  layer_1_swiglu: 3520.00 MB (3 tensors)
+  layer_2_swiglu: 3520.00 MB (3 tensors)
+  layer_3_swiglu: 3520.00 MB (3 tensors)
+
+--- Top Eviction Candidates (by size) ---
+                  layer_0_swiglu_gate: 1760.00 MB [swiglu_gate] L0
+                  layer_1_swiglu_gate: 1760.00 MB [swiglu_gate] L1
+                  layer_2_swiglu_gate: 1760.00 MB [swiglu_gate] L2
+                  layer_3_swiglu_gate: 1760.00 MB [swiglu_gate] L3
+                    layer_0_swiglu_up:  880.00 MB [swiglu_up] L0
+               layer_0_swiglu_product:  880.00 MB [swiglu_product] L0
+                    layer_1_swiglu_up:  880.00 MB [swiglu_up] L1
+               layer_1_swiglu_product:  880.00 MB [swiglu_product] L1
+                    layer_2_swiglu_up:  880.00 MB [swiglu_up] L2
+========================================================================
+FSDP Memory Profile — Rank 3/4
+========================================================================
+
+Peak HBM: 7985.8 MB at phase 'post_bwd_layer_2' (15043.7 ms)
+
+--- FSDP Summary ---
+  World size:                4
+  Local param shards:          1135.5 MB
+  Full model (estimated):      4542.1 MB
+  Per-layer all-gather:       1135.53 MB
+  Total all-gather/step:       9084.2 MB  (2× for fwd+bwd)
+
+--- Activation Breakdown (per-step totals) ---
+  Attention scores (quadratic):      0.0 MB
+  SwiGLU groups (3× intermediate):  14080.0 MB
+  QKV projections (GQA):          5300.6 MB
+
+--- Per-Layer Profile ---
+Lyr |  Fwd ms |  Bwd ms | Fwd Δ MB | Bwd Δ MB | Attn MB | SwiGLU MB | QKV MB
+----------------------------------------------------------------------------
+  0 |  800.25 | 3230.28 |   330.00 |   164.08 |   775.2 |    3520.0 |  550.0
+  1 |  799.79 | 3231.03 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+               layer_2_swiglu_product:  880.00 MB [swiglu_product] L2
+
+--- Timeline Summary ---
+  Forward peak:  6796.2 MB
+  Backward peak: 7985.8 MB
+  2 |  803.38 | 3227.22 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+  3 |  804.06 | 3223.12 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+
+--- Allocation Groups ---
+  layer_0_swiglu: 3520.00 MB (3 tensors)
+  layer_1_swiglu: 3520.00 MB (3 tensors)
+  layer_2_swiglu: 3520.00 MB (3 tensors)
+  layer_3_swiglu: 3520.00 MB (3 tensors)
+
+--- Top Eviction Candidates (by size) ---
+                  layer_0_swiglu_gate: 1760.00 MB [swiglu_gate] L0
+                  layer_1_swiglu_gate: 1760.00 MB [swiglu_gate] L1
+                  layer_2_swiglu_gate: 1760.00 MB [swiglu_gate] L2
+                  layer_3_swiglu_gate: 1760.00 MB [swiglu_gate] L3
+                    layer_0_swiglu_up:  880.00 MB [swiglu_up] L0
+               layer_0_swiglu_product:  880.00 MB [swiglu_product] L0
+                    layer_1_swiglu_up:  880.00 MB [swiglu_up] L1
+               layer_1_swiglu_product:  880.00 MB [swiglu_product] L1
+                    layer_2_swiglu_up:  880.00 MB [swiglu_up] L2
+               layer_2_swiglu_product:  880.00 MB [swiglu_product] L2
+
+--- Timeline Summary ---
+  Forward peak:  6796.2 MB
+  Backward peak: 7985.8 MB
+========================================================================
+FSDP Memory Profile — Rank 0/4
+========================================================================
+
+Peak HBM: 7985.8 MB at phase 'post_bwd_layer_2' (15067.1 ms)
+
+--- FSDP Summary ---
+  World size:                4
+  Local param shards:          1135.5 MB
+  Full model (estimated):      4542.1 MB
+  Per-layer all-gather:       1135.53 MB
+  Total all-gather/step:       9084.2 MB  (2× for fwd+bwd)
+
+--- Activation Breakdown (per-step totals) ---
+  Attention scores (quadratic):      0.0 MB
+  SwiGLU groups (3× intermediate):  14080.0 MB
+  QKV projections (GQA):          5300.6 MB
+
+--- Per-Layer Profile ---
+Lyr |  Fwd ms |  Bwd ms | Fwd Δ MB | Bwd Δ MB | Attn MB | SwiGLU MB | QKV MB
+----------------------------------------------------------------------------
+  0 |  821.36 | 3265.14 |   330.00 |   164.08 |   775.2 |    3520.0 |  550.0
+  1 |  815.48 | 3264.54 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+  2 |  819.62 | 3250.61 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+  3 |  821.58 | 3241.52 |   330.00 |   192.01 |   775.2 |    3520.0 |  550.0
+
+--- Allocation Groups ---
+  layer_0_swiglu: 3520.00 MB (3 tensors)
+  layer_1_swiglu: 3520.00 MB (3 tensors)
+  layer_2_swiglu: 3520.00 MB (3 tensors)
+  layer_3_swiglu: 3520.00 MB (3 tensors)
+
+--- Top Eviction Candidates (by size) ---
+                  layer_0_swiglu_gate: 1760.00 MB [swiglu_gate] L0
+                  layer_1_swiglu_gate: 1760.00 MB [swiglu_gate] L1
+                  layer_2_swiglu_gate: 1760.00 MB [swiglu_gate] L2
+                  layer_3_swiglu_gate: 1760.00 MB [swiglu_gate] L3
+                    layer_0_swiglu_up:  880.00 MB [swiglu_up] L0
+               layer_0_swiglu_product:  880.00 MB [swiglu_product] L0
+                    layer_1_swiglu_up:  880.00 MB [swiglu_up] L1
+               layer_1_swiglu_product:  880.00 MB [swiglu_product] L1
+                    layer_2_swiglu_up:  880.00 MB [swiglu_up] L2
+               layer_2_swiglu_product:  880.00 MB [swiglu_product] L2
+
+--- Timeline Summary ---
+  Forward peak:  6796.2 MB
+  Backward peak: 7985.8 MB
+
+  [Profiler] Saved to l64s_out/v100smoke_7764/RS_static_fp16_mem_llama3b_L4_x55_n2/profile_rank*.json (schema_version=1)
+
+========================================================================
+  ✓ Completed 2 steps on 4 GPUs
+  ✓ Avg peak memory: 14274.8 MB
+  ✓ Avg step time:   22485.7 ms
+  ✓ Profiles saved to l64s_out/v100smoke_7764/RS_static_fp16_mem_llama3b_L4_x55_n2/
+========================================================================
+

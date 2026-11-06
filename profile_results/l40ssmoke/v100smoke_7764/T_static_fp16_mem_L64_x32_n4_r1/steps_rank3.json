@@ -1,0 +1,88 @@
+{
+  "config": {
+    "hidden_size": 768,
+    "intermediate_size": 2048,
+    "num_layers": 64,
+    "num_heads": 12,
+    "num_kv_heads": 4,
+    "batch_size": 1,
+    "grad_accum": 1,
+    "hbm_cap_gb": 0.0,
+    "seq_len": 32768,
+    "vocab_size": 32000,
+    "dtype": "fp16",
+    "world_size": 4,
+    "attention": {
+      "requested": "sdpa_mem_efficient",
+      "guarantee": "math and flash are disabled, so a step that completes proves the efficient kernel served every attention call",
+      "flash_enabled": false,
+      "mem_efficient_enabled": true,
+      "math_enabled": false,
+      "preflight": "ok",
+      "resolved": "sdpa"
+    },
+    "fused_rmsnorm": "input",
+    "native_gqa": false,
+    "fused_rmsnorm_replaced": 129,
+    "layer_checkpoint": true,
+    "layer_checkpoint_wrapped": 64,
+    "activation_offload": false,
+    "use_cache": false,
+    "cpu_offload": false,
+    "chunked_ce_tokens": 256,
+    "hbm_budget_gb": 14.0,
+    "engine_live": false,
+    "strict_evict": false,
+    "prefetch_window_layers": 2
+  },
+  "steps": [
+    {
+      "step": 0,
+      "loss": 10.525747299194336,
+      "avg_loss": 10.531006813049316,
+      "grad_norm": 0.12821417256095693,
+      "peak_mb": 4849.10546875,
+      "step_ms": 25035.4,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 477.88
+    },
+    {
+      "step": 1,
+      "loss": 10.526644706726074,
+      "avg_loss": 10.52722454071045,
+      "grad_norm": 0.12810823730174764,
+      "peak_mb": 5711.04541015625,
+      "step_ms": 24992.2,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 477.88
+    },
+    {
+      "step": 2,
+      "loss": 10.522688865661621,
+      "avg_loss": 10.526544570922852,
+      "grad_norm": 0.1306177205460245,
+      "peak_mb": 5711.04541015625,
+      "step_ms": 24758.3,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 477.88
+    },
+    {
+      "step": 3,
+      "loss": 10.52347183227539,
+      "avg_loss": 10.526809692382812,
+      "grad_norm": 0.13047737248501282,
+      "peak_mb": 5711.04541015625,
+      "step_ms": 24787.5,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 477.88
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "config": {
+    "hidden_size": 3072,
+    "intermediate_size": 8192,
+    "num_layers": 28,
+    "num_heads": 24,
+    "num_kv_heads": 8,
+    "batch_size": 1,
+    "grad_accum": 1,
+    "hbm_cap_gb": 0.0,
+    "seq_len": 98304,
+    "vocab_size": 128256,
+    "dtype": "fp16",
+    "world_size": 4,
+    "attention": {
+      "requested": "sdpa_mem_efficient",
+      "guarantee": "math and flash are disabled, so a step that completes proves the efficient kernel served every attention call",
+      "flash_enabled": false,
+      "mem_efficient_enabled": true,
+      "math_enabled": false,
+      "preflight": "ok",
+      "resolved": "sdpa"
+    },
+    "fused_rmsnorm": "input",
+    "native_gqa": false,
+    "fused_rmsnorm_replaced": 57,
+    "layer_checkpoint": true,
+    "layer_checkpoint_wrapped": 28,
+    "activation_offload": true,
+    "use_cache": false,
+    "cpu_offload": false,
+    "chunked_ce_tokens": 256,
+    "hbm_budget_gb": 14.0,
+    "engine_live": false,
+    "strict_evict": false,
+    "prefetch_window_layers": 2
+  },
+  "steps": [
+    {
+      "step": 0,
+      "loss": 12.384106636047363,
+      "avg_loss": 12.378827095031738,
+      "grad_norm": 0.6766452427467663,
+      "peak_mb": 23097.8564453125,
+      "step_ms": 132560.7,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 748.25
+    },
+    {
+      "step": 1,
+      "loss": 12.379383087158203,
+      "avg_loss": 12.377387046813965,
+      "grad_norm": 0.6745403280701631,
+      "peak_mb": 30265.20849609375,
+      "step_ms": 123891.1,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 748.25
+    },
+    {
+      "step": 2,
+      "loss": 12.376925468444824,
+      "avg_loss": 12.373257637023926,
+      "grad_norm": 0.6729952698162072,
+      "peak_mb": 30265.20849609375,
+      "step_ms": 122568.4,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 748.25
+    }
+  ]
+}

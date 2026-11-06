@@ -1,0 +1,48 @@
+
+========================================================================
+  FSDP LLaMA + Memory Profiling
+  4 GPUs | NCCL | fp16
+  batch=1  seq_len=138240  steps=2
+  Profile steps: [0, 1]
+========================================================================
+
+  [Attention] --attn_impl sdpa_mem_efficient -> {'requested': 'sdpa_mem_efficient', 'guarantee': 'math and flash are disabled, so a step that completes proves the efficient kernel served every attention call', 'flash_enabled': False, 'mem_efficient_enabled': True, 'math_enabled': False, 'preflight': 'ok'}
+[rank 0] fused RMSNorm mode=input: 57 norms replaced
+[rank 0] layer checkpointing: 28 LlamaDecoderLayer wrapped
+[rank 0] chunked CE: 256 tokens per chunk, 540 chunks, peak logit chain 375.75 MiB (sequence-length independent)
+  Full model: 3,606,752,256 params (13758.7 MB in fp32)
+
+  --- Pre-flight Estimate (per GPU) ---
+  Sharded params:      1719.8 MB
+  Sharded optimizer:  10319.0 MB
+  Sharded gradients:   1719.8 MB
+  Activations:       24736320.0 MB (NOT sharded)
+  FSDP buffer:          245.7 MB (1 layer unsharded)
+  TOTAL:             24750324.4 MB
+  LIKELY OOM for 16GB V100
+
+[rank 2] fused RMSNorm mode=input: 57 norms replaced
+[rank 1] fused RMSNorm mode=input: 57 norms replaced
+[rank 2] layer checkpointing: 28 LlamaDecoderLayer wrapped
+[rank 3] fused RMSNorm mode=input: 57 norms replaced
+[rank 2] chunked CE: 256 tokens per chunk, 540 chunks, peak logit chain 375.75 MiB (sequence-length independent)
+[rank 1] layer checkpointing: 28 LlamaDecoderLayer wrapped
+[rank 1] chunked CE: 256 tokens per chunk, 540 chunks, peak logit chain 375.75 MiB (sequence-length independent)
+[rank 3] layer checkpointing: 28 LlamaDecoderLayer wrapped
+[rank 3] chunked CE: 256 tokens per chunk, 540 chunks, peak logit chain 375.75 MiB (sequence-length independent)
+  ✓ FSDP wrapping complete
+[Rank 1] Sharded params:  901,688,064 (3439.7 MB)  |  Summed: 3,606,752,256 (≈ full model)[Rank 2] Sharded params:  901,688,064 (3439.7 MB)  |  Summed: 3,606,752,256 (≈ full model)
+
+[Rank 0] Sharded params:  901,688,064 (3439.7 MB)  |  Summed: 3,606,752,256 (≈ full model)
+[Rank 3] Sharded params:  901,688,064 (3439.7 MB)  |  Summed: 3,606,752,256 (≈ full model)
+[Rank 2] GPU mem after FSDP wrap      | alloc=    0.0 MB | rsrvd= 6782.0 MB | total=45459.5 MB
+[Rank 1] GPU mem after FSDP wrap      | alloc=    0.0 MB | rsrvd= 6782.0 MB | total=45459.5 MB
+[Rank 3] GPU mem after FSDP wrap      | alloc=    0.0 MB | rsrvd= 6782.0 MB | total=45459.5 MB
+[Rank 0] GPU mem after FSDP wrap      | alloc=    0.0 MB | rsrvd= 6782.0 MB | total=45459.5 MB
+  [Attention] byte model: no s x s scores tensor (--attn_impl sdpa_mem_efficient)
+  [Profiler] Attached hooks to 28 decoder layers
+  [Profiler] Local param shards: 3439.7 MB
+
+────────────────────────────────────────────────────────────────────────
+  Step | Rank | Loss     | Avg Loss | Peak MB | Step ms
+────────────────────────────────────────────────────────────────────────

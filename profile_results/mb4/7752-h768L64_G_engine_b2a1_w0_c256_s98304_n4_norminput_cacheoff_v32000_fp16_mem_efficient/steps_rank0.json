@@ -1,0 +1,82 @@
+{
+  "config": {
+    "hidden_size": 768,
+    "intermediate_size": 2048,
+    "num_layers": 64,
+    "num_heads": 12,
+    "num_kv_heads": 4,
+    "batch_size": 2,
+    "grad_accum": 1,
+    "seq_len": 98304,
+    "vocab_size": 32000,
+    "dtype": "fp16",
+    "world_size": 4,
+    "attention": {
+      "requested": "sdpa_mem_efficient",
+      "guarantee": "math and flash are disabled, so a step that completes proves the efficient kernel served every attention call",
+      "flash_enabled": false,
+      "mem_efficient_enabled": true,
+      "math_enabled": false,
+      "preflight": "ok",
+      "resolved": "sdpa"
+    },
+    "fused_rmsnorm": "input",
+    "fused_rmsnorm_replaced": 129,
+    "layer_checkpoint": true,
+    "layer_checkpoint_wrapped": 64,
+    "activation_offload": false,
+    "use_cache": false,
+    "cpu_offload": false,
+    "chunked_ce_tokens": 256,
+    "hbm_budget_gb": 14.9769,
+    "engine_live": true,
+    "strict_evict": false,
+    "prefetch_window_layers": 0
+  },
+  "steps": [
+    {
+      "step": 0,
+      "loss": 10.52822494506836,
+      "avg_loss": 10.528005599975586,
+      "grad_norm": 0.07324807106778132,
+      "peak_mb": 14475.60546875,
+      "step_ms": 408117.0,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0
+    },
+    {
+      "step": 1,
+      "loss": 10.526352882385254,
+      "avg_loss": 10.527350425720215,
+      "grad_norm": 0.07749996647720737,
+      "peak_mb": 14473.54541015625,
+      "step_ms": 405456.3,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0
+    },
+    {
+      "step": 2,
+      "loss": 10.527504920959473,
+      "avg_loss": 10.527162551879883,
+      "grad_norm": 0.10040468367637807,
+      "peak_mb": 14473.54541015625,
+      "step_ms": 405493.5,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0
+    },
+    {
+      "step": 3,
+      "loss": 10.529600143432617,
+      "avg_loss": 10.527322769165039,
+      "grad_norm": 0.10333477945017318,
+      "peak_mb": 14473.54541015625,
+      "step_ms": 405078.9,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0
+    }
+  ]
+}

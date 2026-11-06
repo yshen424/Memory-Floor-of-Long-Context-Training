@@ -1,0 +1,76 @@
+{
+  "config": {
+    "hidden_size": 768,
+    "intermediate_size": 2048,
+    "num_layers": 64,
+    "num_heads": 12,
+    "num_kv_heads": 4,
+    "batch_size": 1,
+    "grad_accum": 1,
+    "hbm_cap_gb": 0.0,
+    "seq_len": 49152,
+    "vocab_size": 32000,
+    "dtype": "bf16",
+    "world_size": 4,
+    "attention": {
+      "requested": "sdpa_mem_efficient",
+      "guarantee": "math and flash are disabled, so a step that completes proves the efficient kernel served every attention call",
+      "flash_enabled": false,
+      "mem_efficient_enabled": true,
+      "math_enabled": false,
+      "preflight": "ok",
+      "resolved": "sdpa"
+    },
+    "fused_rmsnorm": "input",
+    "native_gqa": false,
+    "fused_rmsnorm_replaced": 129,
+    "layer_checkpoint": true,
+    "layer_checkpoint_wrapped": 64,
+    "activation_offload": false,
+    "use_cache": false,
+    "cpu_offload": false,
+    "chunked_ce_tokens": 256,
+    "hbm_budget_gb": 14.0,
+    "engine_live": false,
+    "strict_evict": false,
+    "prefetch_window_layers": 2
+  },
+  "steps": [
+    {
+      "step": 0,
+      "loss": 10.530312538146973,
+      "avg_loss": 10.530479431152344,
+      "grad_norm": 0.15512828493156836,
+      "peak_mb": 6966.23046875,
+      "step_ms": 38025.2,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 610.88
+    },
+    {
+      "step": 1,
+      "loss": 10.527616500854492,
+      "avg_loss": 10.52525520324707,
+      "grad_norm": 0.1423924092204982,
+      "peak_mb": 7828.17041015625,
+      "step_ms": 37718.6,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 610.88
+    },
+    {
+      "step": 2,
+      "loss": 10.522977828979492,
+      "avg_loss": 10.527213096618652,
+      "grad_norm": 0.14589524491078693,
+      "peak_mb": 7828.17041015625,
+      "step_ms": 37796.4,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 610.88
+    }
+  ]
+}

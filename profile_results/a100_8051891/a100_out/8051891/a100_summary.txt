@@ -1,0 +1,355 @@
+=== 0. NODE ===
+host: nodeB-dgx007   job: 8051891   date: 2026-10-19T03:26:30-04:00   smoke: no   plan: confirm
+CUDA_VISIBLE_DEVICES=0,2,4,6   SLURM_JOB_GPUS=0,1,2,3,4,5,6,7
+index, name, memory.total [MiB], driver_version, power.limit [W], clocks.max.sm [MHz], pcie.link.gen.max, pcie.link.width.max, pci.bus_id
+0, NVIDIA A100-SXM4-80GB, 81920 MiB, 595.71.05, 400.00 W, 1410 MHz, 4, 16, 00000000:07:00.0
+1, NVIDIA A100-SXM4-80GB, 81920 MiB, 595.71.05, 400.00 W, 1410 MHz, 4, 16, 00000000:0F:00.0
+2, NVIDIA A100-SXM4-80GB, 81920 MiB, 595.71.05, 400.00 W, 1410 MHz, 4, 16, 00000000:47:00.0
+3, NVIDIA A100-SXM4-80GB, 81920 MiB, 595.71.05, 400.00 W, 1410 MHz, 4, 16, 00000000:4E:00.0
+4, NVIDIA A100-SXM4-80GB, 81920 MiB, 595.71.05, 400.00 W, 1410 MHz, 4, 16, 00000000:87:00.0
+5, NVIDIA A100-SXM4-80GB, 81920 MiB, 595.71.05, 400.00 W, 1410 MHz, 4, 16, 00000000:90:00.0
+6, NVIDIA A100-SXM4-80GB, 81920 MiB, 595.71.05, 400.00 W, 1410 MHz, 4, 16, 00000000:B7:00.0
+7, NVIDIA A100-SXM4-80GB, 81920 MiB, 595.71.05, 400.00 W, 1410 MHz, 4, 16, 00000000:BD:00.0
+--- topology ---
+	[4mGPU0	GPU1	GPU2	GPU3	GPU4	GPU5	GPU6	GPU7	NIC0	NIC1	NIC2	NIC3	NIC4	NIC5	NIC6	NIC7	NIC8	NIC9	NIC10	NIC11	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	NV12	NV12	NV12	NV12	NV12	NV12	NV12	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	48-63	3		N/A
+GPU1	NV12	 X 	NV12	NV12	NV12	NV12	NV12	NV12	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	48-63	3		N/A
+GPU2	NV12	NV12	 X 	NV12	NV12	NV12	NV12	NV12	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	16-31	1		N/A
+GPU3	NV12	NV12	NV12	 X 	NV12	NV12	NV12	NV12	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	16-31	1		N/A
+GPU4	NV12	NV12	NV12	NV12	 X 	NV12	NV12	NV12	SYS	SYS	SYS	SYS	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	112-127	7		N/A
+GPU5	NV12	NV12	NV12	NV12	NV12	 X 	NV12	NV12	SYS	SYS	SYS	SYS	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	112-127	7		N/A
+GPU6	NV12	NV12	NV12	NV12	NV12	NV12	 X 	NV12	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	PXB	PXB	SYS	SYS	80-95	5		N/A
+GPU7	NV12	NV12	NV12	NV12	NV12	NV12	NV12	 X 	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	PXB	PXB	SYS	SYS	80-95	5		N/A
+NIC0	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	 X 	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS				
+NIC1	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	PXB	 X 	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS				
+NIC2	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	 X 	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS				
+NIC3	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	PXB	 X 	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS				
+NIC4	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	 X 	PIX	SYS	SYS	SYS	SYS	SYS	SYS				
+NIC5	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	PIX	 X 	SYS	SYS	SYS	SYS	SYS	SYS				
+NIC6	SYS	SYS	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	 X 	PXB	SYS	SYS	SYS	SYS				
+NIC7	SYS	SYS	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	PXB	 X 	SYS	SYS	SYS	SYS				
+NIC8	SYS	SYS	SYS	SYS	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	 X 	PXB	SYS	SYS				
+NIC9	SYS	SYS	SYS	SYS	SYS	SYS	PXB	PXB	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	PXB	 X 	SYS	SYS				
+NIC10	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	 X 	PIX				
+NIC11	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	SYS	PIX	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+  NIC1: mlx5_1
+  NIC2: mlx5_2
+  NIC3: mlx5_3
+  NIC4: mlx5_4
+  NIC5: mlx5_5
+  NIC6: mlx5_6
+  NIC7: mlx5_7
+  NIC8: mlx5_8
+  NIC9: mlx5_9
+  NIC10: mlx5_10
+  NIC11: mlx5_11
+
+--- NVLink ---
+GPU 0: NVIDIA A100-SXM4-80GB (UUID: GPU-1ce9bdf8-bb3a-80c6-90ed-14a45e5076de)
+	 Link 0: 25 GB/s
+	 Link 1: 25 GB/s
+	 Link 2: 25 GB/s
+	 Link 3: 25 GB/s
+	 Link 4: 25 GB/s
+	 Link 5: 25 GB/s
+	 Link 6: 25 GB/s
+	 Link 7: 25 GB/s
+	 Link 8: 25 GB/s
+	 Link 9: 25 GB/s
+	 Link 10: 25 GB/s
+	 Link 11: 25 GB/s
+GPU 1: NVIDIA A100-SXM4-80GB (UUID: GPU-d3bbb4cd-87b9-6969-193c-217f70fd82f3)
+	 Link 0: 25 GB/s
+	 Link 1: 25 GB/s
+	 Link 2: 25 GB/s
+	 Link 3: 25 GB/s
+	 Link 4: 25 GB/s
+	 Link 5: 25 GB/s
+	 Link 6: 25 GB/s
+	 Link 7: 25 GB/s
+	 Link 8: 25 GB/s
+	 Link 9: 25 GB/s
+	 Link 10: 25 GB/s
+	 Link 11: 25 GB/s
+GPU 2: NVIDIA A100-SXM4-80GB (UUID: GPU-30164995-a36d-2756-5a95-648f24c5d096)
+	 Link 0: 25 GB/s
+	 Link 1: 25 GB/s
+	 Link 2: 25 GB/s
+	 Link 3: 25 GB/s
+	 Link 4: 25 GB/s
+	 Link 5: 25 GB/s
+	 Link 6: 25 GB/s
+	 Link 7: 25 GB/s
+	 Link 8: 25 GB/s
+	 Link 9: 25 GB/s
+	 Link 10: 25 GB/s
+	 Link 11: 25 GB/s
+GPU 3: NVIDIA A100-SXM4-80GB (UUID: GPU-6767acdf-a53d-d4b8-8562-7513f99ee56b)
+--- fabric manager ---
+active
+--- NUMA / RAM ---
+available: 8 nodes (0-7)
+node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+node 0 size: 257809 MB
+node 0 free: 30653 MB
+node 1 cpus: 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+node 1 size: 258042 MB
+node 1 free: 15552 MB
+node 2 cpus: 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47
+node 2 size: 258042 MB
+node 2 free: 23582 MB
+node 3 cpus: 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
+node 3 size: 258030 MB
+               total        used        free      shared  buff/cache   available
+Mem:            2015          28         143           0        1857        1986
+{"device": "NVIDIA A100-SXM4-80GB", "capability": [8, 0], "total_mib": 81152.75, "torch": "2.6.0+cu124", "cuda": "12.4", "nccl": "2.21.5", "transformers": "4.50.0", "visible": 4}
+PREFLIGHT ok: all GPUs open and allocate
+NVSWITCH CHECK (GPUs 0,2,4,6): ok
+BW GPU 0 solo: D2H  25.84 GB/s  H2D  26.24 GB/s
+BW GPU 1 solo: D2H  25.79 GB/s  H2D  26.25 GB/s
+BW GPU 2 solo: D2H  25.54 GB/s  H2D  26.16 GB/s
+BW GPU 3 solo: D2H  25.02 GB/s  H2D  26.13 GB/s
+BW all 4 concurrent, per GPU: D2H  19.68 GB/s  H2D  19.25 GB/s
+ARM T_static_fp16_mem_L64_x16_n20_r1: done in 105 s
+ARM T_offload_fp16_mem_L64_x16_n20_r1: done in 89 s
+ARM T_offload_fp16_mem_L64_x16_n20_r2: done in 88 s
+ARM T_static_fp16_mem_L64_x16_n20_r2: done in 84 s
+ARM T_static_fp16_mem_L64_x16_n20_r3: done in 82 s
+ARM T_offload_fp16_mem_L64_x16_n20_r3: done in 87 s
+ARM T_offload_fp16_mem_L64_x16_n20_r4: done in 89 s
+ARM T_static_fp16_mem_L64_x16_n20_r4: done in 83 s
+ARM T_static_fp16_mem_L64_x32_n10_r1: done in 113 s
+ARM T_offload_fp16_mem_L64_x32_n10_r1: done in 120 s
+ARM T_offload_fp16_mem_L64_x32_n10_r2: done in 120 s
+ARM T_static_fp16_mem_L64_x32_n10_r2: done in 113 s
+ARM T_static_fp16_mem_L64_x32_n10_r3: done in 112 s
+ARM T_offload_fp16_mem_L64_x32_n10_r3: done in 119 s
+ARM T_offload_fp16_mem_L64_x32_n10_r4: done in 120 s
+ARM T_static_fp16_mem_L64_x32_n10_r4: done in 113 s
+ARM T_static_fp16_mem_L64_x48_n8_r1: done in 171 s
+ARM T_offload_fp16_mem_L64_x48_n8_r1: done in 185 s
+ARM T_offload_fp16_mem_L64_x48_n8_r2: done in 181 s
+ARM T_static_fp16_mem_L64_x48_n8_r2: done in 171 s
+ARM T_static_fp16_mem_L64_x48_n8_r3: done in 171 s
+ARM T_offload_fp16_mem_L64_x48_n8_r3: done in 183 s
+ARM T_offload_fp16_mem_L64_x48_n8_r4: done in 183 s
+ARM T_static_fp16_mem_L64_x48_n8_r4: done in 169 s
+ARM T_static_fp16_mem_L64_x64_n6_r1: done in 213 s
+ARM T_offload_fp16_mem_L64_x64_n6_r1: done in 224 s
+ARM T_offload_fp16_mem_L64_x64_n6_r2: done in 225 s
+ARM T_static_fp16_mem_L64_x64_n6_r2: done in 212 s
+ARM T_static_fp16_mem_L64_x64_n6_r3: done in 212 s
+ARM T_offload_fp16_mem_L64_x64_n6_r3: done in 223 s
+ARM T_offload_fp16_mem_L64_x64_n6_r4: done in 223 s
+ARM T_static_fp16_mem_L64_x64_n6_r4: done in 212 s
+=== TIME CALIBRATION (x = 16, 32, 64; static and offload, two repeats each) ===
+  x= 16  static    3.012 s  offload 3.199 s  delta per repeat [0.205, 0.186, 0.156, 0.203]
+  x= 32  static    8.966 s  offload 9.366 s  delta per repeat [0.412, 0.342, 0.379, 0.465]
+  x= 64  static   31.550 s  offload 32.402 s  delta per repeat [0.859, 0.815, 0.828, 0.906]
+# A100 TIME PREDICTIONS, written 2026-10-19T04:46:51 BEFORE the x=100/150 arms ran
+# T(x) = 0.006950 x^2 + 0.03852 x + 0.6162 s   (static, L=64, world 4, fp16 mem-efficient)
+# kappa = 0.01315 s per x   (V100: 0.032)
+# T-P3 predicted at x=100: static 73.97 s, tax 1.78%; x=150: static 162.77 s, tax 1.21%
+# T-P4 crossings: x*(2%) = 88.1, x*(1%) = 183.2   (V100: ~79 and ~150)
+# Falsifier: a measured tax at x=100 or 150 outside +-30% of these, or kappa at
+# x=100/150 differing from the calibrated kappa by more than 30% (the cost is not linear in x here).
+ARM T_static_fp16_mem_L64_x100_n5_r1: done in 401 s
+ARM T_offload_fp16_mem_L64_x100_n5_r1: done in 417 s
+ARM T_offload_fp16_mem_L64_x100_n5_r2: done in 421 s
+ARM T_static_fp16_mem_L64_x100_n5_r2: done in 403 s
+ARM T_static_fp16_mem_L64_x100_n5_r3: done in 400 s
+ARM T_offload_fp16_mem_L64_x100_n5_r3: done in 418 s
+ARM T_offload_fp16_mem_L64_x100_n5_r4: done in 418 s
+ARM T_static_fp16_mem_L64_x100_n5_r4: done in 404 s
+ARM P_static_fp16_mem_L64_x64_n3: done in 119 s
+ARM P_offload_fp16_mem_L64_x64_n3: done in 128 s
+=== P: P_static_fp16_mem_L64_x64_n3 ===
+  },
+  "kernel_ms": {
+    "attn_fwd": 9963.457556999994,
+    "attn_bwd": 17724.960354,
+    "nccl": 330.96773700000006,
+    "memcpy": 23.48437300000005,
+    "other": 2556.6042590000025
+  },
+  "gpu_span_ms": 31285.09127001953,
+  "compute_busy_ms": 30242.645564941406,
+  "attn_replay_ms": 4981.728778499997,
+  "attn_replay_share_of_span": 0.15923651094711627,
+  "attn_replay_share_of_compute": 0.16472529719010542,
+  "attn_bwd_over_one_fwd": 3.5579938495441334
+}
+
+==========================================================================
+NCCL duty cycle
+==========================================================================
+  torch_trace_rank0            duty=  1.06%  nccl_busy=    331.0 ms  window=  31285.1 ms  kernels=  392  memcpy=   69
+  torch_trace_rank1            duty=  1.20%  nccl_busy=    376.0 ms  window=  31285.1 ms  kernels=  392  memcpy=   69
+  torch_trace_rank2            duty=  0.62%  nccl_busy=    195.0 ms  window=  31285.1 ms  kernels=  392  memcpy=   69
+  torch_trace_rank3            duty=  1.28%  nccl_busy=    400.6 ms  window=  31285.0 ms  kernels=  392  memcpy=   69
+
+  No memcpy spans above threshold -- nothing to say about B(alpha).
+
+  wrote a100_out/8051891/P_static_fp16_mem_L64_x64_n3/duty.json
+=== P: P_offload_fp16_mem_L64_x64_n3 ===
+  },
+  "kernel_ms": {
+    "attn_fwd": 9946.613554000001,
+    "attn_bwd": 17720.90419,
+    "nccl": 103.22054500000003,
+    "memcpy": 1261.9741449999901,
+    "other": 2545.949299999981
+  },
+  "gpu_span_ms": 32222.344818115234,
+  "compute_busy_ms": 30211.55600366211,
+  "attn_replay_ms": 4973.306777000001,
+  "attn_replay_share_of_span": 0.1543434161937226,
+  "attn_replay_share_of_compute": 0.1646160421660228,
+  "attn_bwd_over_one_fwd": 3.5632035152051507
+}
+  torch_trace_rank3            duty=  0.82%  nccl_busy=    264.8 ms  window=  32222.2 ms  kernels=  392  memcpy=  197
+
+==========================================================================
+Observed B(alpha):  achieved bandwidth bucketed by measured overlap
+==========================================================================
+
+  D2H   (n=256)
+    alpha range         n      p10   median      p90    median MB
+    [0.00,0.05)      256    10.51    12.19    13.83        100.7
+
+  H2D   (n=256)
+    alpha range         n      p10   median      p90    median MB
+    [0.00,0.05)      256     9.46     9.79    10.54        100.7
+
+==========================================================================
+Collective side: NCCL kernel duration vs concurrent migration
+==========================================================================
+    cohort                            n       p10    median       p90
+    no concurrent migration        1568     0.125     0.593     4.514   ms
+
+    No NCCL kernel ran under concurrent migration (probe off, or probe failed to collide).
+
+  Not enough spread in observed alpha to compare endpoints (n_idle=512, n_busy=0).
+
+  wrote a100_out/8051891/P_offload_fp16_mem_L64_x64_n3/duty.json
+=== P x=64: decomposition (median over ranks) ===
+  offload  ranks=4  span   32222.2 ms  compute   30110.1  copy  1176.6 (hidden     0.0, exposed  1176.6, 100%)  D2H/H2D exposed 526.3/650.3 ms  at 12.2/9.9 GB/s
+           span = C 30110.1 + X 1176.6 + N 297.8 + I 631.0 ms
+  static   ranks=4  span   31285.1 ms  compute   30219.1  copy     0.0 (hidden     0.0, exposed     0.0, nan%)  D2H/H2D exposed 0.0/0.0 ms  at nan/nan GB/s
+           span = C 30219.1 + X 0.0 + N 352.1 + I 733.5 ms
+  pair: span +937.1 ms = dC -109.0 + dX +1176.6 + dN -54.3 + dI -102.4   (copy busy 1176.6 ms)
+=== A100 JOB REPORT: a100_out/8051891 (42 of 42 arms completed) ===
+=== BYTES: every arm against its harness line (A100 platform = V100 workspace carried) ===
+  T_offload_fp16_mem_L64_x16_n20_r1                          peak   2472.016  line   2472.017  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x16_n20_r2                          peak   2472.016  line   2472.017  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x16_n20_r3                          peak   2472.016  line   2472.017  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x16_n20_r4                          peak   2472.016  line   2472.017  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x32_n10_r1                          peak   3077.141  line   3077.142  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x32_n10_r2                          peak   3077.141  line   3077.142  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x32_n10_r3                          peak   3077.141  line   3077.142  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x32_n10_r4                          peak   3077.141  line   3077.142  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x48_n8_r1                           peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x48_n8_r2                           peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x48_n8_r3                           peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x48_n8_r4                           peak   3682.266  line   3682.267  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x64_n6_r1                           peak   4287.391  line   4287.392  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x64_n6_r2                           peak   4287.391  line   4287.392  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x64_n6_r3                           peak   4287.391  line   4287.392  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x64_n6_r4                           peak   4287.391  line   4287.392  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x100_n5_r1                          peak   5648.922  line   5648.923  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x100_n5_r2                          peak   5648.922  line   5648.923  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x100_n5_r3                          peak   5648.922  line   5648.923  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_L64_x100_n5_r4                          peak   5648.922  line   5648.923  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x16_n20_r1                           peak   3593.926  line   3593.928  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x16_n20_r2                           peak   3593.926  line   3593.928  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x16_n20_r3                           peak   3593.926  line   3593.928  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x16_n20_r4                           peak   3593.926  line   3593.928  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x32_n10_r1                           peak   5711.045  line   5711.047  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x32_n10_r2                           peak   5711.045  line   5711.047  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x32_n10_r3                           peak   5711.045  line   5711.047  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x32_n10_r4                           peak   5711.045  line   5711.047  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x48_n8_r1                            peak   7828.170  line   7828.172  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x48_n8_r2                            peak   7828.170  line   7828.172  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x48_n8_r3                            peak   7828.170  line   7828.172  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x48_n8_r4                            peak   7828.170  line   7828.172  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x64_n6_r1                            peak   9945.295  line   9945.297  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x64_n6_r2                            peak   9945.295  line   9945.297  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x64_n6_r3                            peak   9945.295  line   9945.297  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x64_n6_r4                            peak   9945.295  line   9945.297  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x100_n5_r1                           peak  14708.827  line  14708.828  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x100_n5_r2                           peak  14708.827  line  14708.828  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x100_n5_r3                           peak  14708.827  line  14708.828  offset   -0.001   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_L64_x100_n5_r4                           peak  14708.827  line  14708.828  offset   -0.001   [sdpa_mem_efficient, fp16]
+=== TIME (R-A5): pooled static, offload, per-repeat delta, tax ===
+  x= 16  static    3.012 s  delta +0.187 s  per x +0.0117  tax  6.23%  repeats [0.205, 0.186, 0.156, 0.203]
+  x= 32  static    8.966 s  delta +0.400 s  per x +0.0125  tax  4.46%  repeats [0.412, 0.342, 0.379, 0.465]
+  x= 48  static   18.452 s  delta +0.683 s  per x +0.0142  tax  3.70%  repeats [0.876, 0.482, 0.602, 0.773]
+  x= 64  static   31.550 s  delta +0.852 s  per x +0.0133  tax  2.70%  repeats [0.859, 0.815, 0.828, 0.906]
+  x=100  static   75.638 s  delta +0.870 s  per x +0.0087  tax  1.15%  repeats [0.526, 1.027, 0.993, 0.935]
+  pre-registered in-job:
+# A100 TIME PREDICTIONS, written 2026-10-19T04:46:51 BEFORE the x=100/150 arms ran
+# T(x) = 0.006950 x^2 + 0.03852 x + 0.6162 s   (static, L=64, world 4, fp16 mem-efficient)
+# kappa = 0.01315 s per x   (V100: 0.032)
+# T-P3 predicted at x=100: static 73.97 s, tax 1.78%; x=150: static 162.77 s, tax 1.21%
+# T-P4 crossings: x*(2%) = 88.1, x*(1%) = 183.2   (V100: ~79 and ~150)
+# Falsifier: a measured tax at x=100 or 150 outside +-30% of these, or kappa at
+# x=100/150 differing from the calibrated kappa by more than 30% (the cost is not linear in x here).
+=== NCCL TRANSPORTS (channel lines, all ranks) and GPU clocks (1 Hz, util >= 90%) ===
+  block P: P2P/CUMEM x336
+  block T: P2P/CUMEM x6720
+  T_offload_fp16_mem_L64_x100_n5_r1            SM 1397 MHz, 354 W, 66 C, throttled 0% of 1473 samples
+  T_offload_fp16_mem_L64_x100_n5_r2            SM 1397 MHz, 355 W, 66 C, throttled 0% of 1477 samples
+  T_offload_fp16_mem_L64_x100_n5_r3            SM 1398 MHz, 354 W, 66 C, throttled 0% of 1477 samples
+  T_offload_fp16_mem_L64_x100_n5_r4            SM 1398 MHz, 355 W, 66 C, throttled 0% of 1482 samples
+  T_offload_fp16_mem_L64_x16_n20_r1            SM 1410 MHz, 315 W, 61 C, throttled 0% of 170 samples
+  T_offload_fp16_mem_L64_x16_n20_r2            SM 1410 MHz, 315 W, 61 C, throttled 0% of 169 samples
+  T_offload_fp16_mem_L64_x16_n20_r3            SM 1410 MHz, 316 W, 61 C, throttled 0% of 169 samples
+  T_offload_fp16_mem_L64_x16_n20_r4            SM 1410 MHz, 315 W, 61 C, throttled 0% of 172 samples
+  T_offload_fp16_mem_L64_x32_n10_r1            SM 1408 MHz, 341 W, 64 C, throttled 0% of 349 samples
+  T_offload_fp16_mem_L64_x32_n10_r2            SM 1408 MHz, 353 W, 65 C, throttled 0% of 355 samples
+  T_offload_fp16_mem_L64_x32_n10_r3            SM 1408 MHz, 339 W, 65 C, throttled 0% of 351 samples
+  T_offload_fp16_mem_L64_x32_n10_r4            SM 1408 MHz, 340 W, 64 C, throttled 0% of 365 samples
+  T_offload_fp16_mem_L64_x48_n8_r1             SM 1402 MHz, 341 W, 64 C, throttled 0% of 590 samples
+  T_offload_fp16_mem_L64_x48_n8_r2             SM 1401 MHz, 352 W, 65 C, throttled 0% of 574 samples
+  T_offload_fp16_mem_L64_x48_n8_r3             SM 1401 MHz, 348 W, 65 C, throttled 0% of 587 samples
+  T_offload_fp16_mem_L64_x48_n8_r4             SM 1401 MHz, 347 W, 64 C, throttled 0% of 587 samples
+  T_offload_fp16_mem_L64_x64_n6_r1             SM 1399 MHz, 355 W, 65 C, throttled 0% of 746 samples
+  T_offload_fp16_mem_L64_x64_n6_r2             SM 1398 MHz, 353 W, 65 C, throttled 0% of 743 samples
+  T_offload_fp16_mem_L64_x64_n6_r3             SM 1400 MHz, 349 W, 65 C, throttled 0% of 742 samples
+  T_offload_fp16_mem_L64_x64_n6_r4             SM 1399 MHz, 353 W, 65 C, throttled 0% of 747 samples
+  T_static_fp16_mem_L64_x100_n5_r1             SM 1396 MHz, 360 W, 65 C, throttled 0% of 1493 samples
+  T_static_fp16_mem_L64_x100_n5_r2             SM 1397 MHz, 358 W, 65 C, throttled 0% of 1497 samples
+  T_static_fp16_mem_L64_x100_n5_r3             SM 1397 MHz, 358 W, 65 C, throttled 0% of 1499 samples
+  T_static_fp16_mem_L64_x100_n5_r4             SM 1396 MHz, 358 W, 65 C, throttled 0% of 1496 samples
+  T_static_fp16_mem_L64_x16_n20_r1             SM 1410 MHz, 312 W, 58 C, throttled 0% of 142 samples
+  T_static_fp16_mem_L64_x16_n20_r2             SM 1410 MHz, 318 W, 62 C, throttled 0% of 136 samples
+  T_static_fp16_mem_L64_x16_n20_r3             SM 1410 MHz, 330 W, 62 C, throttled 0% of 131 samples
+  T_static_fp16_mem_L64_x16_n20_r4             SM 1410 MHz, 327 W, 62 C, throttled 0% of 122 samples
+  T_static_fp16_mem_L64_x32_n10_r1             SM 1406 MHz, 349 W, 65 C, throttled 0% of 348 samples
+  T_static_fp16_mem_L64_x32_n10_r2             SM 1406 MHz, 347 W, 65 C, throttled 0% of 354 samples
+  T_static_fp16_mem_L64_x32_n10_r3             SM 1407 MHz, 348 W, 64 C, throttled 0% of 325 samples
+  T_static_fp16_mem_L64_x32_n10_r4             SM 1406 MHz, 353 W, 65 C, throttled 0% of 347 samples
+  T_static_fp16_mem_L64_x48_n8_r1              SM 1399 MHz, 354 W, 65 C, throttled 0% of 567 samples
+  T_static_fp16_mem_L64_x48_n8_r2              SM 1399 MHz, 355 W, 65 C, throttled 0% of 570 samples
+  T_static_fp16_mem_L64_x48_n8_r3              SM 1399 MHz, 356 W, 65 C, throttled 0% of 570 samples
+  T_static_fp16_mem_L64_x48_n8_r4              SM 1399 MHz, 356 W, 65 C, throttled 0% of 576 samples
+  T_static_fp16_mem_L64_x64_n6_r1              SM 1398 MHz, 355 W, 65 C, throttled 0% of 746 samples
+  T_static_fp16_mem_L64_x64_n6_r2              SM 1396 MHz, 361 W, 65 C, throttled 0% of 746 samples
+  T_static_fp16_mem_L64_x64_n6_r3              SM 1397 MHz, 357 W, 65 C, throttled 0% of 752 samples
+  T_static_fp16_mem_L64_x64_n6_r4              SM 1398 MHz, 359 W, 65 C, throttled 0% of 742 samples
+  host copy bandwidth, all GPUs concurrently, per GPU: D2H 19.68 GB/s, H2D 19.25 GB/s; solo GPU 0 25.8/26.2; GPU 1 25.8/26.2; GPU 2 25.5/26.2; GPU 3 25.0/26.1
+=== DONE in 139 min: ./a100_collect.sh 8051891 ===

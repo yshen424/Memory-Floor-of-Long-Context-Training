@@ -1,0 +1,76 @@
+{
+  "config": {
+    "hidden_size": 3072,
+    "intermediate_size": 8192,
+    "num_layers": 28,
+    "num_heads": 24,
+    "num_kv_heads": 8,
+    "batch_size": 1,
+    "grad_accum": 1,
+    "hbm_cap_gb": 0.0,
+    "seq_len": 16384,
+    "vocab_size": 128256,
+    "dtype": "fp16",
+    "world_size": 4,
+    "attention": {
+      "requested": "sdpa_mem_efficient",
+      "guarantee": "math and flash are disabled, so a step that completes proves the efficient kernel served every attention call",
+      "flash_enabled": false,
+      "mem_efficient_enabled": true,
+      "math_enabled": false,
+      "preflight": "ok",
+      "resolved": "sdpa"
+    },
+    "fused_rmsnorm": "input",
+    "native_gqa": false,
+    "fused_rmsnorm_replaced": 57,
+    "layer_checkpoint": true,
+    "layer_checkpoint_wrapped": 28,
+    "activation_offload": false,
+    "use_cache": false,
+    "cpu_offload": false,
+    "chunked_ce_tokens": 256,
+    "hbm_budget_gb": 14.0,
+    "engine_live": false,
+    "strict_evict": false,
+    "prefetch_window_layers": 2
+  },
+  "steps": [
+    {
+      "step": 0,
+      "loss": 12.364278793334961,
+      "avg_loss": 12.37755012512207,
+      "grad_norm": 1.2491844552868472,
+      "peak_mb": 17214.71142578125,
+      "step_ms": 8119.8,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 692.25
+    },
+    {
+      "step": 1,
+      "loss": 12.36670207977295,
+      "avg_loss": 12.374967575073242,
+      "grad_norm": 1.2463091906393642,
+      "peak_mb": 18311.83349609375,
+      "step_ms": 8691.0,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 692.25
+    },
+    {
+      "step": 2,
+      "loss": 12.368440628051758,
+      "avg_loss": 12.376317977905273,
+      "grad_norm": 1.2454306732106253,
+      "peak_mb": 18311.83349609375,
+      "step_ms": 7446.8,
+      "profiled": true,
+      "probe_ops": 0,
+      "probe_overrun_ms": 0.0,
+      "outside_alloc_mb": 692.25
+    }
+  ]
+}

@@ -1,0 +1,740 @@
+[rank 0] HBM cap: allocator limited to 6.0 GiB of 15.77 GiB (0.3806 of the card)
+
+========================================================================
+  FSDP LLaMA + Memory Profiling
+  4 GPUs | NCCL | fp16
+  batch=1  seq_len=110592  steps=2
+  Profile steps: [0, 1]
+========================================================================
+
+  [Attention] --attn_impl sdpa_mem_efficient -> {'requested': 'sdpa_mem_efficient', 'guarantee': 'math and flash are disabled, so a step that completes proves the efficient kernel served every attention call', 'flash_enabled': False, 'mem_efficient_enabled': True, 'math_enabled': False, 'preflight': 'ok'}
+[rank 3] fused RMSNorm mode=input: 129 norms replaced
+[rank 1] fused RMSNorm mode=input: 129 norms replaced
+[rank 3] layer checkpointing: 64 LlamaDecoderLayer wrapped, each offloaded to pinned host memory
+[rank 3] chunked CE: 256 tokens per chunk, 432 chunks, peak logit chain 93.75 MiB (sequence-length independent)
+[rank 0] fused RMSNorm mode=input: 129 norms replaced
+[rank 1] layer checkpointing: 64 LlamaDecoderLayer wrapped, each offloaded to pinned host memory
+[rank 1] chunked CE: 256 tokens per chunk, 432 chunks, peak logit chain 93.75 MiB (sequence-length independent)
+[rank 0] layer checkpointing: 64 LlamaDecoderLayer wrapped, each offloaded to pinned host memory
+[rank 0] chunked CE: 256 tokens per chunk, 432 chunks, peak logit chain 93.75 MiB (sequence-length independent)
+  Full model: 451,904,256 params (1723.9 MB in fp32)
+
+  --- Pre-flight Estimate (per GPU) ---
+  Sharded params:       215.5 MB
+  Sharded optimizer:   1292.9 MB
+  Sharded gradients:    215.5 MB
+  Activations:       18026496.0 MB (NOT sharded)
+  FSDP buffer:           13.5 MB (1 layer unsharded)
+  TOTAL:             18028233.3 MB
+  LIKELY OOM for 16GB V100
+
+[rank 2] fused RMSNorm mode=input: 129 norms replaced
+[rank 2] layer checkpointing: 64 LlamaDecoderLayer wrapped, each offloaded to pinned host memory
+[rank 2] chunked CE: 256 tokens per chunk, 432 chunks, peak logit chain 93.75 MiB (sequence-length independent)
+  ✓ FSDP wrapping complete
+[Rank 0] Sharded params:  112,976,064 (431.0 MB)  |  Summed:  451,904,256 (≈ full model)
+[Rank 1] Sharded params:  112,976,064 (431.0 MB)  |  Summed:  451,904,256 (≈ full model)
+[Rank 3] Sharded params:  112,976,064 (431.0 MB)  |  Summed:  451,904,256 (≈ full model)
+[Rank 2] Sharded params:  112,976,064 (431.0 MB)  |  Summed:  451,904,256 (≈ full model)
+[Rank 0] GPU mem after FSDP wrap      | alloc=  431.0 MB | rsrvd=  862.0 MB | total=16144.1 MB
+[Rank 1] GPU mem after FSDP wrap      | alloc=  431.0 MB | rsrvd=  862.0 MB | total=16144.1 MB
+[Rank 3] GPU mem after FSDP wrap      | alloc=  431.0 MB | rsrvd=  862.0 MB | total=16144.1 MB
+[Rank 2] GPU mem after FSDP wrap      | alloc=  431.0 MB | rsrvd=  862.0 MB | total=16144.1 MB
+  [Attention] byte model: no s x s scores tensor (--attn_impl sdpa_mem_efficient)
+  [Profiler] Attached hooks to 64 decoder layers
+  [Profiler] Local param shards: 431.0 MB
+
+────────────────────────────────────────────────────────────────────────
+  Step | Rank | Loss     | Avg Loss | Peak MB | Step ms
+────────────────────────────────────────────────────────────────────────
+     1 |    1 | 10.5284   | 10.5285   |  5071.5 | 274316.4
+     1 |    0 | 10.5288   | 10.5285   |  5071.5 | 274317.5
+     1 |    2 | 10.5277   | 10.5285   |  5071.5 | 274313.2
+     1 |    3 | 10.5292   | 10.5285   |  5071.5 | 274317.9
+     2 |    1 | 10.5300   | 10.5267   |  5951.5 | 257054.3
+     2 |    3 | 10.5271   | 10.5267   |  5951.5 | 257055.5
+     2 |    0 | 10.5224   | 10.5267   |  5951.5 | 257055.0
+     2 |    2 | 10.5271   | 10.5267   |  5951.5 | 257055.4
+[Rank 1] GPU mem after training       | alloc= 1741.0 MB | rsrvd= 2484.0 MB | total=16144.1 MB
+[Rank 2] GPU mem after training       | alloc= 1741.0 MB | rsrvd= 2484.0 MB | total=16144.1 MB
+[Rank 3] GPU mem after training       | alloc= 1741.0 MB | rsrvd= 2484.0 MB | total=16144.1 MB
+[Rank 0] GPU mem after training       | alloc= 1741.0 MB | rsrvd= 2484.0 MB | total=16144.1 MB
+
+========================================================================
+FSDP Memory Profile — Rank 2/4
+========================================================================
+
+Peak HBM: 2228.6 MB at phase 'post_bwd_layer_1' (253688.5 ms)
+
+--- FSDP Summary ---
+  World size:                4
+  Local param shards:           431.0 MB
+  Full model (estimated):      1723.9 MB
+  Per-layer all-gather:         26.94 MB
+  Total all-gather/step:       3447.8 MB  (2× for fwd+bwd)
+
+--- Activation Breakdown (per-step totals) ---
+  Attention scores (quadratic):      0.0 MB
+  SwiGLU groups (3× intermediate): 110592.0 MB
+  QKV projections (GQA):         41796.0 MB
+
+--- Per-Layer Profile ---
+Lyr |  Fwd ms |  Bwd ms | Fwd Δ MB | Bwd Δ MB | Attn MB | SwiGLU MB | QKV MB
+----------------------------------------------------------------------------
+  0 |  684.69 | 3208.55 |   162.00 |   146.16 |   383.1 |    1728.0 |  270.0
+  1 |  686.81 | 3209.70 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+========================================================================
+FSDP Memory Profile — Rank 1/4
+========================================================================
+
+Peak HBM: 2228.6 MB at phase 'post_bwd_layer_1' (253679.7 ms)
+
+--- FSDP Summary ---
+  World size:                4
+  Local param shards:           431.0 MB
+  Full model (estimated):      1723.9 MB
+  Per-layer all-gather:         26.94 MB
+  Total all-gather/step:       3447.8 MB  (2× for fwd+bwd)
+
+--- Activation Breakdown (per-step totals) ---
+  Attention scores (quadratic):      0.0 MB
+  SwiGLU groups (3× intermediate): 110592.0 MB
+  QKV projections (GQA):         41796.0 MB
+
+--- Per-Layer Profile ---
+Lyr |  Fwd ms |  Bwd ms | Fwd Δ MB | Bwd Δ MB | Attn MB | SwiGLU MB | QKV MB
+----------------------------------------------------------------------------
+  0 |  685.35 | 3207.24 |   162.00 |   146.16 |   383.1 |    1728.0 |  270.0
+  1 |  686.62 | 3201.39 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  2 |  687.42 | 3239.53 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  3 |  691.71 | 3212.03 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  4 |  687.57 | 3207.78 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  5 |  689.54 | 3206.68 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  6 |  689.54 | 3205.92 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  7 |  689.03 | 3204.04 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  8 |  689.92 | 3200.05 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  9 |  688.86 | 3211.13 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 10 |  691.11 | 3201.75 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 11 |  690.29 | 3200.23 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 12 |  692.45 | 3199.27 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 13 |  689.55 | 3207.97 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 14 |  689.16 | 3209.03 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+========================================================================
+FSDP Memory Profile — Rank 3/4
+========================================================================
+
+Peak HBM: 2228.6 MB at phase 'post_bwd_layer_1' (253698.3 ms)
+
+--- FSDP Summary ---
+  World size:                4
+  Local param shards:           431.0 MB
+  Full model (estimated):      1723.9 MB
+  Per-layer all-gather:         26.94 MB
+  Total all-gather/step:       3447.8 MB  (2× for fwd+bwd)
+
+--- Activation Breakdown (per-step totals) ---
+  Attention scores (quadratic):      0.0 MB
+  SwiGLU groups (3× intermediate): 110592.0 MB
+  QKV projections (GQA):         41796.0 MB
+
+--- Per-Layer Profile ---
+Lyr |  Fwd ms |  Bwd ms | Fwd Δ MB | Bwd Δ MB | Attn MB | SwiGLU MB | QKV MB
+----------------------------------------------------------------------------
+  0 |  688.73 | 3220.57 |   162.00 |   146.16 |   383.1 |    1728.0 |  270.0
+  1 |  690.33 | 3218.88 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 15 |  689.13 | 3204.57 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 16 |  689.76 | 3207.56 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 17 |  689.83 | 3204.68 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 18 |  689.22 | 3205.28 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 19 |  687.41 | 3210.16 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 20 |  689.13 | 3210.32 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 21 |  688.63 | 3196.06 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 22 |  692.14 | 3202.12 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 23 |  688.28 | 3205.87 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 24 |  689.79 | 3205.54 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 25 |  689.62 | 3201.14 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 26 |  688.04 | 3205.10 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 27 |  688.51 | 3205.16 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+========================================================================
+FSDP Memory Profile — Rank 0/4
+========================================================================
+
+Peak HBM: 2228.6 MB at phase 'post_bwd_layer_1' (253715.3 ms)
+
+--- FSDP Summary ---
+  World size:                4
+  Local param shards:           431.0 MB
+  Full model (estimated):      1723.9 MB
+  Per-layer all-gather:         26.94 MB
+  Total all-gather/step:       3447.8 MB  (2× for fwd+bwd)
+
+--- Activation Breakdown (per-step totals) ---
+  Attention scores (quadratic):      0.0 MB
+  SwiGLU groups (3× intermediate): 110592.0 MB
+  QKV projections (GQA):         41796.0 MB
+
+--- Per-Layer Profile ---
+Lyr |  Fwd ms |  Bwd ms | Fwd Δ MB | Bwd Δ MB | Attn MB | SwiGLU MB | QKV MB
+----------------------------------------------------------------------------
+  0 |  700.71 | 3243.67 |   162.00 |   146.16 |   383.1 |    1728.0 |  270.0
+  1 |  701.46 | 3236.06 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  2 |  682.19 | 3206.96 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  3 |  682.93 | 3206.49 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  4 |  687.38 | 3237.34 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  5 |  686.95 | 3211.19 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  6 |  689.14 | 3205.91 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  7 |  689.04 | 3217.10 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  8 |  689.34 | 3216.77 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  9 |  686.63 | 3209.81 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 10 |  689.27 | 3211.76 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 11 |  689.68 | 3214.64 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 12 |  693.51 | 3210.05 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 13 |  689.55 | 3215.76 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 14 |  684.37 | 3207.19 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  2 |  689.08 | 3252.27 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  3 |  692.18 | 3230.90 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  4 |  690.37 | 3214.54 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  5 |  691.87 | 3224.00 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  6 |  690.97 | 3222.32 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  7 |  693.49 | 3210.62 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  8 |  690.90 | 3219.26 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  9 |  691.74 | 3224.93 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 10 |  690.72 | 3232.68 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 11 |  691.36 | 3229.02 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 12 |  695.75 | 3225.86 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 13 |  690.34 | 3233.91 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 14 |  692.58 | 3222.59 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 28 |  689.03 | 3210.06 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 29 |  690.84 | 3202.03 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 30 |  690.12 | 3204.38 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 31 |  688.23 | 3207.29 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 32 |  688.64 | 3200.78 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 33 |  688.01 | 3205.42 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 34 |  690.68 | 3206.73 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 35 |  690.55 | 3208.99 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 36 |  688.87 | 3206.85 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 37 |  689.24 | 3203.61 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 38 |  690.22 | 3207.99 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 39 |  688.65 | 3210.63 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 40 |  689.10 | 3206.00 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  2 |  704.29 | 3240.33 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  3 |  703.61 | 3240.94 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  4 |  702.33 | 3244.06 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  5 |  703.86 | 3242.52 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  6 |  703.03 | 3238.56 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  7 |  705.70 | 3244.96 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  8 |  704.70 | 3258.05 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  9 |  702.96 | 3246.71 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 10 |  706.43 | 3240.95 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 11 |  702.91 | 3238.13 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 12 |  707.78 | 3250.03 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 13 |  705.20 | 3244.94 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 14 |  703.56 | 3242.84 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 15 |  687.84 | 3211.17 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 16 |  685.80 | 3196.18 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 17 |  688.93 | 3199.53 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 18 |  691.34 | 3203.00 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 19 |  688.45 | 3199.01 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 20 |  691.29 | 3217.43 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 21 |  690.83 | 3203.36 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 22 |  688.45 | 3206.98 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 23 |  684.25 | 3211.22 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 24 |  688.84 | 3208.70 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 25 |  689.86 | 3205.50 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 26 |  684.03 | 3213.36 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 27 |  683.22 | 3205.18 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 15 |  690.68 | 3226.00 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 16 |  692.69 | 3229.43 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 17 |  691.41 | 3227.65 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 18 |  691.08 | 3213.22 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 19 |  691.13 | 3223.53 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 20 |  691.68 | 3215.09 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 21 |  697.18 | 3221.33 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 22 |  691.25 | 3222.74 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 23 |  690.90 | 3229.84 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 24 |  691.94 | 3233.09 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 25 |  692.61 | 3225.39 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 26 |  692.82 | 3221.16 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 27 |  691.41 | 3216.81 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 41 |  688.66 | 3203.96 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 15 |  702.89 | 3239.09 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 16 |  703.43 | 3243.44 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 17 |  706.14 | 3237.69 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 18 |  706.13 | 3240.53 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 19 |  702.76 | 3247.78 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 20 |  703.61 | 3234.53 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 21 |  704.02 | 3241.92 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 22 |  705.95 | 3237.11 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 23 |  702.04 | 3247.00 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 24 |  710.14 | 3240.72 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 25 |  704.66 | 3242.68 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 26 |  703.81 | 3243.56 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 27 |  703.67 | 3238.48 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 28 |  690.56 | 3205.17 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 29 |  688.56 | 3200.53 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 30 |  691.89 | 3207.66 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 31 |  683.91 | 3203.96 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 32 |  691.01 | 3206.03 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 33 |  684.62 | 3197.57 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 34 |  689.13 | 3200.09 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 35 |  688.39 | 3204.49 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 36 |  685.35 | 3203.41 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 37 |  691.31 | 3206.29 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 38 |  684.49 | 3199.50 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 39 |  689.79 | 3198.84 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 40 |  689.26 | 3215.89 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 28 |  693.58 | 3221.83 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 29 |  692.19 | 3210.57 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 30 |  694.30 | 3223.06 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 31 |  693.75 | 3215.36 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 32 |  693.46 | 3220.28 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 33 |  695.98 | 3217.64 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 34 |  692.78 | 3214.93 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 35 |  690.69 | 3224.18 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 36 |  692.04 | 3222.34 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 37 |  694.07 | 3223.82 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 38 |  693.84 | 3234.82 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 39 |  692.81 | 3227.58 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 40 |  693.36 | 3220.84 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 42 |  689.33 | 3205.57 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 43 |  688.60 | 3205.35 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 44 |  689.85 | 3204.96 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 45 |  688.70 | 3203.14 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 46 |  689.20 | 3206.75 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 47 |  687.71 | 3199.68 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 48 |  687.37 | 3197.94 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 49 |  689.46 | 3204.15 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 50 |  689.03 | 3213.67 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 51 |  689.49 | 3202.30 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 52 |  688.96 | 3209.76 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 53 |  690.87 | 3203.62 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 54 |  687.67 | 3203.59 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 28 |  703.98 | 3236.17 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 29 |  704.61 | 3242.88 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 30 |  703.75 | 3238.59 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 31 |  702.86 | 3239.29 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 32 |  703.43 | 3249.71 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 33 |  702.71 | 3245.00 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 34 |  704.62 | 3241.94 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 35 |  704.85 | 3242.41 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 36 |  709.32 | 3240.42 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 37 |  703.59 | 3237.69 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 38 |  704.37 | 3240.79 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 39 |  702.99 | 3242.42 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 40 |  703.28 | 3242.25 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 41 |  684.57 | 3214.08 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 41 |  692.51 | 3211.51 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 55 |  688.17 | 3215.86 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 56 |  688.76 | 3204.00 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 57 |  688.06 | 3208.66 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 58 |  688.70 | 3214.58 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 59 |  688.86 | 3211.20 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 60 |  688.59 | 3212.30 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 61 |  688.15 | 3210.27 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 62 |  688.83 | 3215.96 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 63 |  687.54 | 3233.69 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+
+--- Allocation Groups ---
+  layer_0_swiglu: 1728.00 MB (3 tensors)
+  layer_10_swiglu: 1728.00 MB (3 tensors)
+  layer_11_swiglu: 1728.00 MB (3 tensors)
+  layer_12_swiglu: 1728.00 MB (3 tensors)
+  layer_13_swiglu: 1728.00 MB (3 tensors)
+  layer_14_swiglu: 1728.00 MB (3 tensors)
+  layer_15_swiglu: 1728.00 MB (3 tensors)
+ 41 |  703.80 | 3243.29 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 42 |  687.74 | 3212.74 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 43 |  683.73 | 3199.05 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 44 |  689.26 | 3201.03 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 45 |  684.56 | 3206.19 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 46 |  688.64 | 3205.22 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 47 |  691.23 | 3199.35 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 48 |  689.90 | 3209.40 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 49 |  688.18 | 3203.08 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 50 |  683.43 | 3210.33 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 51 |  688.96 | 3201.61 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 52 |  685.14 | 3214.09 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 53 |  683.35 | 3211.39 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 54 |  688.00 | 3208.72 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 42 |  691.31 | 3222.96 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 43 |  694.84 | 3225.68 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 44 |  694.67 | 3230.54 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 45 |  692.98 | 3229.08 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 46 |  694.27 | 3224.17 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 47 |  691.85 | 3226.29 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 48 |  692.22 | 3220.04 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 49 |  693.62 | 3224.95 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 50 |  693.54 | 3231.11 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 51 |  694.02 | 3223.53 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 52 |  692.42 | 3226.26 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 53 |  693.18 | 3219.12 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 54 |  694.65 | 3232.45 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+  layer_16_swiglu: 1728.00 MB (3 tensors)
+  layer_17_swiglu: 1728.00 MB (3 tensors)
+  layer_18_swiglu: 1728.00 MB (3 tensors)
+  layer_19_swiglu: 1728.00 MB (3 tensors)
+  layer_1_swiglu: 1728.00 MB (3 tensors)
+  layer_20_swiglu: 1728.00 MB (3 tensors)
+  layer_21_swiglu: 1728.00 MB (3 tensors)
+  layer_22_swiglu: 1728.00 MB (3 tensors)
+  layer_23_swiglu: 1728.00 MB (3 tensors)
+  layer_24_swiglu: 1728.00 MB (3 tensors)
+  layer_25_swiglu: 1728.00 MB (3 tensors)
+  layer_26_swiglu: 1728.00 MB (3 tensors)
+  layer_27_swiglu: 1728.00 MB (3 tensors)
+  layer_28_swiglu: 1728.00 MB (3 tensors)
+  layer_29_swiglu: 1728.00 MB (3 tensors)
+  layer_2_swiglu: 1728.00 MB (3 tensors)
+  layer_30_swiglu: 1728.00 MB (3 tensors)
+  layer_31_swiglu: 1728.00 MB (3 tensors)
+  layer_32_swiglu: 1728.00 MB (3 tensors)
+  layer_33_swiglu: 1728.00 MB (3 tensors)
+  layer_34_swiglu: 1728.00 MB (3 tensors)
+  layer_35_swiglu: 1728.00 MB (3 tensors)
+  layer_36_swiglu: 1728.00 MB (3 tensors)
+  layer_37_swiglu: 1728.00 MB (3 tensors)
+ 42 |  704.91 | 3250.70 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 43 |  703.20 | 3243.48 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 44 |  705.87 | 3245.20 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 45 |  703.87 | 3244.34 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 46 |  709.07 | 3247.67 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 47 |  703.63 | 3243.29 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 48 |  702.71 | 3250.94 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 49 |  707.06 | 3239.92 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 50 |  704.31 | 3255.85 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 51 |  707.21 | 3242.98 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 52 |  707.05 | 3236.57 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 53 |  702.76 | 3240.47 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 54 |  706.80 | 3249.29 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 55 |  686.28 | 3204.79 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 56 |  690.00 | 3205.45 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 57 |  689.99 | 3203.96 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 58 |  683.16 | 3212.45 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 59 |  682.39 | 3215.04 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 60 |  685.62 | 3210.76 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 61 |  688.89 | 3220.17 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 62 |  686.37 | 3212.74 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 63 |  683.44 | 3236.51 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+
+--- Allocation Groups ---
+  layer_0_swiglu: 1728.00 MB (3 tensors)
+  layer_10_swiglu: 1728.00 MB (3 tensors)
+  layer_11_swiglu: 1728.00 MB (3 tensors)
+  layer_12_swiglu: 1728.00 MB (3 tensors)
+  layer_13_swiglu: 1728.00 MB (3 tensors)
+  layer_14_swiglu: 1728.00 MB (3 tensors)
+  layer_15_swiglu: 1728.00 MB (3 tensors)
+ 55 |  692.28 | 3225.06 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 56 |  694.28 | 3220.40 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 57 |  691.02 | 3230.63 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 58 |  696.88 | 3219.87 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 59 |  692.41 | 3236.53 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 60 |  693.50 | 3226.69 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 61 |  693.01 | 3225.11 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 62 |  696.14 | 3221.45 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 63 |  695.75 | 3249.88 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+
+--- Allocation Groups ---
+  layer_0_swiglu: 1728.00 MB (3 tensors)
+  layer_10_swiglu: 1728.00 MB (3 tensors)
+  layer_11_swiglu: 1728.00 MB (3 tensors)
+  layer_12_swiglu: 1728.00 MB (3 tensors)
+  layer_13_swiglu: 1728.00 MB (3 tensors)
+  layer_14_swiglu: 1728.00 MB (3 tensors)
+  layer_15_swiglu: 1728.00 MB (3 tensors)
+  layer_38_swiglu: 1728.00 MB (3 tensors)
+  layer_39_swiglu: 1728.00 MB (3 tensors)
+  layer_3_swiglu: 1728.00 MB (3 tensors)
+  layer_40_swiglu: 1728.00 MB (3 tensors)
+  layer_41_swiglu: 1728.00 MB (3 tensors)
+  layer_42_swiglu: 1728.00 MB (3 tensors)
+  layer_43_swiglu: 1728.00 MB (3 tensors)
+  layer_44_swiglu: 1728.00 MB (3 tensors)
+  layer_45_swiglu: 1728.00 MB (3 tensors)
+  layer_46_swiglu: 1728.00 MB (3 tensors)
+  layer_47_swiglu: 1728.00 MB (3 tensors)
+  layer_48_swiglu: 1728.00 MB (3 tensors)
+  layer_49_swiglu: 1728.00 MB (3 tensors)
+  layer_4_swiglu: 1728.00 MB (3 tensors)
+  layer_50_swiglu: 1728.00 MB (3 tensors)
+  layer_51_swiglu: 1728.00 MB (3 tensors)
+  layer_52_swiglu: 1728.00 MB (3 tensors)
+  layer_53_swiglu: 1728.00 MB (3 tensors)
+  layer_54_swiglu: 1728.00 MB (3 tensors)
+  layer_55_swiglu: 1728.00 MB (3 tensors)
+  layer_56_swiglu: 1728.00 MB (3 tensors)
+  layer_57_swiglu: 1728.00 MB (3 tensors)
+  layer_58_swiglu: 1728.00 MB (3 tensors)
+  layer_59_swiglu: 1728.00 MB (3 tensors)
+ 55 |  702.26 | 3242.35 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 56 |  710.32 | 3236.13 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 57 |  704.82 | 3237.82 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 58 |  702.97 | 3238.08 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 59 |  706.20 | 3239.20 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 60 |  703.64 | 3235.62 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 61 |  701.80 | 3244.86 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 62 |  704.10 | 3239.91 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+ 63 |  703.55 | 3269.18 |   162.00 |   174.00 |   383.1 |    1728.0 |  270.0
+
+--- Allocation Groups ---
+  layer_0_swiglu: 1728.00 MB (3 tensors)
+  layer_10_swiglu: 1728.00 MB (3 tensors)
+  layer_11_swiglu: 1728.00 MB (3 tensors)
+  layer_12_swiglu: 1728.00 MB (3 tensors)
+  layer_13_swiglu: 1728.00 MB (3 tensors)
+  layer_14_swiglu: 1728.00 MB (3 tensors)
+  layer_15_swiglu: 1728.00 MB (3 tensors)
+  layer_16_swiglu: 1728.00 MB (3 tensors)
+  layer_17_swiglu: 1728.00 MB (3 tensors)
+  layer_18_swiglu: 1728.00 MB (3 tensors)
+  layer_19_swiglu: 1728.00 MB (3 tensors)
+  layer_1_swiglu: 1728.00 MB (3 tensors)
+  layer_20_swiglu: 1728.00 MB (3 tensors)
+  layer_21_swiglu: 1728.00 MB (3 tensors)
+  layer_22_swiglu: 1728.00 MB (3 tensors)
+  layer_23_swiglu: 1728.00 MB (3 tensors)
+  layer_24_swiglu: 1728.00 MB (3 tensors)
+  layer_25_swiglu: 1728.00 MB (3 tensors)
+  layer_26_swiglu: 1728.00 MB (3 tensors)
+  layer_27_swiglu: 1728.00 MB (3 tensors)
+  layer_28_swiglu: 1728.00 MB (3 tensors)
+  layer_29_swiglu: 1728.00 MB (3 tensors)
+  layer_2_swiglu: 1728.00 MB (3 tensors)
+  layer_30_swiglu: 1728.00 MB (3 tensors)
+  layer_31_swiglu: 1728.00 MB (3 tensors)
+  layer_32_swiglu: 1728.00 MB (3 tensors)
+  layer_33_swiglu: 1728.00 MB (3 tensors)
+  layer_34_swiglu: 1728.00 MB (3 tensors)
+  layer_35_swiglu: 1728.00 MB (3 tensors)
+  layer_36_swiglu: 1728.00 MB (3 tensors)
+  layer_37_swiglu: 1728.00 MB (3 tensors)
+  layer_16_swiglu: 1728.00 MB (3 tensors)
+  layer_17_swiglu: 1728.00 MB (3 tensors)
+  layer_18_swiglu: 1728.00 MB (3 tensors)
+  layer_19_swiglu: 1728.00 MB (3 tensors)
+  layer_1_swiglu: 1728.00 MB (3 tensors)
+  layer_20_swiglu: 1728.00 MB (3 tensors)
+  layer_21_swiglu: 1728.00 MB (3 tensors)
+  layer_22_swiglu: 1728.00 MB (3 tensors)
+  layer_23_swiglu: 1728.00 MB (3 tensors)
+  layer_24_swiglu: 1728.00 MB (3 tensors)
+  layer_25_swiglu: 1728.00 MB (3 tensors)
+  layer_26_swiglu: 1728.00 MB (3 tensors)
+  layer_27_swiglu: 1728.00 MB (3 tensors)
+  layer_28_swiglu: 1728.00 MB (3 tensors)
+  layer_29_swiglu: 1728.00 MB (3 tensors)
+  layer_2_swiglu: 1728.00 MB (3 tensors)
+  layer_30_swiglu: 1728.00 MB (3 tensors)
+  layer_31_swiglu: 1728.00 MB (3 tensors)
+  layer_32_swiglu: 1728.00 MB (3 tensors)
+  layer_33_swiglu: 1728.00 MB (3 tensors)
+  layer_34_swiglu: 1728.00 MB (3 tensors)
+  layer_35_swiglu: 1728.00 MB (3 tensors)
+  layer_36_swiglu: 1728.00 MB (3 tensors)
+  layer_37_swiglu: 1728.00 MB (3 tensors)
+  layer_5_swiglu: 1728.00 MB (3 tensors)
+  layer_16_swiglu: 1728.00 MB (3 tensors)
+  layer_17_swiglu: 1728.00 MB (3 tensors)
+  layer_18_swiglu: 1728.00 MB (3 tensors)
+  layer_19_swiglu: 1728.00 MB (3 tensors)
+  layer_1_swiglu: 1728.00 MB (3 tensors)
+  layer_20_swiglu: 1728.00 MB (3 tensors)
+  layer_21_swiglu: 1728.00 MB (3 tensors)
+  layer_22_swiglu: 1728.00 MB (3 tensors)
+  layer_23_swiglu: 1728.00 MB (3 tensors)
+  layer_24_swiglu: 1728.00 MB (3 tensors)
+  layer_25_swiglu: 1728.00 MB (3 tensors)
+  layer_26_swiglu: 1728.00 MB (3 tensors)
+  layer_27_swiglu: 1728.00 MB (3 tensors)
+  layer_28_swiglu: 1728.00 MB (3 tensors)
+  layer_29_swiglu: 1728.00 MB (3 tensors)
+  layer_2_swiglu: 1728.00 MB (3 tensors)
+  layer_30_swiglu: 1728.00 MB (3 tensors)
+  layer_31_swiglu: 1728.00 MB (3 tensors)
+  layer_32_swiglu: 1728.00 MB (3 tensors)
+  layer_33_swiglu: 1728.00 MB (3 tensors)
+  layer_34_swiglu: 1728.00 MB (3 tensors)
+  layer_35_swiglu: 1728.00 MB (3 tensors)
+  layer_36_swiglu: 1728.00 MB (3 tensors)
+  layer_37_swiglu: 1728.00 MB (3 tensors)
+  layer_38_swiglu: 1728.00 MB (3 tensors)
+  layer_39_swiglu: 1728.00 MB (3 tensors)
+  layer_3_swiglu: 1728.00 MB (3 tensors)
+  layer_40_swiglu: 1728.00 MB (3 tensors)
+  layer_41_swiglu: 1728.00 MB (3 tensors)
+  layer_42_swiglu: 1728.00 MB (3 tensors)
+  layer_43_swiglu: 1728.00 MB (3 tensors)
+  layer_44_swiglu: 1728.00 MB (3 tensors)
+  layer_45_swiglu: 1728.00 MB (3 tensors)
+  layer_46_swiglu: 1728.00 MB (3 tensors)
+  layer_47_swiglu: 1728.00 MB (3 tensors)
+  layer_48_swiglu: 1728.00 MB (3 tensors)
+  layer_49_swiglu: 1728.00 MB (3 tensors)
+  layer_4_swiglu: 1728.00 MB (3 tensors)
+  layer_50_swiglu: 1728.00 MB (3 tensors)
+  layer_51_swiglu: 1728.00 MB (3 tensors)
+  layer_52_swiglu: 1728.00 MB (3 tensors)
+  layer_53_swiglu: 1728.00 MB (3 tensors)
+  layer_54_swiglu: 1728.00 MB (3 tensors)
+  layer_55_swiglu: 1728.00 MB (3 tensors)
+  layer_56_swiglu: 1728.00 MB (3 tensors)
+  layer_57_swiglu: 1728.00 MB (3 tensors)
+  layer_58_swiglu: 1728.00 MB (3 tensors)
+  layer_59_swiglu: 1728.00 MB (3 tensors)
+  layer_38_swiglu: 1728.00 MB (3 tensors)
+  layer_39_swiglu: 1728.00 MB (3 tensors)
+  layer_3_swiglu: 1728.00 MB (3 tensors)
+  layer_40_swiglu: 1728.00 MB (3 tensors)
+  layer_41_swiglu: 1728.00 MB (3 tensors)
+  layer_42_swiglu: 1728.00 MB (3 tensors)
+  layer_43_swiglu: 1728.00 MB (3 tensors)
+  layer_44_swiglu: 1728.00 MB (3 tensors)
+  layer_45_swiglu: 1728.00 MB (3 tensors)
+  layer_46_swiglu: 1728.00 MB (3 tensors)
+  layer_47_swiglu: 1728.00 MB (3 tensors)
+  layer_48_swiglu: 1728.00 MB (3 tensors)
+  layer_49_swiglu: 1728.00 MB (3 tensors)
+  layer_4_swiglu: 1728.00 MB (3 tensors)
+  layer_50_swiglu: 1728.00 MB (3 tensors)
+  layer_51_swiglu: 1728.00 MB (3 tensors)
+  layer_52_swiglu: 1728.00 MB (3 tensors)
+  layer_53_swiglu: 1728.00 MB (3 tensors)
+  layer_54_swiglu: 1728.00 MB (3 tensors)
+  layer_55_swiglu: 1728.00 MB (3 tensors)
+  layer_56_swiglu: 1728.00 MB (3 tensors)
+  layer_57_swiglu: 1728.00 MB (3 tensors)
+  layer_58_swiglu: 1728.00 MB (3 tensors)
+  layer_59_swiglu: 1728.00 MB (3 tensors)
+  layer_60_swiglu: 1728.00 MB (3 tensors)
+  layer_61_swiglu: 1728.00 MB (3 tensors)
+  layer_62_swiglu: 1728.00 MB (3 tensors)
+  layer_63_swiglu: 1728.00 MB (3 tensors)
+  layer_6_swiglu: 1728.00 MB (3 tensors)
+  layer_7_swiglu: 1728.00 MB (3 tensors)
+  layer_8_swiglu: 1728.00 MB (3 tensors)
+  layer_9_swiglu: 1728.00 MB (3 tensors)
+
+--- Top Eviction Candidates (by size) ---
+                  layer_0_swiglu_gate:  864.00 MB [swiglu_gate] L0
+                  layer_1_swiglu_gate:  864.00 MB [swiglu_gate] L1
+                  layer_2_swiglu_gate:  864.00 MB [swiglu_gate] L2
+                  layer_3_swiglu_gate:  864.00 MB [swiglu_gate] L3
+                  layer_4_swiglu_gate:  864.00 MB [swiglu_gate] L4
+                  layer_5_swiglu_gate:  864.00 MB [swiglu_gate] L5
+                  layer_6_swiglu_gate:  864.00 MB [swiglu_gate] L6
+                  layer_7_swiglu_gate:  864.00 MB [swiglu_gate] L7
+                  layer_8_swiglu_gate:  864.00 MB [swiglu_gate] L8
+  layer_38_swiglu: 1728.00 MB (3 tensors)
+  layer_39_swiglu: 1728.00 MB (3 tensors)
+  layer_3_swiglu: 1728.00 MB (3 tensors)
+  layer_40_swiglu: 1728.00 MB (3 tensors)
+  layer_41_swiglu: 1728.00 MB (3 tensors)
+  layer_42_swiglu: 1728.00 MB (3 tensors)
+  layer_43_swiglu: 1728.00 MB (3 tensors)
+  layer_44_swiglu: 1728.00 MB (3 tensors)
+  layer_45_swiglu: 1728.00 MB (3 tensors)
+  layer_46_swiglu: 1728.00 MB (3 tensors)
+  layer_47_swiglu: 1728.00 MB (3 tensors)
+  layer_48_swiglu: 1728.00 MB (3 tensors)
+  layer_49_swiglu: 1728.00 MB (3 tensors)
+  layer_4_swiglu: 1728.00 MB (3 tensors)
+  layer_50_swiglu: 1728.00 MB (3 tensors)
+  layer_51_swiglu: 1728.00 MB (3 tensors)
+  layer_52_swiglu: 1728.00 MB (3 tensors)
+  layer_53_swiglu: 1728.00 MB (3 tensors)
+  layer_54_swiglu: 1728.00 MB (3 tensors)
+  layer_55_swiglu: 1728.00 MB (3 tensors)
+  layer_56_swiglu: 1728.00 MB (3 tensors)
+  layer_57_swiglu: 1728.00 MB (3 tensors)
+  layer_58_swiglu: 1728.00 MB (3 tensors)
+  layer_59_swiglu: 1728.00 MB (3 tensors)
+  layer_5_swiglu: 1728.00 MB (3 tensors)
+  layer_5_swiglu: 1728.00 MB (3 tensors)
+                  layer_9_swiglu_gate:  864.00 MB [swiglu_gate] L9
+
+--- Timeline Summary ---
+  Forward peak:  1941.6 MB
+  Backward peak: 2228.6 MB
+  layer_5_swiglu: 1728.00 MB (3 tensors)
+  layer_60_swiglu: 1728.00 MB (3 tensors)
+  layer_61_swiglu: 1728.00 MB (3 tensors)
+  layer_62_swiglu: 1728.00 MB (3 tensors)
+  layer_63_swiglu: 1728.00 MB (3 tensors)
+  layer_6_swiglu: 1728.00 MB (3 tensors)
+  layer_7_swiglu: 1728.00 MB (3 tensors)
+  layer_8_swiglu: 1728.00 MB (3 tensors)
+  layer_9_swiglu: 1728.00 MB (3 tensors)
+
+--- Top Eviction Candidates (by size) ---
+                  layer_0_swiglu_gate:  864.00 MB [swiglu_gate] L0
+                  layer_1_swiglu_gate:  864.00 MB [swiglu_gate] L1
+                  layer_2_swiglu_gate:  864.00 MB [swiglu_gate] L2
+                  layer_3_swiglu_gate:  864.00 MB [swiglu_gate] L3
+                  layer_4_swiglu_gate:  864.00 MB [swiglu_gate] L4
+                  layer_5_swiglu_gate:  864.00 MB [swiglu_gate] L5
+                  layer_6_swiglu_gate:  864.00 MB [swiglu_gate] L6
+                  layer_7_swiglu_gate:  864.00 MB [swiglu_gate] L7
+                  layer_8_swiglu_gate:  864.00 MB [swiglu_gate] L8
+  layer_60_swiglu: 1728.00 MB (3 tensors)
+  layer_61_swiglu: 1728.00 MB (3 tensors)
+  layer_62_swiglu: 1728.00 MB (3 tensors)
+  layer_63_swiglu: 1728.00 MB (3 tensors)
+  layer_6_swiglu: 1728.00 MB (3 tensors)
+  layer_7_swiglu: 1728.00 MB (3 tensors)
+  layer_8_swiglu: 1728.00 MB (3 tensors)
+  layer_9_swiglu: 1728.00 MB (3 tensors)
+
+--- Top Eviction Candidates (by size) ---
+                  layer_0_swiglu_gate:  864.00 MB [swiglu_gate] L0
+                  layer_1_swiglu_gate:  864.00 MB [swiglu_gate] L1
+                  layer_2_swiglu_gate:  864.00 MB [swiglu_gate] L2
+                  layer_3_swiglu_gate:  864.00 MB [swiglu_gate] L3
+                  layer_4_swiglu_gate:  864.00 MB [swiglu_gate] L4
+                  layer_5_swiglu_gate:  864.00 MB [swiglu_gate] L5
+                  layer_6_swiglu_gate:  864.00 MB [swiglu_gate] L6
+                  layer_7_swiglu_gate:  864.00 MB [swiglu_gate] L7
+                  layer_8_swiglu_gate:  864.00 MB [swiglu_gate] L8
+  layer_60_swiglu: 1728.00 MB (3 tensors)
+  layer_61_swiglu: 1728.00 MB (3 tensors)
+  layer_62_swiglu: 1728.00 MB (3 tensors)
+  layer_63_swiglu: 1728.00 MB (3 tensors)
+  layer_6_swiglu: 1728.00 MB (3 tensors)
+  layer_7_swiglu: 1728.00 MB (3 tensors)
+  layer_8_swiglu: 1728.00 MB (3 tensors)
+  layer_9_swiglu: 1728.00 MB (3 tensors)
+
+--- Top Eviction Candidates (by size) ---
+                  layer_0_swiglu_gate:  864.00 MB [swiglu_gate] L0
+                  layer_1_swiglu_gate:  864.00 MB [swiglu_gate] L1
+                  layer_2_swiglu_gate:  864.00 MB [swiglu_gate] L2
+                  layer_3_swiglu_gate:  864.00 MB [swiglu_gate] L3
+                  layer_4_swiglu_gate:  864.00 MB [swiglu_gate] L4
+                  layer_5_swiglu_gate:  864.00 MB [swiglu_gate] L5
+                  layer_6_swiglu_gate:  864.00 MB [swiglu_gate] L6
+                  layer_7_swiglu_gate:  864.00 MB [swiglu_gate] L7
+                  layer_8_swiglu_gate:  864.00 MB [swiglu_gate] L8
+                  layer_9_swiglu_gate:  864.00 MB [swiglu_gate] L9
+
+--- Timeline Summary ---
+  Forward peak:  1941.6 MB
+  Backward peak: 2228.6 MB
+                  layer_9_swiglu_gate:  864.00 MB [swiglu_gate] L9
+
+--- Timeline Summary ---
+  Forward peak:  1941.6 MB
+  Backward peak: 2228.6 MB
+                  layer_9_swiglu_gate:  864.00 MB [swiglu_gate] L9
+
+--- Timeline Summary ---
+  Forward peak:  1941.6 MB
+  Backward peak: 2228.6 MB
+
+  [Profiler] Saved to a30_out/v100smoke_7762/CC_offload_fp16_mem_L64_x108_cap6_n2/profile_rank*.json (schema_version=1)
+
+========================================================================
+  ✓ Completed 2 steps on 4 GPUs
+  ✓ Avg peak memory: 5511.5 MB
+  ✓ Avg step time:   265686.2 ms
+  ✓ Profiles saved to a30_out/v100smoke_7762/CC_offload_fp16_mem_L64_x108_cap6_n2/
+========================================================================
+

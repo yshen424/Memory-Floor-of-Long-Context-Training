@@ -1,0 +1,149 @@
+=== 0. NODE ===
+host: nodeA041   job: 644212   date: 2026-10-14T16:13:00-04:00
+index, name, memory.total [MiB], driver_version, pci.bus_id
+0, NVIDIA L40S, 46068 MiB, 595.71.05, 00000000:4A:00.0
+1, NVIDIA L40S, 46068 MiB, 595.71.05, 00000000:61:00.0
+2, NVIDIA L40S, 46068 MiB, 595.71.05, 00000000:CA:00.0
+3, NVIDIA L40S, 46068 MiB, 595.71.05, 00000000:E1:00.0
+--- topology ---
+	[4mGPU0	GPU1	GPU2	GPU3	NIC0	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	SYS	SYS	SYS	SYS	16-31	1		N/A
+GPU1	SYS	 X 	SYS	SYS	NODE	0-15	0		N/A
+GPU2	SYS	SYS	 X 	SYS	SYS	48-63	3		N/A
+GPU3	SYS	SYS	SYS	 X 	SYS	32-47	2		N/A
+NIC0	SYS	NODE	SYS	SYS	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+
+--- NUMA / RAM ---
+available: 4 nodes (0-3)
+node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+node 0 size: 128471 MB
+node 0 free: 45772 MB
+node 1 cpus: 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+node 1 size: 129019 MB
+node 1 free: 86664 MB
+node 2 cpus: 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47
+node 2 size: 129019 MB
+node 2 free: 70785 MB
+node 3 cpus: 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
+node 3 size: 128968 MB
+               total        used        free      shared  buff/cache   available
+Mem:             503           8         295           0         202         494
+{"device": "NVIDIA L40S", "capability": [8, 9], "total_mib": 45459.5, "torch": "2.6.0+cu124", "cuda": "12.4", "nccl": "2.21.5", "transformers": "4.50.0"}
+PREFLIGHT ok: all GPUs open and allocate
+ARM T_static_fp16_mem_L64_x48_n8_r1: done in 153 s
+ARM T_offload_fp16_mem_L64_x48_n8_r1: done in 146 s
+ARM T_offload_fp16_mem_L64_x48_n8_r2: done in 150 s
+ARM T_static_fp16_mem_L64_x48_n8_r2: done in 141 s
+ARM T_static_fp16_mem_L64_x48_n8_r3: done in 141 s
+ARM T_offload_fp16_mem_L64_x48_n8_r3: done in 147 s
+ARM T_offload_fp16_mem_L64_x48_n8_r4: done in 151 s
+ARM T_static_fp16_mem_L64_x48_n8_r4: done in 141 s
+ARM T_static_fp16_mem_L64_x56_n7_r1: done in 160 s
+ARM T_offload_fp16_mem_L64_x56_n7_r1: done in 164 s
+ARM T_offload_fp16_mem_L64_x56_n7_r2: done in 165 s
+ARM T_static_fp16_mem_L64_x56_n7_r2: done in 159 s
+ARM T_static_fp16_mem_L64_x56_n7_r3: done in 159 s
+ARM T_offload_fp16_mem_L64_x56_n7_r3: done in 166 s
+ARM T_offload_fp16_mem_L64_x56_n7_r4: done in 165 s
+ARM T_static_fp16_mem_L64_x56_n7_r4: done in 165 s
+ARM T_static_fp16_mem_L64_x64_n6_r1: done in 173 s
+ARM T_offload_fp16_mem_L64_x64_n6_r1: done in 179 s
+ARM T_offload_fp16_mem_L64_x64_n6_r2: done in 179 s
+ARM T_static_fp16_mem_L64_x64_n6_r2: done in 180 s
+ARM T_static_fp16_mem_L64_x64_n6_r3: done in 173 s
+ARM T_offload_fp16_mem_L64_x64_n6_r3: done in 180 s
+ARM T_offload_fp16_mem_L64_x64_n6_r4: done in 180 s
+ARM T_static_fp16_mem_L64_x64_n6_r4: done in 173 s
+ARM T_static_fp16_mem_L64_x72_n6_r1: done in 210 s
+ARM T_offload_fp16_mem_L64_x72_n6_r1: done in 217 s
+ARM T_offload_fp16_mem_L64_x72_n6_r2: done in 219 s
+ARM T_static_fp16_mem_L64_x72_n6_r2: done in 220 s
+ARM T_static_fp16_mem_L64_x72_n6_r3: done in 210 s
+ARM T_offload_fp16_mem_L64_x72_n6_r3: done in 217 s
+ARM T_offload_fp16_mem_L64_x72_n6_r4: done in 217 s
+ARM T_static_fp16_mem_L64_x72_n6_r4: done in 211 s
+ARM T_static_fp16_mem_L64_x80_n5_r1: done in 212 s
+ARM T_offload_fp16_mem_L64_x80_n5_r1: done in 218 s
+ARM T_offload_fp16_mem_L64_x80_n5_r2: done in 218 s
+ARM T_static_fp16_mem_L64_x80_n5_r2: done in 212 s
+ARM T_static_fp16_mem_L64_x80_n5_r3: done in 212 s
+ARM T_offload_fp16_mem_L64_x80_n5_r3: done in 219 s
+ARM T_offload_fp16_mem_L64_x80_n5_r4: done in 218 s
+ARM T_static_fp16_mem_L64_x80_n5_r4: done in 212 s
+ARM P_static_fp16_mem_L64_x32_n3: done in 40 s
+ARM P_offload_fp16_mem_L64_x32_n3: done in 38 s
+=== P x=32: decomposition (median over ranks) ===
+  offload  ranks=4  span    7645.2 ms  compute    6944.4  copy   252.3 (hidden     0.0, exposed   252.3, 100%)  D2H/H2D exposed 123.3/128.7 ms  at 26.1/25.0 GB/s
+           span = C 6944.4 + X 252.3 + N 189.4 + I 259.8 ms
+  static   ranks=4  span    7488.5 ms  compute    6975.1  copy     0.0 (hidden     0.0, exposed     0.0, nan%)  D2H/H2D exposed 0.0/0.0 ms  at nan/nan GB/s
+           span = C 6975.1 + X 0.0 + N 194.2 + I 322.4 ms
+  pair: span +156.7 ms = dC -30.7 + dX +252.3 + dN -4.8 + dI -62.6   (copy busy 252.3 ms)
+ARM P_static_fp16_mem_L64_x48_n3: done in 62 s
+ARM P_offload_fp16_mem_L64_x48_n3: done in 66 s
+=== P x=48: decomposition (median over ranks) ===
+  offload  ranks=4  span   15769.2 ms  compute   14777.1  copy   377.0 (hidden     0.0, exposed   377.0, 100%)  D2H/H2D exposed 184.6/192.4 ms  at 26.2/25.1 GB/s
+           span = C 14777.1 + X 377.0 + N 347.8 + I 267.3 ms
+  static   ranks=4  span   15483.2 ms  compute   14833.1  copy     0.0 (hidden     0.0, exposed     0.0, nan%)  D2H/H2D exposed 0.0/0.0 ms  at nan/nan GB/s
+           span = C 14833.1 + X 0.0 + N 364.7 + I 286.0 ms
+  pair: span +286.1 ms = dC -56.0 + dX +377.0 + dN -16.9 + dI -18.7   (copy busy 377.0 ms)
+ARM P_static_fp16_mem_L64_x56_n3: done in 77 s
+ARM P_offload_fp16_mem_L64_x56_n3: done in 81 s
+=== P x=56: decomposition (median over ranks) ===
+  offload  ranks=4  span   20819.1 ms  compute   19608.8  copy   439.9 (hidden     0.0, exposed   439.9, 100%)  D2H/H2D exposed 214.9/225.0 ms  at 26.2/25.1 GB/s
+           span = C 19608.8 + X 439.9 + N 373.9 + I 382.9 ms
+  static   ranks=4  span   20558.1 ms  compute   19684.1  copy     0.0 (hidden     0.0, exposed     0.0, nan%)  D2H/H2D exposed 0.0/0.0 ms  at nan/nan GB/s
+           span = C 19684.1 + X 0.0 + N 459.1 + I 414.9 ms
+  pair: span +261.0 ms = dC -75.4 + dX +439.9 + dN -85.2 + dI -32.0   (copy busy 439.9 ms)
+ARM P_static_fp16_mem_L64_x64_n3: done in 95 s
+ARM P_offload_fp16_mem_L64_x64_n3: done in 98 s
+=== P x=64: decomposition (median over ranks) ===
+  offload  ranks=4  span   26564.4 ms  compute   25155.7  copy   502.5 (hidden     0.0, exposed   502.5, 100%)  D2H/H2D exposed 245.6/257.1 ms  at 26.2/25.1 GB/s
+           span = C 25155.7 + X 502.5 + N 512.2 + I 398.0 ms
+  static   ranks=4  span   26295.2 ms  compute   25233.4  copy     0.0 (hidden     0.0, exposed     0.0, nan%)  D2H/H2D exposed 0.0/0.0 ms  at nan/nan GB/s
+           span = C 25233.4 + X 0.0 + N 619.9 + I 423.7 ms
+  pair: span +269.1 ms = dC -77.7 + dX +502.5 + dN -107.7 + dI -25.7   (copy busy 502.5 ms)
+ARM P_static_fp16_mem_L64_x72_n3: done in 113 s
+ARM P_offload_fp16_mem_L64_x72_n3: done in 118 s
+=== P x=72: decomposition (median over ranks) ===
+  offload  ranks=4  span   32998.3 ms  compute   31444.9  copy   564.7 (hidden     0.0, exposed   564.7, 100%)  D2H/H2D exposed 276.1/288.6 ms  at 26.2/25.1 GB/s
+           span = C 31444.9 + X 564.7 + N 578.9 + I 408.9 ms
+  static   ranks=4  span   32380.2 ms  compute   31445.7  copy     0.0 (hidden     0.0, exposed     0.0, nan%)  D2H/H2D exposed 0.0/0.0 ms  at nan/nan GB/s
+           span = C 31445.7 + X 0.0 + N 603.9 + I 343.1 ms
+  pair: span +618.2 ms = dC -0.8 + dX +564.7 + dN -24.9 + dI +65.8   (copy busy 564.7 ms)
+ARM P_static_fp16_mem_L64_x80_n3: done in 133 s
+ARM P_offload_fp16_mem_L64_x80_n3: done in 139 s
+=== P x=80: decomposition (median over ranks) ===
+  offload  ranks=4  span   39776.2 ms  compute   38199.4  copy   629.6 (hidden     0.0, exposed   629.6, 100%)  D2H/H2D exposed 308.3/320.9 ms  at 26.1/25.1 GB/s
+           span = C 38199.4 + X 629.6 + N 526.9 + I 420.6 ms
+  static   ranks=4  span   39515.3 ms  compute   38379.6  copy     0.0 (hidden     0.0, exposed     0.0, nan%)  D2H/H2D exposed 0.0/0.0 ms  at nan/nan GB/s
+           span = C 38379.6 + X 0.0 + N 708.0 + I 432.3 ms
+  pair: span +260.9 ms = dC -180.2 + dX +629.6 + dN -181.1 + dI -11.7   (copy busy 629.6 ms)
+ARM P_static_fp16_mem_L64_x100_n3: done in 193 s
+ARM P_offload_fp16_mem_L64_x100_n3: done in 203 s
+=== P x=100: decomposition (median over ranks) ===
+  offload  ranks=4  span   59305.5 ms  compute   57674.7  copy   785.3 (hidden     0.0, exposed   785.3, 100%)  D2H/H2D exposed 383.1/402.0 ms  at 26.3/25.0 GB/s
+           span = C 57674.7 + X 785.3 + N 536.1 + I 324.9 ms
+  static   ranks=4  span   58881.3 ms  compute   57853.9  copy     0.0 (hidden     0.0, exposed     0.0, nan%)  D2H/H2D exposed 0.0/0.0 ms  at nan/nan GB/s
+           span = C 57853.9 + X 0.0 + N 716.6 + I 319.3 ms
+  pair: span +424.2 ms = dC -179.2 + dX +785.3 + dN -180.5 + dI +5.6   (copy busy 785.3 ms)
+=== TIME (R-A5): pooled static, offload, per-repeat delta, tax ===
+  x= 48  static   15.802 s  delta +0.249 s  per x +0.0052  tax  1.58%  repeats [0.253, 0.217, 0.212, 0.315]
+  x= 56  static   20.769 s  delta +0.241 s  per x +0.0043  tax  1.16%  repeats [0.191, 0.226, 0.235, 0.315]
+  x= 64  static   26.621 s  delta +0.306 s  per x +0.0048  tax  1.15%  repeats [0.26, 0.372, 0.277, 0.313]
+  x= 72  static   32.892 s  delta +0.453 s  per x +0.0063  tax  1.38%  repeats [0.477, 0.498, 0.401, 0.438]
+  x= 80  static   39.737 s  delta +0.425 s  per x +0.0053  tax  1.07%  repeats [0.494, 0.348, 0.371, 0.486]
+=== DONE in 147 min: ./l40s_trace_collect.sh 644212 ===

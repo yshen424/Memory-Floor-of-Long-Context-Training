@@ -1,0 +1,49 @@
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/user/l64s_frontier/code/train_fsdp_profile.py", line 1808, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/user/l64s_frontier/code/train_fsdp_profile.py", line 1521, in main
+[rank0]:     loss.backward()
+[rank0]:   File "/home/user/l64s_linktest/l64s_venv/lib/python3.12/site-packages/torch/_tensor.py", line 626, in backward
+[rank0]:     torch.autograd.backward(
+[rank0]:   File "/home/user/l64s_linktest/l64s_venv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 347, in backward
+[rank0]:     _engine_run_backward(
+[rank0]:   File "/home/user/l64s_linktest/l64s_venv/lib/python3.12/site-packages/torch/autograd/graph.py", line 823, in _engine_run_backward
+[rank0]:     return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.97 GiB. GPU 0 has a total capacity of 44.39 GiB of which 2.96 GiB is free. Including non-PyTorch memory, this process has 41.31 GiB memory in use. Of the allocated memory 40.41 GiB is allocated by PyTorch, and 238.78 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+W1012 01:57:03.082000 3060071 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 3060083 closing signal SIGTERM
+W1012 01:57:03.085000 3060071 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 3060084 closing signal SIGTERM
+W1012 01:57:03.085000 3060071 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 3060085 closing signal SIGTERM
+E1012 01:57:15.177000 3060071 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 0 (pid: 3060082) of binary: /home/user/l64s_linktest/l64s_venv/bin/python3.12
+Traceback (most recent call last):
+  File "/home/user/l64s_linktest/l64s_venv/bin/torchrun", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/l64s_linktest/l64s_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/user/l64s_linktest/l64s_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/l64s_linktest/l64s_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/l64s_linktest/l64s_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/l64s_linktest/l64s_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+code/train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-10-12_01:57:03
+  host      : nodeA042.cm.clusterA
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 3060082)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

@@ -1,0 +1,172 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791655550.687113  481756 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1791655550.694866  481756 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791655550.744885   52403 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791655550.753122   57044 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1791655550.752947   52403 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+E0000 00:00:1791655550.760984   57044 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791655550.841631   54169 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1791655550.849554   54169 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 1808, in <module>
+[rank3]:     main()
+[rank3]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 1006, in main
+[rank3]:     attn_backend_info = pin_attention_backend(
+[rank3]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 187, in pin_attention_backend
+[rank3]:     raise ValueError(
+[rank3]: ValueError: --attn_impl sdpa_flash needs sm80+ (FlashAttention-2); this is sm_70.
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 1808, in <module>
+[rank2]:     main()
+[rank2]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 1006, in main
+[rank2]:     attn_backend_info = pin_attention_backend(
+[rank2]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 187, in pin_attention_backend
+[rank2]:     raise ValueError(
+[rank2]: ValueError: --attn_impl sdpa_flash needs sm80+ (FlashAttention-2); this is sm_70.
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 1808, in <module>
+[rank1]:     main()
+[rank1]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 1006, in main
+[rank1]:     attn_backend_info = pin_attention_backend(
+[rank1]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 187, in pin_attention_backend
+[rank1]:     raise ValueError(
+[rank1]: ValueError: --attn_impl sdpa_flash needs sm80+ (FlashAttention-2); this is sm_70.
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 1808, in <module>
+[rank0]:     main()
+[rank0]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 1006, in main
+[rank0]:     attn_backend_info = pin_attention_backend(
+[rank0]:   File "/path/to/repo/remote/a30_frontier/code/train_fsdp_profile.py", line 187, in pin_attention_backend
+[rank0]:     raise ValueError(
+[rank0]: ValueError: --attn_impl sdpa_flash needs sm80+ (FlashAttention-2); this is sm_70.
+[rank3]:[W1010 14:05:55.457306207 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank2]:[W1010 14:05:55.657958116 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank1]:[W1010 14:05:55.037151450 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank0]:[W1010 14:05:55.112964686 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+E1010 14:05:57.025000 52394 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 0 (pid: 52403) of binary: /usr/bin/python3
+E1010 14:05:57.026000 57033 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 0 (pid: 57044) of binary: /usr/bin/python3
+E1010 14:05:57.026000 54160 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 0 (pid: 54169) of binary: /usr/bin/python3
+Traceback (most recent call last):
+  File "/home/user/.local/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+code/train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-10-10_14:05:57
+  host      : gpu-3
+  rank      : 2 (local_rank: 0)
+  exitcode  : 1 (pid: 52403)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Traceback (most recent call last):
+  File "/home/user/.local/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+Traceback (most recent call last):
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+  File "/home/user/.local/bin/torchrun", line 8, in <module>
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+code/train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-10-10_14:05:57
+  host      : gpu-1
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 57044)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+    sys.exit(main())
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+code/train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-10-10_14:05:57
+  host      : gpu-2
+  rank      : 1 (local_rank: 0)
+  exitcode  : 1 (pid: 54169)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+E1010 14:05:57.122000 481747 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 0 (pid: 481756) of binary: /usr/bin/python3
+Traceback (most recent call last):
+  File "/home/user/.local/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/user/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+code/train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-10-10_14:05:57
+  host      : gpu-4
+  rank      : 3 (local_rank: 0)
+  exitcode  : 1 (pid: 481756)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: gpu-3: task 2: Exited with exit code 1
+srun: error: gpu-1: task 0: Exited with exit code 1
+srun: error: gpu-2: task 1: Exited with exit code 1
+srun: error: gpu-4: task 3: Exited with exit code 1

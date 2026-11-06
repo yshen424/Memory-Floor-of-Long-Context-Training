@@ -1,0 +1,28 @@
+--- 4096.0 B/token x6  (= 24.0000 MiB/x)
+    3 x C++ only
+    2 x forward@linear.py:125 <- _call_impl@module.py:1750 <- _wrapped_call_impl@module.py:1739
+    1 x silu@functional.py:2380 <- forward@activation.py:432 <- _call_impl@module.py:1750
+--- 2000.0 B/token x1  (= 1.9531 MiB/x)
+    1 x C++ only
+--- 1536.0 B/token x73  (= 109.5000 MiB/x)
+    63 x forward@modeling_llama.py:360 <- inner@module.py:1793 <- _call_impl@module.py:1845
+    2 x forward@fused_rmsnorm.py:41 <- apply@function.py:575 <- forward@fused_rmsnorm.py:102
+    1 x embedding@functional.py:2551 <- forward@sparse.py:190 <- _call_impl@module.py:1750
+    1 x backward@fused_rmsnorm.py:55 <- apply@function.py:307
+    1 x repeat_kv@sdpa_attention.py:15 <- sdpa_attention_forward@sdpa_attention.py:30 <- forward@modeling_llama.py:299
+    1 x sdpa_attention_forward@sdpa_attention.py:39 <- forward@modeling_llama.py:299 <- _call_impl@module.py:1750
+    1 x repeat_kv@sdpa_attention.py:15 <- sdpa_attention_forward@sdpa_attention.py:31 <- forward@modeling_llama.py:299
+    1 x sdpa_attention_forward@sdpa_attention.py:54 <- forward@modeling_llama.py:299 <- _call_impl@module.py:1750
+    1 x sdpa_attention_forward@sdpa_attention.py:63 <- forward@modeling_llama.py:299 <- _call_impl@module.py:1750
+    1 x forward@modeling_llama.py:354 <- inner@module.py:1793 <- _call_impl@module.py:1845
+--- 128.0 B/token x3  (= 0.3750 MiB/x)
+    2 x forward@modeling_llama.py:148 <- _call_impl@module.py:1750 <- _wrapped_call_impl@module.py:1739
+    1 x C++ only
+--- 48.0 B/token x1  (= 0.0469 MiB/x)
+    1 x sdpa_attention_forward@sdpa_attention.py:54 <- forward@modeling_llama.py:299 <- _call_impl@module.py:1750
+--- 8.0 B/token x2  (= 0.0156 MiB/x)
+    1 x (allocated before trace window)
+    1 x forward@modeling_llama.py:564 <- _call_impl@module.py:1750 <- _wrapped_call_impl@module.py:1739
+--- 4.0 B/token x2  (= 0.0078 MiB/x)
+    2 x forward@fused_rmsnorm.py:40 <- apply@function.py:575 <- forward@fused_rmsnorm.py:102
+token-proportional total 139160.0 B/token = 135.8984 MiB/x

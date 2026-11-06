@@ -1,0 +1,131 @@
+=== 0. NODE (native) ===
+host: nodeA022   job: 642032   date: 2026-10-14T06:52:18-04:00   smoke: no
+index, name, memory.total [MiB], driver_version, power.limit [W], clocks.max.sm [MHz], clocks.max.memory [MHz], pci.bus_id
+0, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 1215 MHz, 00000000:4A:00.0
+1, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 1215 MHz, 00000000:61:00.0
+2, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 1215 MHz, 00000000:CA:00.0
+3, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 1215 MHz, 00000000:E1:00.0
+--- clocks / power policy ---
+
+==============NVSMI LOG==============
+
+Timestamp                                              : Wed Oct 14 06:52:18 2026
+Driver Version                                         : 595.71.05
+CUDA Version                                           : 13.2
+
+Attached GPUs                                          : 4
+GPU 00000000:4A:00.0
+    Performance State                                  : P0
+    Clocks Event Reasons
+        Idle                                           : Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 0 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 0 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    GPU Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : 33.17 W
+        Current Power Limit                            : 165.00 W
+        Requested Power Limit                          : 165.00 W
+        Default Power Limit                            : 165.00 W
+        Min Power Limit                                : 100.00 W
+        Max Power Limit                                : 165.00 W
+    Power Samples
+        Duration                                       : 2.37 sec
+        Number of Samples                              : 119
+        Max                                            : 33.26 W
+        Min                                            : 33.07 W
+        Avg                                            : 33.15 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    EDPp Multiplier                                    : N/A
+    Clocks
+        Graphics                                       : 210 MHz
+        SM                                             : 210 MHz
+        Memory                                         : 1215 MHz
+        Video                                          : 585 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 1440 MHz
+        SM                                             : 1440 MHz
+        Memory                                         : 1215 MHz
+        Video                                          : 1305 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : 1440 MHz
+    SM Clock Samples
+        Duration                                       : Not Found
+        Number of Samples                              : Not Found
+        Max                                            : Not Found
+        Min                                            : Not Found
+        Avg                                            : Not Found
+    Memory Clock Samples
+--- topology ---
+	[4mGPU0	GPU1	GPU2	GPU3	NIC0	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	NV4	SYS	SYS	SYS	16-31	1		N/A
+GPU1	NV4	 X 	SYS	SYS	NODE	0-15	0		N/A
+GPU2	SYS	SYS	 X 	NV4	SYS	48-63	3		N/A
+GPU3	SYS	SYS	NV4	 X 	SYS	32-47	2		N/A
+NIC0	SYS	NODE	SYS	SYS	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+
+--- RAM ---
+               total        used        free      shared  buff/cache   available
+Mem:             503           8         433           0          63         494
+MemTotal:       527851080 kB
+MemAvailable:   518582184 kB
+{"device": "NVIDIA A30", "capability": [8, 0], "total_mib": 24164.25, "torch": "2.6.0+cu124"}
+RUNG x=564: predicted pinned 213192 MiB per node (41% of host), est 11388 s
+ARM NO_offload_fp16_mem_L64_x564_n2: done in 10235 s
+RUNG x=568: predicted pinned 214704 MiB per node (41% of host), est 11713 s
+ARM NO_offload_fp16_mem_L64_x568_n2: DID NOT COMPLETE (read stderr.txt) in 9319 s
+NATIVE OFFLOAD LADDER: largest fit 564, smallest fail 568
+=== A30 FOLLOW-UP B: NATIVE STOCK-OFFLOAD LADDER ===
+  x=564 fit   peak   23197.5  step0 85.3 min  step1 84.8 min  host min avail 45%
+  x=568 FAIL  request 2273.28 MiB (4x = 2272.0), backward True  host min avail 45%
+  bracket [564, 568)
+NO-P1 HELD: largest fit 564 (predicted 566, range 561-570; falsifier outside [560, 572])
+NO-P3 span 564/164 = 3.439 (predicted 3.44; V100 356/104 = 3.42)
+NO-P4 HELD: step time 84.8 min (predicted 84 +- 15%)
+NO-P2 MISS: failure request 2273.28 MiB (4x = 2272.0), in backward True
+NO-P5 HELD: lowest host MemAvailable 45% (floor 45%; watchdog 30%)
+=== DONE in 326 min: ./a30f_collect.sh native 642032 ===

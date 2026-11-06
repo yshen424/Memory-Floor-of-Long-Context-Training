@@ -1,0 +1,29 @@
+
+==========================================================================
+NCCL duty cycle
+==========================================================================
+  torch_trace_rank0            duty=  1.22%  nccl_busy=   1114.7 ms  window=  91242.3 ms  kernels=  392  memcpy=  197
+
+==========================================================================
+Observed B(alpha):  achieved bandwidth bucketed by measured overlap
+==========================================================================
+
+  D2H   (n=64)
+    alpha range         n      p10   median      p90    median MB
+    [0.00,0.05)       63    10.98    11.74    11.79        100.7
+    [0.25,0.50)        1     8.33     8.33     8.33        100.7
+
+  H2D   (n=64)
+    alpha range         n      p10   median      p90    median MB
+    [0.00,0.05)       64    12.08    12.17    12.18        100.7
+
+==========================================================================
+Collective side: NCCL kernel duration vs concurrent migration
+==========================================================================
+    cohort                            n       p10    median       p90
+    no concurrent migration         390     3.368     3.479     9.706   ms
+    >=50% under migration             2     6.429     6.429     6.429   ms
+
+    NCCL duration inflation under migration: 1.85x
+
+  Not enough spread in observed alpha to compare endpoints (n_idle=127, n_busy=0).

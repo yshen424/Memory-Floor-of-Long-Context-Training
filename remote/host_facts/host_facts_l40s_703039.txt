@@ -1,0 +1,139 @@
+### host facts: platform l40s, job 703039, nodes nodeA047 (1), 2026-10-27T04:41:00-04:00
+### venv: /home/user/l40s_venv   python3: /home/user/l40s_venv/bin/python3
+=== NODE nodeA047   job 703039   2026-10-27T04:41:00-04:00 ===
+
+--- CPU (model, sockets, cores, NUMA) ---
+CPU(s):                                  64
+Model name:                              Intel(R) Xeon(R) Platinum 8462Y+
+Thread(s) per core:                      1
+Core(s) per socket:                      32
+Socket(s):                               2
+CPU(s) scaling MHz:                      94%
+CPU max MHz:                             4100.0000
+L3 cache:                                120 MiB (2 instances)
+NUMA node(s):                            4
+NUMA node0 CPU(s):                       0-15
+NUMA node1 CPU(s):                       16-31
+NUMA node2 CPU(s):                       32-47
+NUMA node3 CPU(s):                       48-63
+
+--- host memory ---
+MemTotal:       527851112 kB
+MemAvailable:   517160428 kB
+HugePages_Total:       0
+Hugepagesize:       2048 kB
+available: 4 nodes (0-3)
+node 0 size: 128471 MB
+node 1 size: 128974 MB
+node 2 size: 129019 MB
+node 3 size: 129014 MB
+ulimit -l (pinned/locked memory, KiB): unlimited
+job cgroup memory limit (/sys/fs/cgroup/system.slice/slurmstepd.scope/job_703039/step_0/user/task_0/memory.max): max
+
+--- SLURM view of this node ---
+NodeName=nodeA047 Arch=x86_64 CoresPerSocket=32 
+   AvailableFeatures=(null)
+   Gres=gpu:l40s:4
+   OS=Linux 5.14.0-687.26.1.el9_8.x86_64 #1 SMP PREEMPT_DYNAMIC Tue Jul 14 23:40:02 UTC 2026 
+   RealMemory=515472 AllocMem=506880 FreeMem=54787 Sockets=2 Boards=1
+   MemSpecLimit=8192
+   NumNodes=1 NumCPUs=64 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=1,mem=7920M,node=1,billing=301,gres/gpu=4,gres/gpu:l40s=4
+   AllocTRES=cpu=64,mem=495G,node=1,billing=425,gres/gpu=4,gres/gpu:l40s=4
+   MinCPUsNode=1 MinMemoryCPU=7920M MinTmpDiskNode=0
+   OverSubscribe=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)
+other jobs on this node:
+703039 user RUNNING gres/gpu:l40s:4 64
+
+--- OS and kernel ---
+PRETTY_NAME="Rocky Linux 9.8 (Blue Onyx)"
+5.14.0-687.26.1.el9_8.x86_64
+
+--- GPU, driver, PCIe link (max and host max; current may downshift at idle) ---
+index, name, memory.total [MiB], driver_version, pci.bus_id
+0, NVIDIA L40S, 46068 MiB, 595.71.05, 00000000:4A:00.0
+1, NVIDIA L40S, 46068 MiB, 595.71.05, 00000000:61:00.0
+2, NVIDIA L40S, 46068 MiB, 595.71.05, 00000000:CA:00.0
+3, NVIDIA L40S, 46068 MiB, 595.71.05, 00000000:E1:00.0
+index, pcie.link.gen.max, pcie.link.width.max, pcie.link.gen.current, pcie.link.width.current
+0, 4, 16, 1, 16
+1, 4, 16, 1, 16
+2, 4, 16, 1, 16
+3, 4, 16, 1, 16
+index, pcie.link.gen.hostmax, pcie.link.gen.gpumax
+0, 5, 4
+1, 5, 4
+2, 5, 4
+3, 5, 4
+CUDA Version                                           : 13.2
+    Product Name                                       : NVIDIA L40S
+                Max                                    : 4
+                Current                                : 1
+                Device Current                         : 1
+                Device Max                             : 4
+                Host Max                               : 5
+                Max                                    : 16x
+                Current                                : 16x
+    Product Name                                       : NVIDIA L40S
+                Max                                    : 4
+                Current                                : 1
+                Device Current                         : 1
+                Device Max                             : 4
+                Host Max                               : 5
+                Max                                    : 16x
+                Current                                : 16x
+    Product Name                                       : NVIDIA L40S
+                Max                                    : 4
+                Current                                : 1
+                Device Current                         : 1
+                Device Max                             : 4
+                Host Max                               : 5
+                Max                                    : 16x
+                Current                                : 16x
+    Product Name                                       : NVIDIA L40S
+                Max                                    : 4
+                Current                                : 1
+                Device Current                         : 1
+                Device Max                             : 4
+                Host Max                               : 5
+                Max                                    : 16x
+                Current                                : 16x
+
+--- GPU topology ---
+	[4mGPU0	GPU1	GPU2	GPU3	NIC0	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	SYS	SYS	SYS	SYS	16-31	1		N/A
+GPU1	SYS	 X 	SYS	SYS	NODE	0-15	0		N/A
+GPU2	SYS	SYS	 X 	SYS	SYS	48-63	3		N/A
+GPU3	SYS	SYS	SYS	 X 	SYS	32-47	2		N/A
+NIC0	SYS	NODE	SYS	SYS	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+
+
+--- network adapters (link layer, rate) ---
+mlx5_0 port 1: InfiniBand, 200 Gb/sec (2X NDR), 4: ACTIVE
+0d:00.0 Infiniband controller: Mellanox Technologies MT2910 Family [ConnectX-7]
+22:00.0 Ethernet controller: Intel Corporation Ethernet Controller E810-XXV for SFP (rev 02)
+22:00.1 Ethernet controller: Intel Corporation Ethernet Controller E810-XXV for SFP (rev 02)
+eth0             UP             30:3e:a7:0e:42:04 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+eth1             DOWN           30:3e:a7:0e:42:05 <NO-CARRIER,BROADCAST,MULTICAST,UP> 
+ib0              UP             00:00:10:47:fe:80:00:00:00:00:00:00:a0:88:c2:03:00:1d:64:a6 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+
+--- software (python and torch from the job's venv) ---
+python 3.12.13
+torch 2.6.0+cu124 | CUDA runtime 12.4 | cuDNN 90100 | NCCL 2.21.5
+device NVIDIA L40S | capability (8, 9)
+transformers 4.50.0
+=== END nodeA047 ===
