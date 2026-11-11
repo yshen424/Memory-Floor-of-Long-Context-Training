@@ -45,7 +45,7 @@ MIB = 1024.0 * 1024.0
 # 1024 tokens. Whole loss: 7744 block U (1414.92 + 536.77x, x = 2, 4, 8).
 MEASURED_CKPT_SLOPE = {64: 536.77}
 # Chunked loss c=256: 7744 blocks T and S (L=32, 64) and 7761 block D1 (L=128).
-MEASURED_CHUNKED_SLOPE = {32: 84.3200, 64: 132.3201, 128: 228.3201}
+MEASURED_CHUNKED_SLOPE = {32: 84.3203, 64: 132.3203, 128: 228.3203}
 
 TIER_A = dict(hidden_size=768, intermediate_size=2048,
               num_heads=12, num_kv_heads=4, batch_size=1, dtype_bytes=2,

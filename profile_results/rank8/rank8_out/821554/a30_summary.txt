@@ -1,0 +1,255 @@
+=== 0. NODES ===
+job: 821554   nodes: nodeA004 nodeA008   GPUs per node: 4   CPUs per node: 64   date: 2026-11-11T11:50:56-05:00   plan: full
+--- nodeA004
+--- nodeA008
+0, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 4, 16, 00000000:4A:00.0
+0, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 4, 16, 00000000:4A:00.0
+1, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 4, 16, 00000000:61:00.0
+1, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 4, 16, 00000000:61:00.0
+2, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 4, 16, 00000000:CA:00.0
+2, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 4, 16, 00000000:CA:00.0
+3, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 4, 16, 00000000:E1:00.0
+topology:
+3, NVIDIA A30, 24576 MiB, 595.71.05, 165.00 W, 1440 MHz, 4, 16, 00000000:E1:00.0
+topology:
+	GPU0	GPU1	GPU2	GPU3	NIC0	CPU Affinity	NUMA Affinity	GPU NUMA ID
+GPU0	 X 	NV4	SYS	SYS	SYS	16-31	1		N/A
+GPU1	NV4	 X 	SYS	SYS	NODE	0-15	0		N/A
+GPU2	SYS	SYS	 X 	NV4	SYS	48-63	3		N/A
+GPU3	SYS	SYS	NV4	 X 	SYS	32-47	2		N/A
+NIC0	SYS	NODE	SYS	SYS	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+
+infiniband:
+  mlx5_0 port 1: 200 Gb/sec (2X NDR) 4: ACTIVE InfiniBand
+               total        used        free      shared  buff/cache   available
+Mem:             503           9          79           0         419         494
+	GPU0	GPU1	GPU2	GPU3	NIC0	CPU Affinity	NUMA Affinity	GPU NUMA ID
+GPU0	 X 	NV4	SYS	SYS	SYS	16-31	1		N/A
+GPU1	NV4	 X 	SYS	SYS	NODE	0-15	0		N/A
+GPU2	SYS	SYS	 X 	NV4	SYS	48-63	3		N/A
+GPU3	SYS	SYS	NV4	 X 	SYS	32-47	2		N/A
+NIC0	SYS	NODE	SYS	SYS	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+
+infiniband:
+  mlx5_0 port 1: 200 Gb/sec (2X NDR) 4: ACTIVE InfiniBand
+               total        used        free      shared  buff/cache   available
+Mem:             503           9         115           0         381         494
+{"device": "NVIDIA A30", "capability": [8, 0], "total_mib": 24164.25, "torch": "2.6.0+cu124", "cuda": "12.4", "nccl": "2.21.5", "transformers": "4.50.0", "visible": 4}
+PREFLIGHT nodeA004: ok, 4 GPUs open and allocate
+PREFLIGHT nodeA008: ok, 4 GPUs open and allocate
+NCCL all_reduce 64 MiB fp16 over 8 ranks: 5.78 ms, bus bandwidth 20.31 GB/s
+NCCL all_reduce 256 MiB fp16 over 8 ranks: 21.59 ms, bus bandwidth 21.75 GB/s
+NCCL world 8 transports:      80  via NET/IB;     76  via P2P/CUMEM;     60  via SHM;
+NCCL all_reduce 64 MiB fp16 over 4 ranks: 4.26 ms, bus bandwidth 23.64 GB/s
+NCCL all_reduce 256 MiB fp16 over 4 ranks: 15.70 ms, bus bandwidth 25.65 GB/s
+NCCL world 4 transports:      28  via P2P/CUMEM;     28  via SHM;
+BW GPU 0 solo: D2H  24.47 GB/s  H2D  25.08 GB/s
+BW GPU 1 solo: D2H  23.44 GB/s  H2D  24.90 GB/s
+BW GPU 2 solo: D2H  22.92 GB/s  H2D  25.10 GB/s
+BW GPU 3 solo: D2H  25.09 GB/s  H2D  24.99 GB/s
+BW all 4 concurrent, per GPU: D2H  13.44 GB/s  H2D  24.89 GB/s
+ARM B_static_fp16_mem_w8_L64_x24_n3: done in 58 s
+ARM B_static_fp16_mem_w8_L64_x48_n3: done in 133 s
+ARM B_offload_fp16_mem_w8_L64_x24_n3: done in 55 s
+ARM B_offload_fp16_mem_w8_L64_x48_n3: done in 137 s
+ARM B_offload_fp16_mem_w8_L64_x96_n3: done in 470 s
+ARM BR_static_fp16_mem_llama3b_w8_L28_x16_n3: done in 85 s
+ARM BR_static_fp16_mem_llama3b_w8_L28_x32_n3: done in 142 s
+ARM BR_offload_fp16_mem_llama3b_w8_L28_x16_n3: done in 86 s
+ARM BR_offload_fp16_mem_llama3b_w8_L28_x48_n3: done in 242 s
+=== BYTES: every arm against its harness line (A30 platform = V100 workspace carried) ===
+  B_offload_fp16_mem_w8_L64_x24_n3                           peak   1945.141  line   1945.080  offset   +0.060   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_w8_L64_x48_n3                           peak   2852.828  line   2852.768  offset   +0.060   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_w8_L64_x96_n3                           peak   4668.203  line   4668.143  offset   +0.060   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_w8_L64_x24_n3                            peak   4006.075  line   4006.030  offset   +0.045   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_w8_L64_x48_n3                            peak   7181.763  line   7181.717  offset   +0.045   [sdpa_mem_efficient, fp16]
+  BR_offload_fp16_mem_llama3b_w8_L28_x16_n3                  peak  11856.260  line  11856.257  offset   +0.002   [sdpa_mem_efficient, fp16]
+  BR_offload_fp16_mem_llama3b_w8_L28_x48_n3                  peak  16676.010  line  16676.007  offset   +0.002   [sdpa_mem_efficient, fp16]
+  BR_static_fp16_mem_llama3b_w8_L28_x16_n3                   peak  13152.187  line  13152.184  offset   +0.002   [sdpa_mem_efficient, fp16]
+  BR_static_fp16_mem_llama3b_w8_L28_x32_n3                   peak  18058.062  line  18058.059  offset   +0.002   [sdpa_mem_efficient, fp16]
+A-P1 common offset over R-A1 arms: +0.045 MiB (spread 0.058); MISS: offsets differ, a byte term moved on Ampere
+A-P2 A30 workspace = 16.3011 MiB (lean: V100's 16.2559, offset 0); HELD
+# A30 NATIVE STATIC BRACKET KS8 (llama3b, L=28, world 8), written 2026-11-11T12:14:56 BEFORE its ladder ran
+# line 7862.2857 + 312.617188x +0.045 MiB (this job's common offset); card total 24164.25 MiB; outside the allocator 688.88 MiB (max at world 8)
+# Ampere reserve carried from the A30 (633912): delta 59.5 MiB, alpha 0.093 (feasible 0.0-0.186)
+# NP-KS8 largest fit x = 49 at the centre; 48-49 over the alpha range; registered tolerance +-2 rungs (step 1) across shapes. FALSIFIER: the measured largest fit outside [46, 51]
+# the failure is a backward OOM on the replayed MLP activation, 16x MiB
+CENTRE: 49 48 49 1
+RUNGS: 47 48 49 50 51 52
+LADDER KS8 (static llama3b w8): rungs 47 48 49 50 51 52
+ARM KS8_static_fp16_mem_llama3b_w8_L28_x47_n2: done in 167 s
+ARM KS8_static_fp16_mem_llama3b_w8_L28_x48_n2: done in 171 s
+ARM KS8_static_fp16_mem_llama3b_w8_L28_x49_n2: done in 178 s
+ARM KS8_static_fp16_mem_llama3b_w8_L28_x50_n2: DID NOT COMPLETE (rc 143; read stderr.txt) in 132 s
+LADDER KS8 CLOSED at x=50
+# A30 NATIVE OFFLOAD BRACKET KO8 (llama3b, L=28, world 8), written 2026-11-11T12:25:44 BEFORE its ladder ran
+# line 9446.3824 + 150.617188x +0.045 MiB (this job's common offset); card total 24164.25 MiB; outside the allocator 688.88 MiB (max at world 8)
+# Ampere reserve carried from the A30 (633912): delta 59.5 MiB, alpha 0.093 (feasible 0.0-0.186)
+# NP-KO8 largest fit x = 91 at the centre; 90-92 over the alpha range; registered tolerance +-2 rungs (step 1) across shapes. FALSIFIER: the measured largest fit outside [88, 94]
+# the failure is a backward OOM on the replayed MLP activation, 16x MiB
+CENTRE: 91 90 92 1
+RUNGS: 89 90 91 92 93 94 95
+LADDER KO8 (offload llama3b w8): rungs 89 90 91 92 93 94 95
+ARM KO8_offload_fp16_mem_llama3b_w8_L28_x89_n2: done in 434 s
+ARM KO8_offload_fp16_mem_llama3b_w8_L28_x90_n2: done in 444 s
+ARM KO8_offload_fp16_mem_llama3b_w8_L28_x91_n2: done in 459 s
+ARM KO8_offload_fp16_mem_llama3b_w8_L28_x92_n2: DID NOT COMPLETE (rc 1; read stderr.txt) in 453 s
+LADDER KO8 CLOSED at x=92
+ARM BR4_static_fp16_mem_llama3b_w4_L28_x16_n3: done in 74 s
+ARM BR4_offload_fp16_mem_llama3b_w4_L28_x16_n3: done in 80 s
+# A30 NATIVE STATIC BRACKET KS4 (llama3b, L=28, world 4), written 2026-11-11T12:58:08 BEFORE its ladder ran
+# line 13021.7862 + 312.617188x +0.002 MiB (this job's common offset); card total 24164.25 MiB; outside the allocator 592.88 MiB (max at world 4)
+# Ampere reserve carried from the A30 (633912): delta 59.5 MiB, alpha 0.093 (feasible 0.0-0.186)
+# NP-KS4 largest fit x = 32 at the centre; 32-32 over the alpha range; registered tolerance +-2 rungs (step 1) across shapes. FALSIFIER: the measured largest fit outside [30, 34]
+# the failure is a backward OOM on the replayed MLP activation, 16x MiB
+CENTRE: 32 32 32 1
+RUNGS: 31 32 33 34 35
+LADDER KS4 (static llama3b w4): rungs 31 32 33 34 35
+ARM KS4_static_fp16_mem_llama3b_w4_L28_x31_n2: done in 105 s
+ARM KS4_static_fp16_mem_llama3b_w4_L28_x32_n2: done in 107 s
+ARM KS4_static_fp16_mem_llama3b_w4_L28_x33_n2: DID NOT COMPLETE (rc 1; read stderr.txt) in 84 s
+LADDER KS4 CLOSED at x=33
+# A30 NATIVE OFFLOAD BRACKET KO4 (llama3b, L=28, world 4), written 2026-11-11T13:03:05 BEFORE its ladder ran
+# line 15805.9561 + 150.617188x +0.002 MiB (this job's common offset); card total 24164.25 MiB; outside the allocator 592.88 MiB (max at world 4)
+# Ampere reserve carried from the A30 (633912): delta 59.5 MiB, alpha 0.093 (feasible 0.0-0.186)
+# NP-KO4 largest fit x = 50 at the centre; 50-51 over the alpha range; registered tolerance +-2 rungs (step 1) across shapes. FALSIFIER: the measured largest fit outside [48, 53]
+# the failure is a backward OOM on the replayed MLP activation, 16x MiB
+CENTRE: 50 50 51 1
+RUNGS: 49 50 51 52 53 54
+LADDER KO4 (offload llama3b w4): rungs 49 50 51 52 53 54
+ARM KO4_offload_fp16_mem_llama3b_w4_L28_x49_n2: done in 183 s
+ARM KO4_offload_fp16_mem_llama3b_w4_L28_x50_n2: DID NOT COMPLETE (rc 1; read stderr.txt) in 181 s
+LADDER KO4 CLOSED at x=50
+ARM T_static_fp16_mem_llama3b_w8_L28_x8_n8_r1: done in 89 s
+ARM T_offload_fp16_mem_llama3b_w8_L28_x8_n8_r1: done in 91 s
+ARM T_offload_fp16_mem_llama3b_w8_L28_x8_n8_r2: done in 90 s
+ARM T_static_fp16_mem_llama3b_w8_L28_x8_n8_r2: done in 89 s
+ARM T_static_fp16_mem_llama3b_w8_L28_x16_n6_r1: done in 119 s
+ARM T_offload_fp16_mem_llama3b_w8_L28_x16_n6_r1: done in 119 s
+ARM T_offload_fp16_mem_llama3b_w8_L28_x16_n6_r2: done in 118 s
+ARM T_static_fp16_mem_llama3b_w8_L28_x16_n6_r2: done in 119 s
+ARM T_static_fp16_mem_llama3b_w8_L28_x32_n5_r1: done in 204 s
+ARM T_offload_fp16_mem_llama3b_w8_L28_x32_n5_r1: done in 210 s
+ARM T_offload_fp16_mem_llama3b_w8_L28_x32_n5_r2: done in 208 s
+ARM T_static_fp16_mem_llama3b_w8_L28_x32_n5_r2: done in 205 s
+=== TIME CALIBRATION (x = 8, 16, 32; static and offload, two repeats each) ===
+  x=  8  static    5.294 s  offload 5.409 s  delta per repeat [0.226, 0.004]
+  x= 16  static   12.194 s  offload 12.097 s  delta per repeat [-0.008, -0.186]
+  x= 32  static   31.722 s  offload 31.926 s  delta per repeat [0.125, 0.281]
+# A30 TIME PREDICTIONS, written 2026-11-11T13:36:50 BEFORE the x=44 arms ran
+# T(x) = 0.014921 x^2 + 0.50434 x + 0.3044 s   (static, llama3b, L=28, world 8, fp16 mem-efficient)
+# kappa = 0.00388 s per x   (V100: 0.032)
+# T-P3 predicted at x=44: static 51.38 s, tax 0.33%
+# T-P4 crossings: x*(2%) = -1.0, x*(1%) = nan   (V100: ~79 and ~150)
+# Falsifier: a measured tax at x=44 outside +-30% of these, or kappa at
+# x=44 differing from the calibrated kappa by more than 30% (the cost is not linear in x here).
+ARM T_static_fp16_mem_llama3b_w8_L28_x44_n4_r1: done in 262 s
+ARM T_offload_fp16_mem_llama3b_w8_L28_x44_n4_r1: done in 270 s
+ARM T_offload_fp16_mem_llama3b_w8_L28_x44_n4_r2: done in 270 s
+ARM T_static_fp16_mem_llama3b_w8_L28_x44_n4_r2: done in 262 s
+=== A30 JOB REPORT: rank8_out/821554 (36 of 40 arms completed) ===
+=== BYTES: every arm against its harness line (A30 platform = V100 workspace carried) ===
+  B_offload_fp16_mem_w8_L64_x24_n3                           peak   1945.141  line   1945.080  offset   +0.060   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_w8_L64_x48_n3                           peak   2852.828  line   2852.768  offset   +0.060   [sdpa_mem_efficient, fp16]
+  B_offload_fp16_mem_w8_L64_x96_n3                           peak   4668.203  line   4668.143  offset   +0.060   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_w8_L64_x24_n3                            peak   4006.075  line   4006.030  offset   +0.045   [sdpa_mem_efficient, fp16]
+  B_static_fp16_mem_w8_L64_x48_n3                            peak   7181.763  line   7181.717  offset   +0.045   [sdpa_mem_efficient, fp16]
+  BR_offload_fp16_mem_llama3b_w8_L28_x16_n3                  peak  11856.260  line  11856.257  offset   +0.002   [sdpa_mem_efficient, fp16]
+  BR_offload_fp16_mem_llama3b_w8_L28_x48_n3                  peak  16676.010  line  16676.007  offset   +0.002   [sdpa_mem_efficient, fp16]
+  BR_static_fp16_mem_llama3b_w8_L28_x16_n3                   peak  13152.187  line  13152.184  offset   +0.002   [sdpa_mem_efficient, fp16]
+  BR_static_fp16_mem_llama3b_w8_L28_x32_n3                   peak  18058.062  line  18058.059  offset   +0.002   [sdpa_mem_efficient, fp16]
+  BR4_offload_fp16_mem_llama3b_w4_L28_x16_n3                 peak  18215.833  line  18215.831  offset   +0.002   [sdpa_mem_efficient, fp16]
+  BR4_static_fp16_mem_llama3b_w4_L28_x16_n3                  peak  18311.833  line  18311.831  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_llama3b_w8_L28_x8_n8_r1                 peak  11028.915  line  11028.918  offset   -0.003   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_llama3b_w8_L28_x8_n8_r2                 peak  11028.915  line  11028.918  offset   -0.003   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_llama3b_w8_L28_x16_n6_r1                peak  11856.260  line  11856.257  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_llama3b_w8_L28_x16_n6_r2                peak  11856.260  line  11856.257  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_llama3b_w8_L28_x32_n5_r1                peak  14266.135  line  14266.132  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_llama3b_w8_L28_x32_n5_r2                peak  14266.135  line  14266.132  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_llama3b_w8_L28_x44_n4_r1                peak  16073.541  line  16073.539  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_offload_fp16_mem_llama3b_w8_L28_x44_n4_r2                peak  16073.541  line  16073.539  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_llama3b_w8_L28_x8_n8_r1                  peak  11028.915  line  11028.918  offset   -0.003   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_llama3b_w8_L28_x8_n8_r2                  peak  11028.915  line  11028.918  offset   -0.003   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_llama3b_w8_L28_x16_n6_r1                 peak  13152.187  line  13152.184  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_llama3b_w8_L28_x16_n6_r2                 peak  13152.187  line  13152.184  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_llama3b_w8_L28_x32_n5_r1                 peak  18058.062  line  18058.059  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_llama3b_w8_L28_x32_n5_r2                 peak  18058.062  line  18058.059  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_llama3b_w8_L28_x44_n4_r1                 peak  21737.468  line  21737.465  offset   +0.002   [sdpa_mem_efficient, fp16]
+  T_static_fp16_mem_llama3b_w8_L28_x44_n4_r2                 peak  21737.468  line  21737.465  offset   +0.002   [sdpa_mem_efficient, fp16]
+A-P1 common offset over R-A1 arms: +0.002 MiB (spread 0.058); MISS: offsets differ, a byte term moved on Ampere
+A-P2 A30 workspace = 16.2583 MiB (lean: V100's 16.2559, offset 0); HELD
+=== TIME (R-A5): pooled static, offload, per-repeat delta, tax ===
+  x=  8  static    5.294 s  delta +0.115 s  per x +0.0144  tax  2.18%  repeats [0.226, 0.004]
+  x= 16  static   12.194 s  delta -0.097 s  per x -0.0060  tax -0.79%  repeats [-0.008, -0.186]
+  x= 32  static   31.722 s  delta +0.203 s  per x +0.0064  tax  0.64%  repeats [0.125, 0.281]
+  x= 44  static   54.574 s  delta -0.720 s  per x -0.0164  tax -1.32%  repeats [-0.749, -0.69]
+  pre-registered in-job:
+# A30 TIME PREDICTIONS, written 2026-11-11T13:36:50 BEFORE the x=44 arms ran
+# T(x) = 0.014921 x^2 + 0.50434 x + 0.3044 s   (static, llama3b, L=28, world 8, fp16 mem-efficient)
+# kappa = 0.00388 s per x   (V100: 0.032)
+# T-P3 predicted at x=44: static 51.38 s, tax 0.33%
+# T-P4 crossings: x*(2%) = -1.0, x*(1%) = nan   (V100: ~79 and ~150)
+# Falsifier: a measured tax at x=44 outside +-30% of these, or kappa at
+# x=44 differing from the calibrated kappa by more than 30% (the cost is not linear in x here).
+=== NCCL TRANSPORTS (channel lines, all ranks) and GPU clocks (1 Hz, util >= 90%) ===
+  block B: NET/IB x400, P2P/CUMEM x380, SHM x300
+  block BR: NET/IB x320, P2P/CUMEM x304, SHM x240
+  block BR4: P2P/CUMEM x56, SHM x56
+  block KO4: P2P/CUMEM x56, SHM x56
+  block KO8: NET/IB x320, P2P/CUMEM x304, SHM x240
+  block KS4: P2P/CUMEM x84, SHM x84
+  block KS8: NET/IB x320, P2P/CUMEM x304, SHM x240
+  block T: NET/IB x1280, P2P/CUMEM x1216, SHM x960
+  T_offload_fp16_mem_llama3b_w8_L28_x16_n6_r1  SM 1337 MHz, 145 W, 44 C, throttled 0% of 276 samples
+  T_offload_fp16_mem_llama3b_w8_L28_x16_n6_r2  SM 1322 MHz, 149 W, 45 C, throttled 0% of 266 samples
+  T_offload_fp16_mem_llama3b_w8_L28_x32_n5_r1  SM 1337 MHz, 155 W, 49 C, throttled 0% of 630 samples
+  T_offload_fp16_mem_llama3b_w8_L28_x32_n5_r2  SM 1334 MHz, 156 W, 49 C, throttled 0% of 622 samples
+  T_offload_fp16_mem_llama3b_w8_L28_x44_n4_r1  SM 1333 MHz, 158 W, 50 C, throttled 0% of 840 samples
+  T_offload_fp16_mem_llama3b_w8_L28_x44_n4_r2  SM 1332 MHz, 158 W, 50 C, throttled 0% of 851 samples
+  T_offload_fp16_mem_llama3b_w8_L28_x8_n8_r1   SM 1336 MHz, 138 W, 41 C, throttled 0% of 174 samples
+  T_offload_fp16_mem_llama3b_w8_L28_x8_n8_r2   SM 1339 MHz, 136 W, 41 C, throttled 0% of 168 samples
+  T_static_fp16_mem_llama3b_w8_L28_x16_n6_r1   SM 1333 MHz, 143 W, 43 C, throttled 0% of 288 samples
+  T_static_fp16_mem_llama3b_w8_L28_x16_n6_r2   SM 1329 MHz, 145 W, 44 C, throttled 0% of 290 samples
+  T_static_fp16_mem_llama3b_w8_L28_x32_n5_r1   SM 1330 MHz, 157 W, 49 C, throttled 0% of 627 samples
+  T_static_fp16_mem_llama3b_w8_L28_x32_n5_r2   SM 1336 MHz, 155 W, 49 C, throttled 0% of 619 samples
+  T_static_fp16_mem_llama3b_w8_L28_x44_n4_r1   SM 1329 MHz, 160 W, 50 C, throttled 0% of 861 samples
+  T_static_fp16_mem_llama3b_w8_L28_x44_n4_r2   SM 1331 MHz, 157 W, 50 C, throttled 0% of 869 samples
+  T_static_fp16_mem_llama3b_w8_L28_x8_n8_r1    SM 1343 MHz, 138 W, 43 C, throttled 0% of 170 samples
+  T_static_fp16_mem_llama3b_w8_L28_x8_n8_r2    SM 1343 MHz, 135 W, 41 C, throttled 0% of 178 samples
+  host copy bandwidth, all GPUs concurrently, per GPU: D2H 13.44 GB/s, H2D 24.89 GB/s; solo GPU 0 24.5/25.1; GPU 1 23.4/24.9; GPU 2 22.9/25.1; GPU 3 25.1/25.0
+=== NATIVE LADDERS (in-job predictions, Ampere reserve carried) ===
+  KO4  offload  llama3b w4: measured [49, 50)  predicted 50 (50-51, +-2 rungs)  failing request 800.0 MiB (backward: True)  -> HELD
+  KO8  offload  llama3b w8: measured [91, 92)  predicted 91 (90-92, +-2 rungs)  failing request 1474.56 MiB (backward: True)  -> HELD
+  KS4  static   llama3b w4: measured [32, 33)  predicted 32 (32-32, +-2 rungs)  failing request 528.0 MiB (backward: True)  -> HELD
+  KS8  static   llama3b w8: measured [49, 50)  predicted 49 (48-49, +-2 rungs)  failing request 800.0 MiB (backward: True)  -> HELD
+  span KO4/KS4 (llama3b, world 4): measured 1.531, predicted 1.562
+  span KO8/KS8 (llama3b, world 8): measured 1.857, predicted 1.857
+=== DONE in 123 min: ./rank8_collect.sh 821554 ===

@@ -1,0 +1,28 @@
+[W1111 12:48:01.228972720 TCPStore.cpp:115] [c10d] recvVector failed on SocketImpl(fd=3, addr=[nodeA008.cm.clusterA]:33876, remote=[nodeA004.cm.clusterA]:30418): failed to recv, got 0 bytes
+Exception raised from recvBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:671 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x1555012f11b6 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311918 (0x15553c8f5918 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x6311f39 (0x15553c8f5f39 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x6314e57 (0x15553c8f8e57 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::compareSet(std::string const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x24c (0x15553c8f27bc in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0xe1be6d (0x15554c4ede6d in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x51a21a (0x15554bbec21a in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+<omitting python frames>
+frame #23: <unknown function> + 0x2a610 (0x155554a2a610 in /lib64/libc.so.6)
+frame #24: __libc_start_main + 0x80 (0x155554a2a6c0 in /lib64/libc.so.6)
+frame #25: _start + 0x25 (0x401075 in /home/user/a30_venv/bin/python3.12)
+
+W1111 12:48:01.179000 1962351 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'nodeA008.cm.clusterA_1962351_0' has failed to shutdown the rendezvous '821554_30418' due to an error of type RendezvousConnectionError.
+[W1111 12:48:01.234318079 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[nodeA008.cm.clusterA]:33876, remote=[nodeA004.cm.clusterA]:30418): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x1555012f11b6 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x15553c8f5c1d in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::compareSet(std::string const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x225 (0x15553c8f2795 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0xe1be6d (0x15554c4ede6d in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+frame #4: <unknown function> + 0x51a21a (0x15554bbec21a in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+<omitting python frames>
+frame #21: <unknown function> + 0x2a610 (0x155554a2a610 in /lib64/libc.so.6)
+frame #22: __libc_start_main + 0x80 (0x155554a2a6c0 in /lib64/libc.so.6)
+frame #23: _start + 0x25 (0x401075 in /home/user/a30_venv/bin/python3.12)
+
+W1111 12:48:01.182000 1962351 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'nodeA008.cm.clusterA_1962351_0' has failed to shutdown the rendezvous '821554_30418' due to an error of type RendezvousConnectionError.

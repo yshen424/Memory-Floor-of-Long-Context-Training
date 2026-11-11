@@ -1,0 +1,104 @@
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1846, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1842, in main
+[rank1]:     dist.destroy_process_group()
+[rank1]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 2146, in destroy_process_group
+[rank1]:     _shutdown_backend(pg_to_shutdown)
+[rank1]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 1815, in _shutdown_backend
+[rank1]:     backend._shutdown()
+[rank1]: torch.distributed.DistBackendError: NCCL error in: /pytorch/torch/csrc/distributed/c10d/NCCLUtils.cpp:133, unhandled cuda error (run with NCCL_DEBUG=INFO for details), NCCL version 2.21.5
+[rank1]: ncclUnhandledCudaError: Call to CUDA function failed.
+[rank1]: Last error:
+[rank1]: Cuda failure 'out of memory'
+W1111 12:14:53.828000 2543916 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 2543932 closing signal SIGTERM
+W1111 12:14:53.829000 2543916 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 2543933 closing signal SIGTERM
+E1111 12:14:55.508000 2543916 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 1 (pid: 2543931) of binary: /home/user/a30_venv/bin/python3.12
+Traceback (most recent call last):
+  File "/home/user/a30_venv/bin/torchrun", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+code/train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-11-11_12:14:53
+  host      : nodeA004.cm.clusterA
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 2543931)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+[W1111 12:14:55.691818428 TCPStore.cpp:125] [c10d] recvValue failed on SocketImpl(fd=3, addr=[nodeA008.cm.clusterA]:45840, remote=[nodeA004.cm.clusterA]:30411): failed to recv, got 0 bytes
+Exception raised from recvBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:671 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x1555012f11b6 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6312668 (0x15553c8f6668 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x6314b1b (0x15553c8f8b1b in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::incrementValueBy(std::string const&, long) + 0x7a (0x15553c8f19fa in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::add(std::string const&, long) + 0x7a (0x15553c8f1ada in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::PrefixStore::add(std::string const&, long) + 0x37 (0x15553c8a1677 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #6: <unknown function> + 0xe89944 (0x15554c55b944 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+frame #7: <unknown function> + 0x51a21a (0x15554bbec21a in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+<omitting python frames>
+frame #23: <unknown function> + 0x2a610 (0x155554a2a610 in /lib64/libc.so.6)
+frame #24: __libc_start_main + 0x80 (0x155554a2a6c0 in /lib64/libc.so.6)
+frame #25: _start + 0x25 (0x401075 in /home/user/a30_venv/bin/python3.12)
+
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954] Error waiting on exit barrier. Elapsed: 0.0048732757568359375 seconds
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954] Traceback (most recent call last):
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954]   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/agent/server/api.py", line 940, in _exit_barrier
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954]     store_util.barrier(
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954]   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/utils/store.py", line 196, in barrier
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954]     last_member_key = _barrier_nonblocking(
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954]                       ^^^^^^^^^^^^^^^^^^^^^
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954]   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/utils/store.py", line 159, in _barrier_nonblocking
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954]     idx = store.add(num_members_key, 1)
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954]           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E1111 12:14:55.642000 1958668 torch/distributed/elastic/agent/server/api.py:954] torch.distributed.DistNetworkError: failed to recv, got 0 bytes
+[W1111 12:14:55.727949894 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[nodeA008.cm.clusterA]:45840, remote=[nodeA004.cm.clusterA]:30411): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x1555012f11b6 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x15553c8f5c1d in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::compareSet(std::string const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x225 (0x15553c8f2795 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0xe1be6d (0x15554c4ede6d in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+frame #4: <unknown function> + 0x51a21a (0x15554bbec21a in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+<omitting python frames>
+frame #21: <unknown function> + 0x2a610 (0x155554a2a610 in /lib64/libc.so.6)
+frame #22: __libc_start_main + 0x80 (0x155554a2a6c0 in /lib64/libc.so.6)
+frame #23: _start + 0x25 (0x401075 in /home/user/a30_venv/bin/python3.12)
+
+W1111 12:14:55.676000 1958668 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'nodeA008.cm.clusterA_1958668_0' has failed to shutdown the rendezvous '821554_30411' due to an error of type RendezvousConnectionError.
+[W1111 12:14:55.731561626 TCPStore.cpp:106] [c10d] sendBytes failed on SocketImpl(fd=3, addr=[nodeA008.cm.clusterA]:45840, remote=[nodeA004.cm.clusterA]:30411): Broken pipe
+Exception raised from sendBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:646 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x1555012f11b6 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x6311c1d (0x15553c8f5c1d in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: c10d::TCPStore::compareSet(std::string const&, std::vector<unsigned char, std::allocator<unsigned char> > const&, std::vector<unsigned char, std::allocator<unsigned char> > const&) + 0x225 (0x15553c8f2795 in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0xe1be6d (0x15554c4ede6d in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+frame #4: <unknown function> + 0x51a21a (0x15554bbec21a in /home/user/a30_venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so)
+<omitting python frames>
+frame #21: <unknown function> + 0x2a610 (0x155554a2a610 in /lib64/libc.so.6)
+frame #22: __libc_start_main + 0x80 (0x155554a2a6c0 in /lib64/libc.so.6)
+frame #23: _start + 0x25 (0x401075 in /home/user/a30_venv/bin/python3.12)
+
+W1111 12:14:55.679000 1958668 torch/distributed/elastic/rendezvous/dynamic_rendezvous.py:1284] The node 'nodeA008.cm.clusterA_1958668_0' has failed to shutdown the rendezvous '821554_30411' due to an error of type RendezvousConnectionError.
+srun: error: nodeA004: task 0: Exited with exit code 1
+srun: Terminating StepId=821554.11
+srun: error: nodeA008: task 1: Terminated
+srun: Force Terminated StepId=821554.11

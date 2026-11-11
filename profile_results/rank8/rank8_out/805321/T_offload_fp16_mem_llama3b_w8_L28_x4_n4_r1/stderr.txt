@@ -1,0 +1,66 @@
+[rank5]: Traceback (most recent call last):
+[rank5]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1846, in <module>
+[rank5]:     main()
+[rank5]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1842, in main
+[rank5]:     dist.destroy_process_group()
+[rank5]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 2146, in destroy_process_group
+[rank5]:     _shutdown_backend(pg_to_shutdown)
+[rank5]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 1815, in _shutdown_backend
+[rank5]:     backend._shutdown()
+[rank5]: torch.distributed.DistBackendError: NCCL error in: /pytorch/torch/csrc/distributed/c10d/NCCLUtils.cpp:133, unhandled cuda error (run with NCCL_DEBUG=INFO for details), NCCL version 2.21.5
+[rank5]: ncclUnhandledCudaError: Call to CUDA function failed.
+[rank5]: Last error:
+[rank5]: Cuda failure 'out of memory'
+[rank7]: Traceback (most recent call last):
+[rank7]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1846, in <module>
+[rank7]:     main()
+[rank7]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1842, in main
+[rank7]:     dist.destroy_process_group()
+[rank7]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 2146, in destroy_process_group
+[rank7]:     _shutdown_backend(pg_to_shutdown)
+[rank7]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 1815, in _shutdown_backend
+[rank7]:     backend._shutdown()
+[rank7]: torch.distributed.DistBackendError: NCCL error in: /pytorch/torch/csrc/distributed/c10d/NCCLUtils.cpp:133, unhandled cuda error (run with NCCL_DEBUG=INFO for details), NCCL version 2.21.5
+[rank7]: ncclUnhandledCudaError: Call to CUDA function failed.
+[rank7]: Last error:
+[rank7]: Cuda failure 'out of memory'
+W1110 01:29:13.775000 1664627 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 1664640 closing signal SIGTERM
+W1110 01:29:13.776000 1664627 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 1664641 closing signal SIGTERM
+E1110 01:29:14.554000 1664627 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 3 (pid: 1664642) of binary: /home/user/a30_venv/bin/python3.12
+Traceback (most recent call last):
+  File "/home/user/a30_venv/bin/torchrun", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+code/train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-11-10_01:29:13
+  host      : nodeA009.cm.clusterA
+  rank      : 7 (local_rank: 3)
+  exitcode  : 1 (pid: 1664642)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: nodeA009: task 1: Exited with exit code 1
+srun: Terminating StepId=805321.7
+[2026-11-10T01:29:14.812] error: *** STEP 805321.7 ON nodeA008 CANCELLED AT 2026-11-10T01:29:14 DUE TO TASK FAILURE ***
+srun: error: nodeA008: task 0: Killed
+srun: Force Terminated StepId=805321.7

@@ -1,0 +1,99 @@
+[rank7]: Traceback (most recent call last):
+[rank7]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1846, in <module>
+[rank7]:     main()
+[rank7]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1551, in main
+[rank7]:     loss.backward()
+[rank7]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/_tensor.py", line 626, in backward
+[rank7]:     torch.autograd.backward(
+[rank7]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 347, in backward
+[rank7]:     _engine_run_backward(
+[rank7]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/autograd/graph.py", line 823, in _engine_run_backward
+[rank7]:     return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+[rank7]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank7]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.44 GiB. GPU 3 has a total capacity of 23.60 GiB of which 1.38 GiB is free. Including non-PyTorch memory, this process has 22.15 GiB memory in use. Of the allocated memory 21.23 GiB is allocated by PyTorch, and 288.84 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank6]: Traceback (most recent call last):
+[rank6]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1846, in <module>
+[rank6]:     main()
+[rank6]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1551, in main
+[rank6]:     loss.backward()
+[rank6]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/_tensor.py", line 626, in backward
+[rank6]:     torch.autograd.backward(
+[rank6]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 347, in backward
+[rank6]:     _engine_run_backward(
+[rank6]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/autograd/graph.py", line 823, in _engine_run_backward
+[rank6]:     return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+[rank6]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank6]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.44 GiB. GPU 2 has a total capacity of 23.60 GiB of which 1.38 GiB is free. Including non-PyTorch memory, this process has 22.15 GiB memory in use. Of the allocated memory 21.23 GiB is allocated by PyTorch, and 288.84 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+W1111 12:55:18.268000 1963214 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 1963227 closing signal SIGTERM
+W1111 12:55:18.269000 1963214 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 1963228 closing signal SIGTERM
+W1111 12:55:18.269000 1963214 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 1963229 closing signal SIGTERM
+E1111 12:55:25.004000 1963214 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 3 (pid: 1963230) of binary: /home/user/a30_venv/bin/python3.12
+Traceback (most recent call last):
+  File "/home/user/a30_venv/bin/torchrun", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+code/train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-11-11_12:55:18
+  host      : nodeA008.cm.clusterA
+  rank      : 7 (local_rank: 3)
+  exitcode  : 1 (pid: 1963230)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: nodeA008: task 1: Exited with exit code 1
+srun: Terminating StepId=821554.19
+[2026-11-11T12:55:25.233] error: *** STEP 821554.19 ON nodeA004 CANCELLED AT 2026-11-11T12:55:25 DUE TO TASK FAILURE ***
+W1111 12:55:25.233000 2548620 torch/distributed/elastic/agent/server/api.py:719] Received 15 death signal, shutting down workers
+W1111 12:55:25.235000 2548620 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 2548634 closing signal SIGTERM
+W1111 12:55:25.236000 2548620 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 2548635 closing signal SIGTERM
+W1111 12:55:25.236000 2548620 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 2548636 closing signal SIGTERM
+W1111 12:55:25.237000 2548620 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 2548637 closing signal SIGTERM
+Traceback (most recent call last):
+  File "/home/user/a30_venv/bin/torchrun", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 260, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/agent/server/api.py", line 711, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/agent/server/api.py", line 870, in _invoke_run
+    time.sleep(monitor_interval)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 84, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 2548620 got signal: 15
+srun: error: nodeA004: task 0: Exited with exit code 1

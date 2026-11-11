@@ -77,12 +77,12 @@ V100_CAP_DELTA_MIB = 33.1
 PLATFORMS = {
     'v100': Platform(
         name='v100', ws_mib=16.2559, usable_mib=15.77 * 1024, ranks_per_node=1,
-        host_ram_gib=112, d2h_gibps=6.54, h2d_gibps=7.73,
+        host_ram_gib=112000 / 1024, d2h_gibps=6.54, h2d_gibps=7.73,
         capacity=_V100_CAPACITY,
         provenance={'capacity': 'calibrated on the x>=100 rungs of 7743/7744/7747 (tests/test_harness_brackets.py)',
                     'ws_mib': 'calibrated 31.2588, less the shape term of terms.py; four-rank fit 16.2561 (tests/test_harness_v100.py)',
                     'links': '7744 x=356 copy telemetry'}),
-    # A30-24G (ClusterA, sm80, 4 per node, 515 GB host). ws_mib is CARRIED from V100,
+    # A30-24G (ClusterA, sm80, 4 per node, 503.4 GiB host). ws_mib is CARRIED from V100,
     # net of the shape term (the job package's harness copy carries 31.2588 with no
     # shape term: same totals at tier-A) (the L40S 621880 static arm landed on the
     # V100 line to 0.00 MiB, so the lean is that the workspace is a library constant);
@@ -91,15 +91,15 @@ PLATFORMS = {
     # before predicting its native bracket. usable_mib is nominal; the job reads the card.
     'a30': Platform(
         name='a30', ws_mib=16.2559, usable_mib=24 * 1024.0, ranks_per_node=4,
-        host_ram_gib=515, capacity=None,
+        host_ram_gib=503.4, capacity=None,
         provenance={'ws_mib': 'carried from V100 (lean); measured by the A30 job',
                     'capacity': 'calibrated in-job (tools/a30_frontier.py)'}),
-    # L40S-48G (ClusterA, Ada sm89, 4 per node, PCIe-only, 515 GB host). ws_mib CARRIED
+    # L40S-48G (ClusterA, Ada sm89, 4 per node, PCIe-only, 503.4 GiB host). ws_mib CARRIED
     # from V100: 621880's static and offload arms (L=32, x=8) sit on these lines to
     # 0.001 MiB. Capacity calibrated in-job, as on the A30 (tools/remote_frontier.py).
     'l40s': Platform(
         name='l40s', ws_mib=16.2559, usable_mib=45459.5, ranks_per_node=4,
-        host_ram_gib=515, d2h_gibps=25.9 / 1.0737, h2d_gibps=24.8 / 1.0737,
+        host_ram_gib=503.4, d2h_gibps=25.9 / 1.0737, h2d_gibps=24.8 / 1.0737,
         # NATIVE capacity, fitted POST HOC on 630188's six native brackets (3B static and
         # offload, tier-A static); one (C0, alpha) fits both shapes. The follow-up job
         # registers its new brackets from it.
@@ -128,3 +128,10 @@ PLATFORMS = {
 # realistic shape. Its predictions are an out-of-sample test of the post hoc shape
 # terms in terms.py.
 LLAMA32_3B = ModelShape(hidden=3072, intermediate=8192, n_q=24, n_kv=8, layers=28, vocab=128256)
+
+# A 7B-like shape with grouped-query attention (hidden 4096, intermediate 14336,
+# 32 query and 8 key-value heads, Llama architecture, untied embeddings, v=32000):
+# the eight-rank A100 job's model, where a boundary is small against the replayed layer.
+MISTRAL7B = ModelShape(hidden=4096, intermediate=14336, n_q=32, n_kv=8, layers=32, vocab=32000)
+
+SHAPES = {'tier_a': TIER_A, 'llama3b': LLAMA32_3B, 'mistral7b': MISTRAL7B}

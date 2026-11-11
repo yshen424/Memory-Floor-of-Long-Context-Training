@@ -4,7 +4,7 @@ fig:dose -- the dose-response: relief against boundaries moved.  (single column)
 EVERY FILLED MARKER IS MEASURED, world 4, L=64, step 1 (the binding step):
   y = (static line at x - measured peak) / (1.50 x MiB),
 i.e. the relief in boundaries' worth at that x.  Static line 1476.80 +
-132.3201x (7744 S); with CPU offload 183.89 + 132.3201x (7756).
+132.3203x (7744 S); with CPU offload 183.89 + 132.3203x (7756).
   engine W=0, below the cap: x=100 / 108 / 140 / 280 -> 0 / 5 / 25 / 58 picks
       (7747 M4, 7744 E)
   engine at the cap: W=0 x=328, 356 (63 picks); W=1 x=328, 340, 344 (62);

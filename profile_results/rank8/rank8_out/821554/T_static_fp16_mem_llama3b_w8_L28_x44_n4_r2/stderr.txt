@@ -1,0 +1,145 @@
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1846, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1842, in main
+[rank1]:     dist.destroy_process_group()
+[rank1]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 2146, in destroy_process_group
+[rank1]:     _shutdown_backend(pg_to_shutdown)
+[rank1]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 1815, in _shutdown_backend
+[rank1]:     backend._shutdown()
+[rank1]: torch.distributed.DistBackendError: NCCL error in: /pytorch/torch/csrc/distributed/c10d/NCCLUtils.cpp:133, unhandled cuda error (run with NCCL_DEBUG=INFO for details), NCCL version 2.21.5
+[rank1]: ncclUnhandledCudaError: Call to CUDA function failed.
+[rank1]: Last error:
+[rank1]: Cuda failure 'out of memory'
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1846, in <module>
+[rank3]:     main()
+[rank3]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1842, in main
+[rank3]:     dist.destroy_process_group()
+[rank3]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 2146, in destroy_process_group
+[rank3]:     _shutdown_backend(pg_to_shutdown)
+[rank3]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 1815, in _shutdown_backend
+[rank3]:     backend._shutdown()
+[rank3]: torch.distributed.DistBackendError: NCCL error in: /pytorch/torch/csrc/distributed/c10d/NCCLUtils.cpp:133, unhandled cuda error (run with NCCL_DEBUG=INFO for details), NCCL version 2.21.5
+[rank3]: ncclUnhandledCudaError: Call to CUDA function failed.
+[rank3]: Last error:
+[rank3]: Cuda failure 'out of memory'
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1846, in <module>
+[rank2]:     main()
+[rank2]:   File "/home/user/rank8/code/train_fsdp_profile.py", line 1842, in main
+[rank2]:     dist.destroy_process_group()
+[rank2]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 2146, in destroy_process_group
+[rank2]:     _shutdown_backend(pg_to_shutdown)
+[rank2]:   File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py", line 1815, in _shutdown_backend
+[rank2]:     backend._shutdown()
+[rank2]: torch.distributed.DistBackendError: NCCL error in: /pytorch/torch/csrc/distributed/c10d/NCCLUtils.cpp:133, unhandled cuda error (run with NCCL_DEBUG=INFO for details), NCCL version 2.21.5
+[rank2]: ncclUnhandledCudaError: Call to CUDA function failed.
+[rank2]: Last error:
+[rank2]: Cuda failure 'out of memory'
+W1111 13:54:33.227000 2557644 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 2557661 closing signal SIGTERM
+W1111 13:54:33.228000 2557644 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 2557663 closing signal SIGTERM
+E1111 13:54:33.506000 2557644 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 2 (pid: 2557662) of binary: /home/user/a30_venv/bin/python3.12
+Traceback (most recent call last):
+  File "/home/user/a30_venv/bin/torchrun", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+code/train_fsdp_profile.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-11-11_13:54:33
+  host      : nodeA004.cm.clusterA
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 2557662)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+W1111 13:54:33.555000 1971050 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 1971063 closing signal SIGTERM
+W1111 13:54:33.556000 1971050 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 1971064 closing signal SIGTERM
+W1111 13:54:33.556000 1971050 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 1971065 closing signal SIGTERM
+srun: error: nodeA004: task 0: Exited with exit code 1
+srun: Terminating StepId=821554.35
+Traceback (most recent call last):
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 117, in _call_store
+    return getattr(self._store, store_op)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.distributed.DistNetworkError: failed to recv, got 0 bytes
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/agent/server/api.py", line 711, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/agent/server/api.py", line 906, in _invoke_run
+    num_nodes_waiting = rdzv_handler.num_nodes_waiting()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 1255, in num_nodes_waiting
+    self._state_holder.sync()
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/rendezvous/dynamic_rendezvous.py", line 437, in sync
+    get_response = self._backend.get_state()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 75, in get_state
+    base64_state: bytes = self._call_store("get", self._key)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/rendezvous/c10d_rendezvous_backend.py", line 119, in _call_store
+    raise RendezvousConnectionError(
+torch.distributed.elastic.rendezvous.api.RendezvousConnectionError: The connection to the C10d store has failed. See inner exception for details.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/a30_venv/bin/torchrun", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 918, in main
+    run(args)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/run.py", line 909, in run
+    elastic_launch(
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 260, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/metrics/api.py", line 137, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/agent/server/api.py", line 725, in run
+    self._shutdown()
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/agent/server/local_elastic_agent.py", line 372, in _shutdown
+    self._pcontext.close(death_sig)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 572, in close
+    self._close(death_sig=death_sig, timeout=timeout)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 909, in _close
+    handler.proc.wait(time_to_wait)
+  File "/cm/local/apps/python312/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cm/local/apps/python312/lib/python3.12/subprocess.py", line 2047, in _wait
+    time.sleep(delay)
+  File "/home/user/a30_venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 84, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 1971050 got signal: 15
+srun: error: nodeA008: task 1: Exited with exit code 1

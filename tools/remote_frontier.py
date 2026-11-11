@@ -14,10 +14,15 @@ Subcommands, run by the job in this order (each prints its verdicts and appends 
   capcal   <out> --pred FILE     calibrate (alpha, delta) on this card's four capped
                                  ladders, read the context from outside_alloc_mb, WRITE the
                                  native static bracket to FILE; last line 'RUNGS: ...'
+  natpred  <out> --pred FILE --ladder BLK --shape S --L L --world W --mode M --step K
+                                 WRITE one native ladder's bracket prediction from the Ampere
+                                 capacity reserve (A30 633912) and this job's measured card total
+                                 and context at that world; last line 'RUNGS: ...'
   read     <out>                 the whole report, every pre-registered verdict
 
-Arm directories are <out>/<BLK>_<mode>_<dt>_<attn>[_gqa][_llama3b]_L<L>_x<x>[_cap<g>]_n<n>[_r<k>].
-_llama3b selects the Llama-3.2-3B geometry (L40S blocks R, RS, RO); otherwise tier-A.
+Arm directories are <out>/<BLK>_<mode>_<dt>_<attn>[_gqa][_<shape>][_w<world>]_L<L>_x<x>[_cap<g>]_n<n>[_r<k>].
+_llama3b selects the Llama-3.2-3B-like geometry, _mistral7b the 7B-like GQA geometry; otherwise tier-A.
+_w<world> is the rank count (default 4).
 """
 import argparse
 import glob
@@ -30,8 +35,8 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from harness import PLATFORMS, Run, TIER_A, LLAMA32_3B, static_line, floor_line, calibrate   # noqa: E402
-from harness import CapacityModel, bracket                                                   # noqa: E402
+from harness import PLATFORMS, Run, TIER_A, LLAMA32_3B, MISTRAL7B, static_line, floor_line, calibrate   # noqa: E402
+from harness import CapacityModel, bracket, request_mib_per_x                                 # noqa: E402
 from harness.timemodel import TimeCalibration, fit_step_time, fit_kappa          # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from a30_followup import gpu_stats, fmt_gpu                                       # noqa: E402
@@ -50,18 +55,20 @@ def pfile(out, name):
     if not os.path.exists(p) and old and os.path.exists(os.path.join(out, f'{old}_{name}')):
         return os.path.join(out, f'{old}_{name}')
     return p
-SHAPES = {'': TIER_A, 'llama3b': LLAMA32_3B}
+SHAPES = {'': TIER_A, 'llama3b': LLAMA32_3B, 'mistral7b': MISTRAL7B}
 NATIVE_3B = ('RS', 'RO', 'RSC', 'ROC')            # 3B native ladders (C: with FSDP CPU offload)
 TAG = re.compile(r'^(?P<blk>[A-Z]+\d*)_(?P<mode>static|offload|staticcpu|offloadcpu|evict)_'
-                 r'(?P<dt>fp16|bf16)_(?P<attn>mem|flash)(?P<gqa>_gqa)?(?:_(?P<shape>llama3b))?_L(?P<L>\d+)_x(?P<x>\d+)'
+                 r'(?P<dt>fp16|bf16)_(?P<attn>mem|flash)(?P<gqa>_gqa)?(?:_(?P<shape>llama3b|mistral7b))?(?:_w(?P<world>\d+))?_L(?P<L>\d+)_x(?P<x>\d+)'
                  r'(?:_cap(?P<cap>\d+))?_n(?P<n>\d+)(?:_r(?P<rep>\d+))?$')
 V100_DELTA, V100_ALPHA = 33.1, 0.163            # V100 capped reserve and alpha (harness/config.py)
 V100_ALPHA_RANGE = (0.139, 0.186)
 TOL = 0.05                                       # MiB: a line holds to this
+AMPERE_DELTA, AMPERE_ALPHA = 59.5, 0.093         # the A30's capped ladders, 633912
+AMPERE_ALPHA_RANGE = (0.0, 0.186)
 
 
 def line_for(arm):
-    run = Run(shape=SHAPES[arm.get('shape', '')].with_layers(arm['L']), world=4,
+    run = Run(shape=SHAPES[arm.get('shape', '')].with_layers(arm['L']), world=arm.get('world', 4),
               cpu_offload=arm['mode'].endswith('cpu'), repeat_kv=not arm['gqa'],
               attn='flash' if arm['attn'] == 'flash' else 'mem_efficient')
     if arm['mode'].startswith('static'):
@@ -76,7 +83,8 @@ def load(out):
         if not m or not os.path.isdir(d):
             continue
         a = {'dir': d, 'blk': m['blk'], 'mode': m['mode'], 'dt': m['dt'], 'attn': m['attn'],
-             'gqa': bool(m['gqa']), 'shape': m['shape'] or '', 'L': int(m['L']), 'x': int(m['x']),
+             'gqa': bool(m['gqa']), 'shape': m['shape'] or '', 'world': int(m['world']) if m['world'] else 4,
+             'L': int(m['L']), 'x': int(m['x']),
              'cap': int(m['cap']) if m['cap'] else 0, 'n': int(m['n']),
              'rep': int(m['rep']) if m['rep'] else 0}
         p = os.path.join(d, 'steps_rank0.json')
@@ -213,29 +221,33 @@ def _pairs(arms, xs, blk='T'):
     return rows
 
 
-def cmd_timecal(arms, pred):
-    rows = _pairs(arms, (16, 32, 64))
-    say('=== TIME CALIBRATION (x = 16, 32, 64; static and offload, two repeats each) ===')
+def cmd_timecal(arms, pred, xs=(16, 32, 64), at=(100, 150)):
+    rows = _pairs(arms, xs)
+    T = [a for a in arms if a['blk'] == 'T' and a['fit']]
+    s0 = T[0] if T else {'shape': '', 'L': 64, 'world': 4}
+    label = (f"{s0['shape'] or 'tier-A'}, L={s0['L']}, world {s0['world']}") if s0['shape'] or s0['world'] != 4 \
+        else 'L=64, world 4'
+    say(f"=== TIME CALIBRATION (x = {', '.join(map(str, xs))}; static and offload, two repeats each) ===")
     for x, ts, to, reps in rows:
         say(f"  x={x:>3}  static {ts:8.3f} s  offload {to if to is None else round(to, 3)} s  "
             f"delta per repeat {[round(r, 3) for r in reps]}")
     if len({r[0] for r in rows}) < 3:
         say('timecal: fewer than three x values completed; no prediction written'); return
     a, b, c = fit_step_time([(x, ts) for x, ts, _, _ in rows])
-    pairs = [(x, statistics.mean(reps)) for x, _, _, reps in rows if reps and x >= 32]
+    kx = sorted(xs)[1] if len(xs) > 1 else xs[0]            # kappa on every calibration length but the shortest
+    pairs = [(x, statistics.mean(reps)) for x, _, _, reps in rows if reps and x >= kx]
     kappa = fit_kappa(pairs) if pairs else None
     if kappa is None:
-        say('timecal: no paired differences at x >= 32; no prediction written'); return
+        say('timecal: no paired differences at the calibration lengths; no prediction written'); return
     cal = TimeCalibration(a, b, c, kappa, f'{NAME} in-job: T on x=16/32/64 static, kappa on x=32/64 pairs')
-    lines = [f"# {NAME} TIME PREDICTIONS, written {time.strftime('%Y-%m-%dT%H:%M:%S')} BEFORE the x=100/150 arms ran",
-             f"# T(x) = {a:.6f} x^2 + {b:.5f} x + {c:.4f} s   (static, L=64, world 4, fp16 mem-efficient)",
+    lines = [f"# {NAME} TIME PREDICTIONS, written {time.strftime('%Y-%m-%dT%H:%M:%S')} BEFORE the x={'/'.join(map(str, at))} arms ran",
+             f"# T(x) = {a:.6f} x^2 + {b:.5f} x + {c:.4f} s   (static, {label}, fp16 mem-efficient)",
              f"# kappa = {kappa:.5f} s per x   (V100: 0.032)",
-             f"# T-P3 predicted at x=100: static {cal.step_time(100):.2f} s, tax {cal.tax(100):.2%}; "
-             f"x=150: static {cal.step_time(150):.2f} s, tax {cal.tax(150):.2%}",
+             "# T-P3 predicted at " + '; '.join(f"x={x}: static {cal.step_time(x):.2f} s, tax {cal.tax(x):.2%}" for x in at),
              f"# T-P4 crossings: x*(2%) = {cal.crossing(0.02) or float('nan'):.1f}, "
              f"x*(1%) = {cal.crossing(0.01) or float('nan'):.1f}   (V100: ~79 and ~150)",
-             "# Falsifier: a measured tax at x=100 or 150 outside +-30% of these, or kappa at",
-             "# x=100/150 differing from the calibrated kappa by more than 30% (the cost is not linear in x here)."]
+             f"# Falsifier: a measured tax at x={' or '.join(map(str, at))} outside +-30% of these, or kappa at",
+             f"# x={'/'.join(map(str, at))} differing from the calibrated kappa by more than 30% (the cost is not linear in x here)."]
     open(pred, 'w').write('\n'.join(lines) + '\n')
     say('\n'.join(lines))
 
@@ -305,11 +317,88 @@ def cmd_capcal(arms, pred, node):
     say('\n'.join(lines))
 
 
+# ── native ladders at any shape and rank count (the eight-rank jobs) ─────────────
+def _context(arms, world):
+    """Bytes outside the allocator: max over this job's completed uncapped arms at this
+    rank count (it grows with the rank count), else over all completed arms."""
+    same = [v for a in arms if a['fit'] and not a['cap'] and a['world'] == world for v in a.get('outside', [])]
+    anyw = [v for a in arms if a['fit'] and not a['cap'] for v in a.get('outside', [])]
+    return max(same) if same else (max(anyw) if anyw else None)
+
+
+def _native_fits(arm, total, ctx, off, step, alphas):
+    """Largest fitting rung (multiple of step) under fits iff line + off <= total - ctx - delta - alpha * request."""
+    ln = line_for(arm)
+    run = Run(shape=SHAPES[arm['shape']].with_layers(arm['L']), world=arm['world'])
+    rq = request_mib_per_x(run)
+    out = []
+    for al in alphas:
+        xs = [x for x in range(step, 4096, step) if ln.at(x) + off <= total - ctx - AMPERE_DELTA - al * rq * x]
+        out.append(max(xs) if xs else 0)
+    return out
+
+
+def cmd_natpred(arms, pred, node, blk, shape, L, world, mode, step):
+    total = node.get('total_mib')
+    ctx = _context(arms, world)
+    if total is None or ctx is None:
+        say(f'natpred {blk}: no card total or context reading; using the header rungs'); return
+    b_offs = [a['peak'] - line_for(a).at(a['x']) for a in arms if a['blk'].startswith('B') and a['fit'] and not a['cap']]
+    off = statistics.median(b_offs) if b_offs else 0.0
+    arm = {'shape': '' if shape == 'tier_a' else shape, 'L': L, 'world': world, 'mode': mode,
+           'gqa': False, 'attn': 'mem'}
+    lo, mid, hi = sorted(_native_fits(arm, total, ctx, off, step,
+                                      (AMPERE_ALPHA_RANGE[1], AMPERE_ALPHA, AMPERE_ALPHA_RANGE[0])))
+    ln = line_for(arm)
+    rungs = list(range(max(step, lo - step), hi + 4 * step, step))
+    lines = [f"# {NAME} NATIVE {mode.upper()} BRACKET {blk} ({shape}, L={L}, world {world}), written "
+             f"{time.strftime('%Y-%m-%dT%H:%M:%S')} BEFORE its ladder ran",
+             f"# line {ln.c:.4f} + {ln.m:.6f}x {off:+.3f} MiB (this job's common offset); card total {total:.2f} MiB; "
+             f"outside the allocator {ctx:.2f} MiB (max at world {world})",
+             f"# Ampere reserve carried from the A30 (633912): delta {AMPERE_DELTA} MiB, alpha {AMPERE_ALPHA} "
+             f"(feasible {AMPERE_ALPHA_RANGE[0]}-{AMPERE_ALPHA_RANGE[1]})",
+             f"# NP-{blk} largest fit x = {mid} at the centre; {lo}-{hi} over the alpha range; registered "
+             f"tolerance +-2 rungs (step {step}) across shapes. FALSIFIER: the measured largest fit outside "
+             f"[{lo - 2 * step}, {hi + 2 * step}]",
+             f"# the failure is a backward OOM on the replayed MLP activation, {request_mib_per_x(Run(shape=SHAPES[arm['shape']].with_layers(L), world=world)):g}x MiB",
+             f"CENTRE: {mid} {lo} {hi} {step}",
+             f"RUNGS: {' '.join(map(str, rungs))}"]
+    open(pred, 'w').write('\n'.join(lines) + '\n')
+    say('\n'.join(lines))
+
+
+def _native_ladders(arms, out):
+    """Every ladder block with a pred_native_<BLK>.txt: measured bracket against the in-job
+    prediction, and the span of each static/offload pair at the same shape and rank count."""
+    res = {}
+    for f in sorted(glob.glob(os.path.join(out, f'{PREFIX}_pred_native_*.txt'))):
+        blk = os.path.basename(f)[len(f'{PREFIX}_pred_native_'):-4]
+        rr = sorted((a for a in arms if a['blk'] == blk), key=lambda a: a['x'])
+        cen = [l for l in open(f) if l.startswith('CENTRE:')]
+        if not rr or not cen:
+            continue
+        mid, lo, hi, step = map(int, cen[0].split()[1:])
+        fits = [a['x'] for a in rr if a['fit']]; fails = [a for a in rr if not a['fit']]
+        fit = max(fits) if fits else None
+        held = fit is not None and lo - 2 * step <= fit <= hi + 2 * step and bool(fails)
+        res[blk] = (rr[0], fit, mid)
+        say(f"  {blk:<4} {rr[0]['mode']:<8} {rr[0]['shape'] or 'tier-A'} w{rr[0]['world']}: measured "
+            f"[{fit if fit is not None else '<' + str(rr[0]['x'])}, {fails[0]['x'] if fails else 'open'})  predicted "
+            f"{mid} ({lo}-{hi}, +-2 rungs)  failing request {fails[0]['request'] if fails else None} MiB "
+            f"(backward: {fails[0]['backward'] if fails else '-'})  -> {'HELD' if held else 'MISS or OPEN'}")
+    for b1, (a1, f1, m1) in res.items():
+        for b2, (a2, f2, m2) in res.items():
+            if a1['mode'] == 'static' and a2['mode'] == 'offload' and a1['shape'] == a2['shape'] \
+                    and a1['world'] == a2['world'] and f1 and f2:
+                say(f"  span {b2}/{b1} ({a1['shape'] or 'tier-A'}, world {a1['world']}): measured {f2 / f1:.3f}, "
+                    f"predicted {m2 / m1:.3f}")
+
+
 # ── read ──────────────────────────────────────────────────────────────────────
 def cmd_read(arms, out, node):
     say(f"=== {NAME} JOB REPORT: {out} ({sum(a['fit'] for a in arms)} of {len(arms)} arms completed) ===")
     for a in arms:
-        if not a['fit'] and not a['cap'] and a['blk'] not in ('N',) + NATIVE_3B:
+        if not a['fit'] and not a['cap'] and a['blk'] not in ('N',) + NATIVE_3B + _ladder_blocks(out):
             say(f"  FAILED (not a ladder rung): {os.path.basename(a['dir'])}, request {a.get('request')} -- read its stderr.txt")
     cmd_bytes(arms)
     rows = _pairs(arms, sorted({a['x'] for a in arms if a['blk'] == 'T'}))   # every timed x the job ran
@@ -347,6 +436,14 @@ def cmd_read(arms, out, node):
         if os.path.exists(pf):
             say(open(pf).read().rstrip())
     _realistic_brackets(arms, node)
+    if _ladder_blocks(out):
+        say('=== NATIVE LADDERS (in-job predictions, Ampere reserve carried) ===')
+        _native_ladders(arms, out)
+
+
+def _ladder_blocks(out):
+    return tuple(os.path.basename(f)[len(f'{PREFIX}_pred_native_'):-4]
+                 for f in glob.glob(os.path.join(out, f'{PREFIX}_pred_native_*.txt')))
 
 
 def _host_path(arms, trows):
@@ -441,9 +538,17 @@ def _realistic_brackets(arms, node):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('cmd', choices=['bytes', 'timecal', 'capcal', 'read'])
+    ap.add_argument('cmd', choices=['bytes', 'timecal', 'capcal', 'natpred', 'read'])
     ap.add_argument('out')
     ap.add_argument('--pred')
+    ap.add_argument('--xs', default='16,32,64', help='timecal: calibration lengths')
+    ap.add_argument('--at', default='100,150', help='timecal: lengths predicted')
+    ap.add_argument('--ladder', help='natpred: block name')
+    ap.add_argument('--shape', default='tier_a', choices=['tier_a', 'llama3b', 'mistral7b'])
+    ap.add_argument('--L', type=int, default=64)
+    ap.add_argument('--world', type=int, default=4)
+    ap.add_argument('--mode', default='static', choices=['static', 'offload'])
+    ap.add_argument('--step', type=int, default=1)
     ap.add_argument('--platform', choices=sorted(SITES), default='a30')
     a = ap.parse_args()
     global PLAT, NAME, ARCH, PREFIX
@@ -455,7 +560,9 @@ def main():
     if a.cmd == 'bytes':
         cmd_bytes(arms)
     elif a.cmd == 'timecal':
-        cmd_timecal(arms, a.pred)
+        cmd_timecal(arms, a.pred, tuple(map(int, a.xs.split(','))), tuple(map(int, a.at.split(','))))
+    elif a.cmd == 'natpred':
+        cmd_natpred(arms, a.pred, node, a.ladder, a.shape, a.L, a.world, a.mode, a.step)
     elif a.cmd == 'capcal':
         cmd_capcal(arms, a.pred, node)
     else:

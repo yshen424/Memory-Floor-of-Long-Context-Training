@@ -5,9 +5,10 @@ This repository holds what the paper's measurements and predictions rest on:
 - every run's measured peaks and the allocator snapshots taken at the peak;
 - the prediction model and the tests that hold it to the measurements;
 - the training driver and instrument that produced the runs;
-- the scripts that draw the paper's figures.
+- the scripts that draw the paper's figures;
+- the planner run (POET's exact program on the base configuration).
 
-Every run is a four-rank job (two- and three-rank arms test world size). The jobs ran on V100, A30, L40S and A100 nodes with PyTorch 2.6.
+The paper's results are four-rank jobs; two- and three-rank arms test world size, and two eight-rank jobs (across two A30 nodes, and on one DGX A100) test the rank count and multiple nodes. The jobs ran on V100, A30, L40S and A100 nodes with PyTorch 2.6.
 
 ## Layout
 
@@ -20,6 +21,7 @@ Every run is a four-rank job (two- and three-rank arms test world size). The job
 | `profile_results/` | One folder per job, holding the job script beside its outputs. `runs_4gpu.csv` has one row per arm: platform, job, configuration, peaks, step times, losses and the instrument's pick counts. |
 | `remote/` | The remote job packages (build, submit and collect scripts, READMEs), each with the `code/` it ran, plus `host_facts/` for the platform table. |
 | `figures/` | One folder per figure script, the shared style (`paperstyle.py`), and the measured constants used by several figures (`world4.py`). |
+| `planner/` | The planner run: POET's integer program on the base configuration's graph, its logs and how to rerun it (`planner/README.md`). |
 
 ## Requirements
 
@@ -52,6 +54,8 @@ cd figures/f15 && python3 plot_fig15.py
 | Fig. 4 | `figures/f6/plot_fig6.py` | | Fig. 9 | `figures/f12/plot_fig12.py` |
 | Fig. 5 | `figures/f13/plot_fig13.py` | | Fig. 10 | `figures/f9/plot_fig9.py` |
 
+**The eight-rank jobs and the sizing table:** `remote/rank8/README.md` (the reader's report, and `tools/rank8_time.py` for the time numbers as the paper pools them). **The planner run:** `planner/README.md`.
+
 Fig. 7 (registered against measured peaks) reads `figures/f15/parity_points.csv` for the V100 arms. It reads `figures/f9/remote_bytes.json` for the A30, L40S and A100 arms, which `PYTHONPATH=. python3 figures/f9/gather_remote_bytes.py` rebuilds from `profile_results/`.
 
 ## Inside a job folder
@@ -66,7 +70,7 @@ Fig. 7 (registered against measured peaks) reads `figures/f15/parity_points.csv`
 
 Not included:
 - **Profiler traces** (`*.pt.trace.json`, about 2 GB). The attention-replay share derived from them is kept in `attn_share.json`.
-- **Ranks 1–3 observer records.** Every rank's step peaks are in `steps_rank<r>.json`.
+- **Observer records of ranks other than 0.** Every rank's step peaks are in `steps_rank<r>.json`.
 - **Job-level scheduler logs.** Each arm's own outputs are kept.
 
 ## Notes on the text in this repository

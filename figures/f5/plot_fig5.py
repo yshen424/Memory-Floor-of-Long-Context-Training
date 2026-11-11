@@ -28,7 +28,7 @@ PANEL (b) -- achievable span at perfect relief against depth.
   n = 440.77 MiB/x with chunked CE off (7744 block U), 36.3203 with chunked CE
   (harness arithmetic; the four-rank lines at L=32/64/128 agree to 0.0003).
   L=128 on the chunked-CE curve is a MEASURED (filled) point (job 7761: D1
-  static slope 228.3201 -> span 6.2863).
+  static slope 228.3203 -> span 6.2863).
 
 Every point is a world-4 line.  Per-module is drawn WITH the chunked loss,
 n = 421.81 - 6.0078*64 = 37.31 (7747 per-module line 1485.80 + 421.81x,
