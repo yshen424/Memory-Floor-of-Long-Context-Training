@@ -11,7 +11,7 @@ the library workspace: F in Proposition 3.1, and the optimizer-step and end-of-b
 instants) are not in the graph and add to every mode alike.
 
 Runs (each in its own process, appended to ../logs/paper_run.jsonl):
-  static   minimum peak with no paging: 36.3203 + 1.5 L (Table 3's static slope at L=64: 132.3203)
+  static   minimum peak with no paging: 36.3203 + 1.5 L (Table 2's static slope at L=64: 132.3203)
   inclass  boundary placement only (the paper's class): minimum peak at L = 8, 16, 32, 64; at L=64
            also feasibility at the minimum and at the minimum - 0.001 MiB, and the least-traffic
            schedule at the minimum (POET's own objective)

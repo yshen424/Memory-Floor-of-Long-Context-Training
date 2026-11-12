@@ -20,7 +20,7 @@ POET [Patil et al., ICML 2022] solves recomputation and offloading together as o
 
 | run | minimum peak (MiB per 1024 tokens) |
 |---|---|
-| static, depth 64 | 132.3203, Table 3's static slope |
+| static, depth 64 | 132.3203, Table 2's static slope |
 | in-class, depths 8, 16, 32, 64 | 37.8203 at every depth, Eq. 4's slope |
 | in-class, depth 64, at 37.8203 and at 37.8193 | feasible with 94.5 MiB in and 94.5 out (63 boundaries, never the last); infeasible |
 | wide_replay, between whole replays, depth 64 | 34.5547 (8.6% lower) |

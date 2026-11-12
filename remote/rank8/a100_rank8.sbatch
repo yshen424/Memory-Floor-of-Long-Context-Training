@@ -28,7 +28,7 @@
 # ║  0   NODE: facts, GPU PREFLIGHT (exit 3), NVSWITCH CHECK on all 8 (exit  ║
 # ║      4), an 8-rank NCCL all-reduce (exit 5), host-copy bandwidth (two    ║
 # ║      GPUs share each PCIe switch here, unlike the 4-GPU A100 visits).    ║
-# ║  B   base shape (Table 3), world 8: static x=24/48, offload x=24/48/96.  ║
+# ║  B   base shape (Table 2), world 8: static x=24/48, offload x=24/48/96.  ║
 # ║  BZ  7B GQA geometry (h 4096, I 14336, 32/8 heads, L=32, v=32000,        ║
 # ║      untied), world 8: static x=24/48, offload x=8/16/32, 3 steps.       ║
 # ║  T   its time: static/offload pairs, ABBA, 2 repeats at x=16/32/64 ->    ║

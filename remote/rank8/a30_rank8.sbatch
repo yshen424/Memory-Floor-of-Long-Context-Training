@@ -25,7 +25,7 @@
 # ║      PREFLIGHT on both (exit 3), an 8-rank NCCL all-reduce across the    ║
 # ║      two nodes and a 4-rank one inside node 0 (transport + bus           ║
 # ║      bandwidth; exit 5 if the launcher fails), host-copy bandwidth.      ║
-# ║  B   THE MULTI-NODE POINT: base shape (Table 3), world 8 across both     ║
+# ║  B   THE MULTI-NODE POINT: base shape (Table 2), world 8 across both     ║
 # ║      nodes: static x=24/48, stock offload x=24/48/96, 3 steps.           ║
 # ║  BR  THE WORKED EXAMPLE'S BYTES: Llama-3.2-3B geometry (h 3072, I 8192,  ║
 # ║      24/8 heads, L=28, v=128256, untied), world 8: static x=16/32,       ║
